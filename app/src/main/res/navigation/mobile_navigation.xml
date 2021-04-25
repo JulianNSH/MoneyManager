@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_overview">
+
+    <fragment
+        android:id="@+id/navigation_overview"
+        android:name="github.julianNSH.moneymanager.ui.overview.OverviewFragment"
+        android:label="@string/title_overview"
+        tools:layout="@layout/fragment_overview"/>
+
+    <fragment
+        android:id="@+id/navigation_statistics"
+        android:name="github.julianNSH.moneymanager.ui.statistics.StatisticsFragment"
+        android:label="@string/title_statistics"
+        tools:layout="@layout/fragment_statistics"/>
+    <fragment
+        android:id="@+id/navigation_add"
+        android:name="github.julianNSH.moneymanager.ui.add.AddFragment"
+        android:label="@string/title_add"
+        tools:layout="@layout/fragment_add"/>
+    <fragment
+        android:id="@+id/navigation_scope"
+        android:name="github.julianNSH.moneymanager.ui.scope.ScopeFragment"
+        android:label="@string/title_scope"
+        tools:layout="@layout/fragment_scope"/>
+    <fragment
+        android:id="@+id/navigation_invest"
+        android:name="github.julianNSH.moneymanager.ui.invest.InvestFragment"
+        android:label="@string/title_invest"
+        tools:layout="@layout/fragment_invest"/>
+</navigation>

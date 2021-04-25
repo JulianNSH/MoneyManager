@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#000000">
+
+    <item
+        android:id="@+id/navigation_overview"
+        android:icon="@drawable/ic_overview_black_24dp"
+        android:title="@string/title_overview" />
+
+    <item
+        android:id="@+id/navigation_statistics"
+        android:icon="@drawable/ic_statistics_black_24dp"
+        android:title="@string/title_statistics"/>
+    <item
+        android:id="@+id/navigation_add"
+        android:icon="@drawable/ic_add_black_24dp"
+        android:title="@string/title_add" />
+
+
+    <item
+        android:id="@+id/navigation_scope"
+        android:icon="@drawable/ic_scope_black_24dp"
+        android:title="@string/title_scope"/>
+    <item
+        android:id="@+id/navigation_invest"
+        android:icon="@drawable/ic_investing_black_24dp"
+        android:title="@string/title_invest"/>
+
+</menu>

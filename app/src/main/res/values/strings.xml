@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MoneyManager</string>
+    <string name="title_overview">Sinopsis</string>
+    <string name="title_statistics">Statistica</string>
+    <string name="title_scope">Scopuri</string>
+    <string name="title_invest">Investitii</string>
+    <string name="title_add">Adaugare</string>
+</resources>
