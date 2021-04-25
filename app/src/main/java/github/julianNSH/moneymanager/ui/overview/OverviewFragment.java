@@ -21,11 +21,11 @@ public class OverviewFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState){
         overviewViewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
         View root = inflater.inflate(R.layout.fragment_overview, container, false);
-        final TextView textView = root.findViewById(R.id.text_overview);
-        overviewViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {textView.setText(s);}
-        });
+//        final TextView textView = root.findViewById(R.id.text_overview);
+//        overviewViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {textView.setText(s);}
+//        });
         return root;
     }
 }
