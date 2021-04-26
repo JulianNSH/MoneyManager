@@ -8,5 +8,9 @@
     <color name="black">#2f3542</color>
     <color name="white">#f1f2f6</color>
     <color name="background">#f5f6fa</color>
+    <color name="ic_background">#dfe4ea</color>
+    <color name="lvl1">#44bd32</color>
+    <color name="lvl2">#fbc531</color>
+    <color name="lvl3">#e84118</color>
 
 </resources>

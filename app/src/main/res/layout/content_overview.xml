@@ -16,7 +16,7 @@
         android:layout_height="5dp"
         android:layout_gravity="center"
         android:layout_marginTop="11dp"
-        app:cardBackgroundColor="#555555"
+        app:cardBackgroundColor="@color/ic_background"
         app:cardCornerRadius="2dp"
         app:cardElevation="4dp" />
 
@@ -24,11 +24,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:textColor="@color/blue1"
+        android:textColor="@color/black"
         android:lineSpacingExtra="3sp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="30dp"
-        android:text="Tranzacții recente"/>
+        android:text="Lista Tranzacțiilor"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
