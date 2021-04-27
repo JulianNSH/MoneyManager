@@ -1,22 +1,376 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.statistics.StatisticsFragment">
 
-    <TextView
-        android:id="@+id/text_statistics"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="34dp"
+                android:paddingRight="34dp"
+                android:paddingBottom="50dp"
+                android:background="@drawable/bottom_rect">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/button2"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="Septembrie 2020" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="5dp"
+                    android:paddingTop="34dp"
+                    android:paddingLeft="28dp"
+                    android:paddingRight="28dp"
+                    android:paddingBottom="34dp"
+                    android:background="@drawable/white_rect">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:lineSpacingExtra="2sp"
+                        android:text="Cheltuieli Totale" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="22sp"
+                        android:textColor="@color/black"
+                        android:lineSpacingExtra="4sp"
+                        android:text="MDL 8,520"
+                        />
+
+
+                    <com.app.infideap.stylishwidget.view.AProgressBar
+                        android:id="@+id/progressBar_multi_icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        app:sw_maxValue="100"
+                        android:layout_marginTop="25dp"
+                        app:sw_progressBackground="#ccc"
+                        app:sw_progressColor="@color/stat_elem1"
+                        app:sw_progressValue="30"
+                        app:sw_radius="1dp"
+                        app:sw_withAnimation="true" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="36dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:layout_width="80dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="6dp"
+                                android:layout_height="17dp"
+                                android:layout_marginTop="3dp"
+                                android:src="@drawable/fg_stat_1"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="7dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="10sp"
+                                    android:textColor="@color/black"
+                                    android:lineSpacingExtra="2sp"
+                                    android:text="Alimente"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/black"
+                                    android:lineSpacingExtra="3sp"
+                                    android:text="MDL 2640"
+                                    />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="6dp"
+                                android:layout_height="17dp"
+                                android:layout_marginTop="3dp"
+                                android:src="@drawable/fg_stat_1"
+                                app:tint="@color/stat_elem2"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="7dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="10sp"
+                                    android:textColor="@color/black"
+                                    android:lineSpacingExtra="2sp"
+                                    android:text="Îmbrăcăminte"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/black"
+                                    android:lineSpacingExtra="3sp"
+                                    android:text="MDL 1500"
+                                    />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="6dp"
+                                android:layout_height="17dp"
+                                android:layout_marginTop="3dp"
+                                android:src="@drawable/fg_stat_1"
+                                app:tint="@color/stat_elem3" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="7dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="10sp"
+                                    android:textColor="@color/black"
+                                    android:lineSpacingExtra="2sp"
+                                    android:text="Chirie"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/black"
+                                    android:lineSpacingExtra="3sp"
+                                    android:text="MDL 2500"
+                                    />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="6dp"
+                                android:layout_height="17dp"
+                                android:layout_marginTop="3dp"
+                                android:src="@drawable/fg_stat_1"
+                                app:tint="@color/stat_elem4" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="7dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="10sp"
+                                    android:textColor="@color/black"
+                                    android:lineSpacingExtra="2sp"
+                                    android:text="Telefonie"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/black"
+                                    android:lineSpacingExtra="3sp"
+                                    android:text="MDL 300"
+                                    />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="6dp"
+                                android:layout_height="17dp"
+                                android:layout_marginTop="3dp"
+                                android:src="@drawable/fg_stat_1"
+                                app:tint="@color/stat_elem5"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="7dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="10sp"
+                                    android:textColor="@color/black"
+                                    android:lineSpacingExtra="2sp"
+                                    android:text="Cadouri"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/black"
+                                    android:lineSpacingExtra="3sp"
+                                    android:text="MDL 700"
+                                    />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="6dp"
+                                android:layout_height="17dp"
+                                android:layout_marginTop="3dp"
+                                android:src="@drawable/fg_stat_1"
+                                app:tint="@color/stat_elem6"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="7dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="10sp"
+                                    android:textColor="@color/black"
+                                    android:lineSpacingExtra="2sp"
+                                    android:text="Altele"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/black"
+                                    android:lineSpacingExtra="3sp"
+                                    android:text="MDL 880"
+                                    />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="3sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:text="Lista Cheltuielilor"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="100dp"
+                android:paddingTop="30dp"
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="false"
+                android:id="@+id/rvTransaction"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

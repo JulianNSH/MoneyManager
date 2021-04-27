@@ -9,8 +9,15 @@
     <color name="white">#f1f2f6</color>
     <color name="background">#f5f6fa</color>
     <color name="ic_background">#dfe4ea</color>
+
     <color name="lvl1">#44bd32</color>
     <color name="lvl2">#fbc531</color>
     <color name="lvl3">#e84118</color>
 
+    <color name="stat_elem1">#273c75</color>
+    <color name="stat_elem2">#8c7ae6</color>
+    <color name="stat_elem3">#4cd137</color>
+    <color name="stat_elem4">#e1b12c</color>
+    <color name="stat_elem5">#eb4d4b</color>
+    <color name="stat_elem6">#95afc0</color>
 </resources>

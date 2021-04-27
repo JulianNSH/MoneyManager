@@ -18,13 +18,10 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
     OverviewFragment context;
     private List<OverviewModelClass> list;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
-
-        TextView tvType,tvPrice;
+        TextView tvType, tvPrice;
         ImageView ivMain;
-
-
 
         public MyViewHolder(View view) {
             super(view);
@@ -37,7 +34,6 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
 
     }
 
-
     public OverviewAdapter(OverviewFragment context, List<OverviewModelClass> moviesList) {
         this.list = moviesList;
         this.context = context;
@@ -48,12 +44,9 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_element, parent, false);
 
-
         return new MyViewHolder(itemView);
 
-
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -62,9 +55,6 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
         holder.tvType.setText(movie.getTvType());
         holder.tvPrice.setText(movie.getTvPrice());
         holder.ivMain.setImageResource(movie.getIvMain());
-
-
-
 
     }
 

@@ -2,47 +2,142 @@ package github.julianNSH.moneymanager.ui.overview;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.SurfaceControl;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import github.julianNSH.moneymanager.MainActivity;
 import github.julianNSH.moneymanager.R;
-import github.julianNSH.moneymanager.ui.scope.ScopeViewModel;
 
 public class OverviewFragment extends Fragment {
-//    private ArrayList<OverviewModelClass> overviewModelClasses;
-//    private RecyclerView recyclerView;
-//    private OverviewAdapter oAdapter;
-//
-//    private Integer image[] = {R.drawable.ic_up, R.drawable.ic_down,R.drawable.ic_down,R.drawable.ic_flat,
-//            R.drawable.ic_down,R.drawable.ic_flat,R.drawable.ic_down,R.drawable.ic_flat,R.drawable.ic_up};
-//    private  String title[] = {"Salariu","Alimente","Servicii Comunale","Transfer","Îmbrăcăminte",
-//            "Transfer","Cadou","Transfer","Cash-Back"};
-//    private String subtitle[] = {"MDL 23050","MDL 1000","MDL 2500","MDL 5000","MDL 1500","MDL 3000",
-//            "MDL 700","MDL 1000","MDL 1500"};
-    private OverviewViewModel overviewViewModel;
+
+    ////////////////////////////////////////////////////////////////Graph Elements ->TODO makeanotherclass
+    private static final int MAX_X_VALUE = 7;
+    private static final int MAX_Y_VALUE = 50;
+    private static final int MIN_Y_VALUE = 5;
+    private static final int GROUPS = 3;
+    private static final String GROUP_1_LABEL = "Group 1";
+    private static final String GROUP_2_LABEL = "Group 2";
+    private static final String GROUP_3_LABEL = "Group 3";
+    private static final float BAR_SPACE = 0.05f;
+    private static final float BAR_WIDTH = 0.2f;
+    private BarChart chart;
+
+    ////////////////////////////////////////////////////////////////Recycler Elements
+    private ArrayList<OverviewModelClass> overviewModelClasses;
+    private RecyclerView recyclerView;
+    private OverviewAdapter oAdapter;
+
+    private Integer image[] = {R.drawable.ic_up, R.drawable.ic_down,R.drawable.ic_down,R.drawable.ic_flat,
+            R.drawable.ic_down,R.drawable.ic_flat,R.drawable.ic_down,R.drawable.ic_flat,R.drawable.ic_up};
+    private  String title[] = {"Salariu","Alimente","Servicii Comunale","Transfer","Îmbrăcăminte",
+            "Transfer","Cadou","Transfer","Cash-Back"};
+    private String subtitle[] = {"MDL 23050","MDL 1000","MDL 2500","MDL 5000","MDL 1500","MDL 3000",
+            "MDL 700","MDL 1000","MDL 1500"};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
-            overviewViewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
             View root = inflater.inflate(R.layout.fragment_overview, container, false);
-//            final TextView textView = root.findViewById(R.id.text_overview);
-//            overviewViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//                @Override
-//                public void onChanged(String s) {textView.setText(s);}
-//            });
+        recyclerView = (RecyclerView) root.findViewById(R.id.rvTransaction);
+
+        overviewModelClasses = new ArrayList<>();
+
+        for (int i = 0; i < title.length; i++) {
+            OverviewModelClass listModelClass = new OverviewModelClass(image[i],title[i],subtitle[i]);
+
+            overviewModelClasses.add(listModelClass);
+        }
+        oAdapter = new OverviewAdapter(OverviewFragment.this,overviewModelClasses);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(root.getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(oAdapter);
+
+        chart = root.findViewById(R.id.fragment_groupedbarchart_chart);
+        BarData data = createChartData();
+        configureChartAppearance();
+        prepareChartData(data);
+
         return root;
+    }
+
+
+    private void configureChartAppearance() {
+        chart.setPinchZoom(false);
+        chart.setDrawBarShadow(false);
+        chart.setDrawGridBackground(false);
+
+        chart.getDescription().setEnabled(false);
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setGranularity(1f);
+        xAxis.setCenterAxisLabels(true);
+
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setSpaceTop(35f);
+        leftAxis.setAxisMinimum(0f);
+
+        chart.getAxisRight().setEnabled(false);
+
+        chart.getXAxis().setAxisMinimum(0);
+        chart.getXAxis().setAxisMaximum(MAX_X_VALUE);
+    }
+
+    private BarData createChartData() {
+        Random r = new Random();
+
+        ArrayList<BarEntry> values1 = new ArrayList<>();
+        ArrayList<BarEntry> values2 = new ArrayList<>();
+        ArrayList<BarEntry> values3 = new ArrayList<>();
+
+        for (int i = 0; i < MAX_X_VALUE; i++) {
+            values1.add(new BarEntry(i, MIN_Y_VALUE + r.nextFloat() * (MAX_Y_VALUE - MIN_Y_VALUE)));
+            values2.add(new BarEntry(i, MIN_Y_VALUE + r.nextFloat() * (MAX_Y_VALUE - MIN_Y_VALUE)));
+            values3.add(new BarEntry(i, MIN_Y_VALUE + r.nextFloat() * (MAX_Y_VALUE - MIN_Y_VALUE)));
+        }
+
+        BarDataSet set1 = new BarDataSet(values1, GROUP_1_LABEL);
+        BarDataSet set2 = new BarDataSet(values2, GROUP_2_LABEL);
+        BarDataSet set3 = new BarDataSet(values3, GROUP_3_LABEL);
+
+        set1.setColor(ColorTemplate.MATERIAL_COLORS[0]);
+        set2.setColor(ColorTemplate.MATERIAL_COLORS[1]);
+        set3.setColor(ColorTemplate.MATERIAL_COLORS[2]);
+
+        ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
+        dataSets.add(set2);
+        dataSets.add(set3);
+
+        BarData data = new BarData(dataSets);
+
+        return data;
+    }
+
+    private void prepareChartData(BarData data) {
+        chart.setData(data);
+
+        chart.getBarData().setBarWidth(BAR_WIDTH);
+
+        float groupSpace = 1f - ((BAR_SPACE + BAR_WIDTH) * GROUPS);
+        chart.groupBars(0, groupSpace, BAR_SPACE);
+
+        chart.invalidate();
     }
 }
