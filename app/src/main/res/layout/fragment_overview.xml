@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:lineSpacingExtra="4sp"
-                    android:text="MDL +14,210"
+                    android:text="+14,210 MDL"
                     android:textColor="#4CAF50"
                     android:textSize="22sp" />
 
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:lineSpacingExtra="4sp"
-                    android:text="MDL -8,520"
+                    android:text="-8,520 MDL"
                     android:textColor="#ff4757"
                     android:textSize="22sp" />
             </LinearLayout>
@@ -140,8 +140,9 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="170dp"
+            android:layout_marginBottom="160dp"
             android:background="@drawable/white_rect"
+            android:padding="5dp"
             >
 
             <com.github.mikephil.charting.charts.BarChart

@@ -28,12 +28,11 @@ public class OverviewFragment extends Fragment {
 
     ////////////////////////////////////////////////////////////////Graph Elements ->TODO makeanotherclass
     private static final int MAX_X_VALUE = 7;
-    private static final int MAX_Y_VALUE = 50;
-    private static final int MIN_Y_VALUE = 5;
-    private static final int GROUPS = 3;
-    private static final String GROUP_1_LABEL = "Group 1";
-    private static final String GROUP_2_LABEL = "Group 2";
-    private static final String GROUP_3_LABEL = "Group 3";
+    private static final int MAX_Y_VALUE = 20;
+    private static final int MIN_Y_VALUE = 12;
+    private static final int GROUPS = 2;
+    private static final String GROUP_1_LABEL = "Venit";
+    private static final String GROUP_2_LABEL = "Cheltuieli";
     private static final float BAR_SPACE = 0.05f;
     private static final float BAR_WIDTH = 0.2f;
     private BarChart chart;
@@ -47,8 +46,8 @@ public class OverviewFragment extends Fragment {
             R.drawable.ic_down,R.drawable.ic_flat,R.drawable.ic_down,R.drawable.ic_flat,R.drawable.ic_up};
     private  String title[] = {"Salariu","Alimente","Servicii Comunale","Transfer","Îmbrăcăminte",
             "Transfer","Cadou","Transfer","Cash-Back"};
-    private String subtitle[] = {"MDL 23050","MDL 1000","MDL 2500","MDL 5000","MDL 1500","MDL 3000",
-            "MDL 700","MDL 1000","MDL 1500"};
+    private String subtitle[] = {"13710 MDL","1000 MDL","2500 MDL","5000 MDL","1500 MDL","3000 MDL",
+            "700 MDL","1000 MDL","1500 MDL"};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
@@ -81,8 +80,9 @@ public class OverviewFragment extends Fragment {
         chart.setPinchZoom(false);
         chart.setDrawBarShadow(false);
         chart.setDrawGridBackground(false);
-
+        chart.setDoubleTapToZoomEnabled(false);
         chart.getDescription().setEnabled(false);
+
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setGranularity(1f);
@@ -96,34 +96,39 @@ public class OverviewFragment extends Fragment {
         chart.getAxisRight().setEnabled(false);
 
         chart.getXAxis().setAxisMinimum(0);
+
         chart.getXAxis().setAxisMaximum(MAX_X_VALUE);
     }
 
     private BarData createChartData() {
         Random r = new Random();
-
         ArrayList<BarEntry> values1 = new ArrayList<>();
         ArrayList<BarEntry> values2 = new ArrayList<>();
-        ArrayList<BarEntry> values3 = new ArrayList<>();
 
         for (int i = 0; i < MAX_X_VALUE; i++) {
+            if(i==3){
+
+                values1.add(new BarEntry(i, 14.2f));
+                values2.add(new BarEntry(i, 8.5f));
+                continue;
+            }
+            if(i==1){
+                values1.add(new BarEntry(i,0));
+                values2.add(new BarEntry(i, 0));
+                continue;
+            }
             values1.add(new BarEntry(i, MIN_Y_VALUE + r.nextFloat() * (MAX_Y_VALUE - MIN_Y_VALUE)));
-            values2.add(new BarEntry(i, MIN_Y_VALUE + r.nextFloat() * (MAX_Y_VALUE - MIN_Y_VALUE)));
-            values3.add(new BarEntry(i, MIN_Y_VALUE + r.nextFloat() * (MAX_Y_VALUE - MIN_Y_VALUE)));
+            values2.add(new BarEntry(i, (MIN_Y_VALUE-4) + r.nextFloat() * ((MAX_Y_VALUE-4) - (MIN_Y_VALUE-4))));
         }
 
         BarDataSet set1 = new BarDataSet(values1, GROUP_1_LABEL);
         BarDataSet set2 = new BarDataSet(values2, GROUP_2_LABEL);
-        BarDataSet set3 = new BarDataSet(values3, GROUP_3_LABEL);
-
         set1.setColor(ColorTemplate.MATERIAL_COLORS[0]);
-        set2.setColor(ColorTemplate.MATERIAL_COLORS[1]);
-        set3.setColor(ColorTemplate.MATERIAL_COLORS[2]);
+        set2.setColor(ColorTemplate.MATERIAL_COLORS[2]);
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
         dataSets.add(set2);
-        dataSets.add(set3);
 
         BarData data = new BarData(dataSets);
 

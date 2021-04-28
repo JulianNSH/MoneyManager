@@ -16,14 +16,15 @@
         android:icon="@drawable/ic_add_black_24dp"
         android:title="@string/title_add" />
 
+    <item
+        android:id="@+id/navigation_invest"
+        android:icon="@drawable/ic_savings_24"
+        android:title="@string/title_savings"/>
 
     <item
         android:id="@+id/navigation_scope"
         android:icon="@drawable/ic_scope_black_24dp"
         android:title="@string/title_scope"/>
-    <item
-        android:id="@+id/navigation_invest"
-        android:icon="@drawable/ic_investing_black_24dp"
-        android:title="@string/title_invest"/>
+
 
 </menu>

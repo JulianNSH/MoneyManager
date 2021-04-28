@@ -75,12 +75,12 @@
                         android:textSize="22sp"
                         android:textColor="@color/black"
                         android:lineSpacingExtra="4sp"
-                        android:text="MDL 8,520"
+                        android:text="8,520 MDL"
                         />
 
 
                     <com.app.infideap.stylishwidget.view.AProgressBar
-                        android:id="@+id/progressBar_multi_icon"
+                        android:id="@+id/progressBar_statistics"
                         android:layout_width="match_parent"
                         android:layout_height="10dp"
                         app:sw_maxValue="100"
@@ -132,7 +132,7 @@
                                     android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="3sp"
-                                    android:text="MDL 2640"
+                                    android:text="2640 MDL"
                                     />
                             </LinearLayout>
 
@@ -162,7 +162,7 @@
                                     android:textSize="10sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="2sp"
-                                    android:text="Îmbrăcăminte"
+                                    android:text="Chirie"
                                     />
 
                                 <TextView
@@ -171,7 +171,7 @@
                                     android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="3sp"
-                                    android:text="MDL 1500"
+                                    android:text="2500 MDL"
                                     />
                             </LinearLayout>
 
@@ -201,7 +201,7 @@
                                     android:textSize="10sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="2sp"
-                                    android:text="Chirie"
+                                    android:text="Îmbrăcăminte"
                                     />
 
                                 <TextView
@@ -210,7 +210,7 @@
                                     android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="3sp"
-                                    android:text="MDL 2500"
+                                    android:text="1500 MDL"
                                     />
                             </LinearLayout>
 
@@ -252,7 +252,7 @@
                                     android:textSize="10sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="2sp"
-                                    android:text="Telefonie"
+                                    android:text="Cadouri"
                                     />
 
                                 <TextView
@@ -261,7 +261,7 @@
                                     android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="3sp"
-                                    android:text="MDL 300"
+                                    android:text="700 MDL"
                                     />
                             </LinearLayout>
 
@@ -291,7 +291,7 @@
                                     android:textSize="10sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="2sp"
-                                    android:text="Cadouri"
+                                    android:text="Telefonie"
                                     />
 
                                 <TextView
@@ -300,7 +300,7 @@
                                     android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="3sp"
-                                    android:text="MDL 700"
+                                    android:text="300 MDL"
                                     />
                             </LinearLayout>
 
@@ -339,7 +339,7 @@
                                     android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="3sp"
-                                    android:text="MDL 880"
+                                    android:text="880 MDL"
                                     />
                             </LinearLayout>
 
