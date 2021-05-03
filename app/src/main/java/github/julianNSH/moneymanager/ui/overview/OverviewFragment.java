@@ -25,8 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import github.julianNSH.moneymanager.R;
 
 public class OverviewFragment extends Fragment {
-
-    ////////////////////////////////////////////////////////////////Graph Elements ->TODO makeanotherclass
+    ////////////////////////////////////////////////////////////////Chart Elements
     private static final int MAX_X_VALUE = 7;
     private static final int MAX_Y_VALUE = 20;
     private static final int MIN_Y_VALUE = 12;
@@ -74,9 +73,7 @@ public class OverviewFragment extends Fragment {
 
         return root;
     }
-
-
-    private void configureChartAppearance() {
+    void configureChartAppearance() {
         chart.setPinchZoom(false);
         chart.setDrawBarShadow(false);
         chart.setDrawGridBackground(false);
@@ -100,7 +97,7 @@ public class OverviewFragment extends Fragment {
         chart.getXAxis().setAxisMaximum(MAX_X_VALUE);
     }
 
-    private BarData createChartData() {
+    BarData createChartData() {
         Random r = new Random();
         ArrayList<BarEntry> values1 = new ArrayList<>();
         ArrayList<BarEntry> values2 = new ArrayList<>();
@@ -135,7 +132,7 @@ public class OverviewFragment extends Fragment {
         return data;
     }
 
-    private void prepareChartData(BarData data) {
+    void prepareChartData(BarData data) {
         chart.setData(data);
 
         chart.getBarData().setBarWidth(BAR_WIDTH);

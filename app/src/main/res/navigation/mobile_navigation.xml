@@ -32,7 +32,7 @@
         tools:layout="@layout/fragment_scope"/>
     <fragment
         android:id="@+id/navigation_invest"
-        android:name="github.julianNSH.moneymanager.ui.invest.InvestFragment"
+        android:name="github.julianNSH.moneymanager.ui.savings.SavingsFragment"
         android:label="@string/title_savings"
-        tools:layout="@layout/fragment_invest"/>
+        tools:layout="@layout/fragment_savings"/>
 </navigation>

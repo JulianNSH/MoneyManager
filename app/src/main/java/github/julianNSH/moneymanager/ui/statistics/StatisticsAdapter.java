@@ -1,6 +1,5 @@
 package github.julianNSH.moneymanager.ui.statistics;
 
-import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,8 +34,8 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
 
     }
 
-    public StatisticsAdapter(StatisticsFragment context, List<StatisticsModelClass> moviesList) {
-        this.list = moviesList;
+    public StatisticsAdapter(StatisticsFragment context, List<StatisticsModelClass> elementsList) {
+        this.list = elementsList;
         this.context = context;
     }
 
@@ -51,15 +50,14 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(final MyViewHolder holder,final int position) {
-        StatisticsModelClass movie = list.get(position);
-        holder.tvType.setText(movie.getTvType());
-        holder.tvPrice.setText(movie.getTvPrice());
-        holder.ivMain.setImageResource(movie.getIvMain());
+        StatisticsModelClass element = list.get(position);
+        holder.tvType.setText(element.getTvType());
+        holder.tvPrice.setText(element.getTvPrice());
+        holder.ivMain.setImageResource(element.getIvMain());
     }
     @Override
     public int getItemCount() {
         return list.size();
     }
-
 
 }

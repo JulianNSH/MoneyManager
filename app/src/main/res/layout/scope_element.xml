@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/fg_rect">
+
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+                <TextView
+                    android:id="@+id/scopeTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:lineSpacingExtra="3sp"
+                    android:text="Masina"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:lineSpacingExtra="2sp"
+                    android:text="De la: 16 Septembrie 2020"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:lineSpacingExtra="2sp"
+                    android:text="Pana la: 10:30 16 Septembrie 2021"
+                    />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <com.app.infideap.stylishwidget.view.AProgressBar
+                    android:id="@+id/pb_scope"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    app:sw_maxValue="100"
+                    app:sw_progressBackground="#ccc"
+                    app:sw_progressColor="@color/green2"
+                    app:sw_progressValue="50"
+                    app:sw_radius="50dp"
+                    app:sw_withAnimation="true"/>
+
+                <TextView
+                    android:id="@+id/value_of_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/pb_scope"
+                    android:layout_alignTop="@id/pb_scope"
+                    android:layout_alignRight="@id/pb_scope"
+                    android:layout_alignBottom="@id/pb_scope"
+                    android:gravity="center"
+                    android:layout_margin="1dp"
+                    android:textColor="@color/white"
+                    android:text="0 / 0 MDL"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+</LinearLayout>

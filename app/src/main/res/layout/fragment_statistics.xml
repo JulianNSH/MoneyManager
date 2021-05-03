@@ -86,8 +86,8 @@
                         app:sw_maxValue="100"
                         android:layout_marginTop="25dp"
                         app:sw_progressBackground="#ccc"
-                        app:sw_progressColor="@color/stat_elem1"
-                        app:sw_progressValue="30"
+                        app:sw_progressColor="@color/stat_elem3"
+                        app:sw_progressValue="70"
                         app:sw_radius="1dp"
                         app:sw_withAnimation="true" />
 

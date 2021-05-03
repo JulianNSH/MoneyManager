@@ -1,16 +1,16 @@
-package github.julianNSH.moneymanager.ui.invest;
+package github.julianNSH.moneymanager.ui.savings;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class InvestViewModel extends ViewModel {
+public class SavingsViewModel extends ViewModel {
 
     private MutableLiveData<String> iText;
 
-    public InvestViewModel(){
+    public SavingsViewModel(){
         iText = new MutableLiveData<>();
-        iText.setValue("Urmarirea Investitiilor");
+        iText.setValue("Urmarirea Economiilor");
     }
     public LiveData<String> getText(){return iText;}
 }

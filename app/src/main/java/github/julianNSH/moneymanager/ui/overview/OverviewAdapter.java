@@ -34,8 +34,8 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
 
     }
 
-    public OverviewAdapter(OverviewFragment context, List<OverviewModelClass> moviesList) {
-        this.list = moviesList;
+    public OverviewAdapter(OverviewFragment context, List<OverviewModelClass> elementsList) {
+        this.list = elementsList;
         this.context = context;
     }
 
@@ -51,10 +51,10 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(final MyViewHolder holder,final int position) {
-        OverviewModelClass movie = list.get(position);
-        holder.tvType.setText(movie.getTvType());
-        holder.tvPrice.setText(movie.getTvPrice());
-        holder.ivMain.setImageResource(movie.getIvMain());
+        OverviewModelClass element = list.get(position);
+        holder.tvType.setText(element.getTvType());
+        holder.tvPrice.setText(element.getTvPrice());
+        holder.ivMain.setImageResource(element.getIvMain());
 
     }
 
