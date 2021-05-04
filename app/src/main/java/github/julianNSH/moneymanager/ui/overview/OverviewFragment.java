@@ -11,10 +11,14 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
@@ -39,7 +43,7 @@ public class OverviewFragment extends Fragment {
     ////////////////////////////////////////////////////////////////Recycler Elements
     private ArrayList<OverviewModelClass> overviewModelClasses;
     private RecyclerView recyclerView;
-    private OverviewAdapter oAdapter;
+    private OverviewAdapter overviewAdapter;
 
     private Integer image[] = {R.drawable.ic_up, R.drawable.ic_down,R.drawable.ic_down,R.drawable.ic_flat,
             R.drawable.ic_down,R.drawable.ic_flat,R.drawable.ic_down,R.drawable.ic_flat,R.drawable.ic_up};
@@ -60,11 +64,11 @@ public class OverviewFragment extends Fragment {
 
             overviewModelClasses.add(listModelClass);
         }
-        oAdapter = new OverviewAdapter(OverviewFragment.this,overviewModelClasses);
+        overviewAdapter = new OverviewAdapter(OverviewFragment.this,overviewModelClasses);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(oAdapter);
+        recyclerView.setAdapter(overviewAdapter);
 
         chart = root.findViewById(R.id.fragment_groupedbarchart_chart);
         BarData data = createChartData();
@@ -84,6 +88,14 @@ public class OverviewFragment extends Fragment {
         XAxis xAxis = chart.getXAxis();
         xAxis.setGranularity(1f);
         xAxis.setCenterAxisLabels(true);
+        xAxis.setValueFormatter(new ValueFormatter() {
+            private final SimpleDateFormat mFormat = new SimpleDateFormat("MMM", Locale.ENGLISH);
+            @Override
+            public String getFormattedValue(float value) {
+                long millis = (long) value*1000L;
+                return mFormat.format(new Date(millis));
+            }
+        });
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setDrawGridLines(false);

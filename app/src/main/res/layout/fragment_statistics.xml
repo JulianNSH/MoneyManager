@@ -107,8 +107,9 @@
 
                             <ImageView
                                 android:layout_width="6dp"
-                                android:layout_height="17dp"
+                                android:layout_height="fill_parent"
                                 android:layout_marginTop="3dp"
+                                android:layout_marginBottom="3dp"
                                 android:src="@drawable/fg_stat_1"/>
 
                             <LinearLayout
@@ -145,8 +146,9 @@
 
                             <ImageView
                                 android:layout_width="6dp"
-                                android:layout_height="17dp"
+                                android:layout_height="fill_parent"
                                 android:layout_marginTop="3dp"
+                                android:layout_marginBottom="3dp"
                                 android:src="@drawable/fg_stat_1"
                                 app:tint="@color/stat_elem2"/>
 
@@ -184,8 +186,9 @@
 
                             <ImageView
                                 android:layout_width="6dp"
-                                android:layout_height="17dp"
+                                android:layout_height="fill_parent"
                                 android:layout_marginTop="3dp"
+                                android:layout_marginBottom="3dp"
                                 android:src="@drawable/fg_stat_1"
                                 app:tint="@color/stat_elem3" />
 
@@ -235,8 +238,9 @@
 
                             <ImageView
                                 android:layout_width="6dp"
-                                android:layout_height="17dp"
+                                android:layout_height="fill_parent"
                                 android:layout_marginTop="3dp"
+                                android:layout_marginBottom="3dp"
                                 android:src="@drawable/fg_stat_1"
                                 app:tint="@color/stat_elem4" />
 
@@ -274,8 +278,9 @@
 
                             <ImageView
                                 android:layout_width="6dp"
-                                android:layout_height="17dp"
+                                android:layout_height="fill_parent"
                                 android:layout_marginTop="3dp"
+                                android:layout_marginBottom="3dp"
                                 android:src="@drawable/fg_stat_1"
                                 app:tint="@color/stat_elem5"/>
 
@@ -313,8 +318,9 @@
 
                             <ImageView
                                 android:layout_width="6dp"
-                                android:layout_height="17dp"
+                                android:layout_height="fill_parent"
                                 android:layout_marginTop="3dp"
+                                android:layout_marginBottom="3dp"
                                 android:src="@drawable/fg_stat_1"
                                 app:tint="@color/stat_elem6"/>
 

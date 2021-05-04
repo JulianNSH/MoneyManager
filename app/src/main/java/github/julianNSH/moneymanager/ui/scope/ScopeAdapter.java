@@ -32,8 +32,8 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
         }
     }
 
-    public ScopeAdapter(ScopeFragment context, List<ScopeModelClass> elementsList ){
-        this.list = elementsList;
+    public ScopeAdapter(ScopeFragment context, List<ScopeModelClass> list ){
+        this.list = list;
         this.context = context;
     }
 
