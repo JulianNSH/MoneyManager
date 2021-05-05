@@ -1,9 +1,13 @@
 package github.julianNSH.moneymanager.ui.overview;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -17,6 +21,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
@@ -40,21 +45,58 @@ public class OverviewFragment extends Fragment {
     private static final float BAR_WIDTH = 0.2f;
     private BarChart chart;
 
+    DatePickerDialog datePicker;
+    Button overviewDateButton;
+
     ////////////////////////////////////////////////////////////////Recycler Elements
     private ArrayList<OverviewModelClass> overviewModelClasses;
     private RecyclerView recyclerView;
     private OverviewAdapter overviewAdapter;
 
-    private Integer image[] = {R.drawable.ic_up, R.drawable.ic_down,R.drawable.ic_down,R.drawable.ic_flat,
+    private Integer[]  image= {R.drawable.ic_up, R.drawable.ic_down,R.drawable.ic_down,R.drawable.ic_flat,
             R.drawable.ic_down,R.drawable.ic_flat,R.drawable.ic_down,R.drawable.ic_flat,R.drawable.ic_up};
-    private  String title[] = {"Salariu","Alimente","Servicii Comunale","Transfer","Îmbrăcăminte",
+    private  String[]  title= {"Salariu","Alimente","Servicii Comunale","Transfer","Îmbrăcăminte",
             "Transfer","Cadou","Transfer","Cash-Back"};
-    private String subtitle[] = {"13710 MDL","1000 MDL","2500 MDL","5000 MDL","1500 MDL","3000 MDL",
+    private String[] subtitle = {"13710 MDL","1000 MDL","2500 MDL","5000 MDL","1500 MDL","3000 MDL",
             "700 MDL","1000 MDL","1500 MDL"};
 
+    @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
-            View root = inflater.inflate(R.layout.fragment_overview, container, false);
+        View root = inflater.inflate(R.layout.fragment_overview, container, false);
+        View statisticsView = inflater.inflate(R.layout.fragment_statistics, container, false);
+
+        //////////////DATE PICKER
+        final Calendar date = Calendar.getInstance();
+        final String[] monthsOfYear = {"Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie",
+                "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"};
+        overviewDateButton = (Button) root.findViewById(R.id.btn_date);
+        overviewDateButton.setText(monthsOfYear[date.get(Calendar.MONTH)]+ " " + date.get(Calendar.YEAR));
+        overviewDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int day = date.get(Calendar.DAY_OF_MONTH);
+                int month = date.get(Calendar.MONTH);
+                int year = date.get(Calendar.YEAR);
+
+                datePicker = new DatePickerDialog(root.getContext(), android.R.style.Theme_Holo_Dialog,new DatePickerDialog.OnDateSetListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        overviewDateButton.setText(monthsOfYear[month] + " " + year);
+                    }
+                }, year, month, day);
+
+                //android.R.style.Theme_Holo_Dialog,
+                datePicker.getDatePicker().setSpinnersShown(true);
+                datePicker.getDatePicker().setCalendarViewShown(false);
+
+                datePicker.show();
+
+            }
+        });
+
+        ////RECICLERVIEW
         recyclerView = (RecyclerView) root.findViewById(R.id.rvTransaction);
 
         overviewModelClasses = new ArrayList<>();
@@ -70,6 +112,7 @@ public class OverviewFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(overviewAdapter);
 
+        /////CHART
         chart = root.findViewById(R.id.fragment_groupedbarchart_chart);
         BarData data = createChartData();
         configureChartAppearance();
@@ -77,6 +120,7 @@ public class OverviewFragment extends Fragment {
 
         return root;
     }
+
     void configureChartAppearance() {
         chart.setPinchZoom(false);
         chart.setDrawBarShadow(false);

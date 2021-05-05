@@ -39,7 +39,7 @@
                         android:layout_weight="1" />
 
                     <Button
-                        android:id="@+id/button2"
+                        android:id="@+id/btn_date"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:text="Septembrie 2020" />
@@ -371,7 +371,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:paddingBottom="100dp"
+                android:paddingBottom="10dp"
                 android:paddingTop="30dp"
                 android:overScrollMode="never"
                 android:nestedScrollingEnabled="false"

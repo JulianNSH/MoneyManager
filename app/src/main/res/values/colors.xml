@@ -5,7 +5,10 @@
     <color name="blue2">#3742fa</color>
     <color name="green1">#7bed9f</color>
     <color name="green2">#2ed573</color>
+    <color name="red1">#e84118</color>
+    <color name="red2">#eb4d4b</color>
     <color name="black">#2f3542</color>
+    <color name="neutral">#273c75</color>
     <color name="white">#f1f2f6</color>
     <color name="background">#f5f6fa</color>
     <color name="ic_background">#dfe4ea</color>
