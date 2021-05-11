@@ -117,8 +117,8 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         ScopeModelClass element = list.get(position);
         holder.scopeTitle.setText(element.getTvTitle());
-        holder.scope_start_DT.setText(element.getStartTime()+" "+element.getStartDate());
-        holder.scope_end_DT.setText(element.getEndTime()+" "+element.getEndDate());
+        holder.scope_start_DT.setText("De la: "+element.getStartTime()+" "+element.getStartDate());
+        holder.scope_end_DT.setText("Până la: "+element.getEndTime()+" "+element.getEndDate());
         holder.value_of_progress.setText(element.getTvCurrentAmount()+" / "+element.getTvFinalAmount() + " MDL");
         holder.progressBar.setProgressValue(element.getPbProgressValue());
     }

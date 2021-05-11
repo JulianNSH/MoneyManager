@@ -43,7 +43,8 @@
                         android:text="Categoria"
                         android:layout_margin="5dp"/>
 
-                    <EditText
+                    <AutoCompleteTextView
+                        android:id="@+id/outgoing_source"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:paddingLeft="5dp"
@@ -52,6 +53,8 @@
                         android:background="@drawable/fg_rect"
                         android:backgroundTint="@color/white"
                         android:ems="10"
+                        android:maxLines="1"
+                        android:clickable="true"
                         android:textSize="15sp"
                         android:textColor="@color/black"
                         android:inputType="text"

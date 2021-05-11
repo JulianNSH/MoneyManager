@@ -9,9 +9,13 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -33,6 +37,29 @@ public class AddOutgoingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_add_outgoing, container, false);
 
+        //////////////////////////////////INPUT SOURCE OF OUTGOING
+        String[]  title= {"Salariu","Cadou","Transfer","Cash-Back"};
+        AutoCompleteTextView outgoingSource = root.findViewById(R.id.outgoing_source);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1, title);
+        final String[] selection = new String[1];
+        outgoingSource.setAdapter(arrayAdapter);
+        outgoingSource.setCursorVisible(true);
+        outgoingSource.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                outgoingSource.showDropDown();
+                selection[0] = (String) parent.getItemAtPosition(position);
+                Toast.makeText(getContext(), selection[0], Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        outgoingSource.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                outgoingSource.showDropDown();
+            }
+        });
         //////////////////////////////////PICK TIME FROM CLOCK
         outgoingTime = (EditText) root.findViewById(R.id.add_income_time);
         outgoingTime.setInputType(InputType.TYPE_NULL);
