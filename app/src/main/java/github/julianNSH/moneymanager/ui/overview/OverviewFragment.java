@@ -106,11 +106,13 @@ public class OverviewFragment extends Fragment {
 
             overviewModelClasses.add(listModelClass);
         }
-        overviewAdapter = new OverviewAdapter(OverviewFragment.this,overviewModelClasses);
+        overviewAdapter = new OverviewAdapter(root.getContext(),overviewModelClasses);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(overviewAdapter);
+
+
 
         /////CHART
         chart = root.findViewById(R.id.fragment_groupedbarchart_chart);

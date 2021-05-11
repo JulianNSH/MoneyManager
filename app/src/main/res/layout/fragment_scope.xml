@@ -29,17 +29,16 @@
 
         <Button
             android:id="@+id/add_scope_btn"
-            android:layout_width="150sp"
-            android:layout_height="50sp"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/green2"
             android:foreground="@drawable/ic_add"
             android:foregroundGravity="center_vertical|center_horizontal"
-            android:src="@drawable/ic_add"
-            app:cornerRadius="100sp" />
-
+            app:cornerRadius="20dp"
+            android:elevation="10dp" />
 
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

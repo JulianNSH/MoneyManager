@@ -1,40 +1,58 @@
 package github.julianNSH.moneymanager.ui.overview;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import github.julianNSH.moneymanager.R;
 
+
 public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyViewHolder> {
-    OverviewFragment context;
+    private Context context;
     private List<OverviewModelClass> list;
+    Dialog itemOverviewDialog;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvType, tvPrice;
-        ImageView ivMain;
+        private LinearLayout rvItem;
+        private TextView tvType, tvPrice;
+        private ImageView ivMain;
 
         public MyViewHolder(View view) {
             super(view);
-
+            rvItem = (LinearLayout) view.findViewById(R.id.overview_element);
             tvType = (TextView) view.findViewById(R.id.tvType);
             tvPrice = (TextView) view.findViewById(R.id.tvPrice);
             ivMain = (ImageView) view.findViewById(R.id.ivMain);
 
-        }
 
+        }
     }
 
-    public OverviewAdapter(OverviewFragment context, List<OverviewModelClass> elementsList) {
+
+    public OverviewAdapter(Context context, List<OverviewModelClass> elementsList) {
         this.list = elementsList;
         this.context = context;
     }
@@ -43,8 +61,49 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_element, parent, false);
+        MyViewHolder viewHolder = new MyViewHolder(itemView);
 
-        return new MyViewHolder(itemView);
+        //Popup dialog window
+
+        itemOverviewDialog = new Dialog(context);
+        itemOverviewDialog.setContentView(R.layout.overview_popup);
+        itemOverviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        viewHolder.rvItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                TextView tv_domain = (TextView) itemOverviewDialog.findViewById(R.id.tv_domain);
+                TextView tv_category = (TextView) itemOverviewDialog.findViewById(R.id.tv_category);
+                TextView tv_date_time = (TextView) itemOverviewDialog.findViewById(R.id.tv_date_time);
+                TextView tv_amount = (TextView) itemOverviewDialog.findViewById(R.id.tv_amount);
+                Button btn_delete = (Button) itemOverviewDialog.findViewById(R.id.btn_delete);
+                Button btn_edit = (Button) itemOverviewDialog.findViewById(R.id.btn_edit);
+
+                btn_delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, "Button DELETE Clicked",  Toast.LENGTH_SHORT).show();
+                    }
+                });
+                btn_edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, "Button EDIT Clicked",  Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                tv_domain.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
+                tv_category.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
+                tv_date_time.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
+                tv_amount.setText(list.get(viewHolder.getAdapterPosition()).getTvPrice());
+
+                //Toast.makeText(context, "Test Click" + String.valueOf(viewHolder.getAdapterPosition()),  Toast.LENGTH_SHORT).show();
+                itemOverviewDialog.show();
+            }
+        });
+
+        return viewHolder;
 
     }
 
@@ -55,7 +114,6 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
         holder.tvType.setText(element.getTvType());
         holder.tvPrice.setText(element.getTvPrice());
         holder.ivMain.setImageResource(element.getIvMain());
-
     }
 
     @Override
