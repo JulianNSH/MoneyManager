@@ -11,7 +11,7 @@
     android:elevation="20dp"
     android:orientation="horizontal"
     android:padding="20dp"
-    android:id="@+id/overview_element">
+    android:id="@+id/list_element">
 
 
     <LinearLayout

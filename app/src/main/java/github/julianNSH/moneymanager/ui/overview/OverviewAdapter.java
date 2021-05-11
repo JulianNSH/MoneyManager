@@ -5,25 +5,18 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import github.julianNSH.moneymanager.R;
@@ -42,11 +35,10 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
 
         public MyViewHolder(View view) {
             super(view);
-            rvItem = (LinearLayout) view.findViewById(R.id.overview_element);
+            rvItem = (LinearLayout) view.findViewById(R.id.list_element);
             tvType = (TextView) view.findViewById(R.id.tvType);
             tvPrice = (TextView) view.findViewById(R.id.tvPrice);
             ivMain = (ImageView) view.findViewById(R.id.ivMain);
-
 
         }
     }
@@ -66,7 +58,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
         //Popup dialog window
 
         itemOverviewDialog = new Dialog(context);
-        itemOverviewDialog.setContentView(R.layout.overview_popup);
+        itemOverviewDialog.setContentView(R.layout.overview_dialog);
         itemOverviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         viewHolder.rvItem.setOnClickListener(new View.OnClickListener() {

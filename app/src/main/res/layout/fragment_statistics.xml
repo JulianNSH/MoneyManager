@@ -375,7 +375,7 @@
                 android:paddingTop="30dp"
                 android:overScrollMode="never"
                 android:nestedScrollingEnabled="false"
-                android:id="@+id/rvTransaction"/>
+                android:id="@+id/rv_statistics_list"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

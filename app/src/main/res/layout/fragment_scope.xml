@@ -28,7 +28,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/add_scope_btn"
+            android:id="@+id/btn_dialog"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"

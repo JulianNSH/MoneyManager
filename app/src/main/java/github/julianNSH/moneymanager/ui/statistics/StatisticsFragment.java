@@ -85,7 +85,7 @@ public class StatisticsFragment extends Fragment {
 
         ///////////////////////List of elements
 
-        recyclerView = (RecyclerView) root.findViewById(R.id.rvTransaction);
+        recyclerView = (RecyclerView) root.findViewById(R.id.rv_statistics_list);
         statisticsModelClasses = new ArrayList<>();
 
         for (int i = 0; i < title.length; i++) {
@@ -93,7 +93,7 @@ public class StatisticsFragment extends Fragment {
 
             statisticsModelClasses.add(listModelClass);
         }
-        statisticsAdapter = new StatisticsAdapter(StatisticsFragment.this,statisticsModelClasses);
+        statisticsAdapter = new StatisticsAdapter(root.getContext() ,statisticsModelClasses);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

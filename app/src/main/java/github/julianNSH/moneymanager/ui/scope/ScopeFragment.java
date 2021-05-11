@@ -1,9 +1,14 @@
 package github.julianNSH.moneymanager.ui.scope;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,6 +24,7 @@ public class ScopeFragment extends Fragment {
     private ArrayList<ScopeModelClass> scopeModelClasses;
     private RecyclerView recyclerView;
     private ScopeAdapter scopeAdapter;
+    private Dialog addScopeDialog;
 
     private String title[] = {"Casa","Masina","Apartament","Televizor","Mobila",
             "Calculator","Telefon","Frigider"};
@@ -38,12 +44,31 @@ public class ScopeFragment extends Fragment {
             ScopeModelClass listModelClass = new ScopeModelClass(title[i], values[i], pbProgressValues[i]);
             scopeModelClasses.add(listModelClass);
         }
-        scopeAdapter = new ScopeAdapter(ScopeFragment.this, scopeModelClasses);
+        scopeAdapter = new ScopeAdapter(root.getContext(), scopeModelClasses);
         RecyclerView.LayoutManager sLayoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(sLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(scopeAdapter);
 
+
+        //ADD SCOPE DIALOG
+        addScopeDialog = new Dialog(root.getContext());
+        addScopeDialog.setContentView(R.layout.scope_add_dialog);
+        addScopeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button addScopeButton = (Button) root.findViewById(R.id.btn_dialog);
+        addScopeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Button addScope = (Button) addScopeDialog.findViewById(R.id.btn_add_scope);
+                addScope.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(root.getContext(), "Button ADD Clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                addScopeDialog.show();
+            }
+        });
         return root;
     }
 }
