@@ -178,6 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
+                android:layout_marginRight="5dp"
                 android:text="Comentariul"/>
 
             <Space
@@ -189,6 +190,8 @@
                 android:id="@+id/tv_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:padding="1dp"
                 android:textColor="@color/black"
                 android:text="Sample text"/>
 

@@ -9,6 +9,7 @@
     android:layout_marginRight="20dp"
     android:layout_marginBottom="10dp"
     android:background="@drawable/fg_rect"
+    android:backgroundTint="@color/colorWhite"
     android:elevation="10dp"
     android:id="@+id/scope_element">
 
@@ -31,6 +32,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/scope_start_DT"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -39,6 +41,7 @@
                     android:text="De la: 16 Septembrie 2020"
                     />
                 <TextView
+                    android:id="@+id/scope_end_DT"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"

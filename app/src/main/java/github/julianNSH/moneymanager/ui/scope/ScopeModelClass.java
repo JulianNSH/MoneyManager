@@ -1,13 +1,70 @@
 package github.julianNSH.moneymanager.ui.scope;
 
 public class ScopeModelClass {
-    String tvTitle, tvValues;
+    String tvTitle, comment;
+    float tvFinalAmount, tvCurrentAmount;
+    String startTime, startDate, endTime, endDate;
     int pbProgressValue;
 
-    public ScopeModelClass(String tvTitle, String tvValues, int pbProgressValue){
+    public ScopeModelClass(String tvTitle, float tvFinalAmount, float tvCurrentAmount, String startTime,
+                           String startDate, String endTime, String endDate, String comment, int pbProgressValue){
         this.tvTitle = tvTitle;
-        this.tvValues = tvValues;
+        this.tvFinalAmount = tvFinalAmount;
+        this.tvCurrentAmount = tvCurrentAmount;
+        this.startTime = startTime;
+        this.startDate = startDate;
+        this.endTime = endTime;
+        this.endDate = endDate;
+        this.comment = comment;
         this.pbProgressValue = pbProgressValue;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public float getTvCurrentAmount() {
+        return tvCurrentAmount;
+    }
+
+    public void setTvCurrentAmount(float tvCurrentAmount) {
+        this.tvCurrentAmount = tvCurrentAmount;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public int getPbProgressValue() {
@@ -26,11 +83,11 @@ public class ScopeModelClass {
         this.tvTitle = tvTitle;
     }
 
-    public String getTvValues() {
-        return tvValues;
+    public float getTvFinalAmount() {
+        return tvFinalAmount;
     }
 
-    public void setTvValues(String tvValues) {
-        this.tvValues = tvValues;
+    public void setTvFinalAmount(float tvFinalAmount) {
+        this.tvFinalAmount = tvFinalAmount;
     }
 }

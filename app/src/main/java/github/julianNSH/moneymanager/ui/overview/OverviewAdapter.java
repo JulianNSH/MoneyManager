@@ -1,5 +1,6 @@
 package github.julianNSH.moneymanager.ui.overview;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -30,15 +31,16 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private LinearLayout rvItem;
-        private TextView tvType, tvPrice;
-        private ImageView ivMain;
+        private TextView tvType, tvPrice, tvDateTime;
+        private ImageView ivFigure;
 
         public MyViewHolder(View view) {
             super(view);
             rvItem = (LinearLayout) view.findViewById(R.id.list_element);
             tvType = (TextView) view.findViewById(R.id.tvType);
             tvPrice = (TextView) view.findViewById(R.id.tvPrice);
-            ivMain = (ImageView) view.findViewById(R.id.ivMain);
+            ivFigure = (ImageView) view.findViewById(R.id.ivFigure);
+            tvDateTime = (TextView) view.findViewById(R.id.date_time);
 
         }
     }
@@ -62,6 +64,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
         itemOverviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         viewHolder.rvItem.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
 
@@ -69,6 +72,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
                 TextView tv_category = (TextView) itemOverviewDialog.findViewById(R.id.tv_category);
                 TextView tv_date_time = (TextView) itemOverviewDialog.findViewById(R.id.tv_date_time);
                 TextView tv_amount = (TextView) itemOverviewDialog.findViewById(R.id.tv_amount);
+                TextView tv_comment = (TextView) itemOverviewDialog.findViewById(R.id.tv_comment);
                 Button btn_delete = (Button) itemOverviewDialog.findViewById(R.id.btn_delete);
                 Button btn_edit = (Button) itemOverviewDialog.findViewById(R.id.btn_edit);
 
@@ -85,10 +89,12 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
                     }
                 });
 
-                tv_domain.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
+                tv_domain.setText(list.get(viewHolder.getAdapterPosition()).getTvDomain());
                 tv_category.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
-                tv_date_time.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
-                tv_amount.setText(list.get(viewHolder.getAdapterPosition()).getTvPrice());
+                tv_date_time.setText(list.get(viewHolder.getAdapterPosition()).getTime()+" " +
+                        list.get(viewHolder.getAdapterPosition()).getDate());
+                tv_comment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
+                tv_amount.setText(list.get(viewHolder.getAdapterPosition()).getTvAmount() + " MDL");
 
                 //Toast.makeText(context, "Test Click" + String.valueOf(viewHolder.getAdapterPosition()),  Toast.LENGTH_SHORT).show();
                 itemOverviewDialog.show();
@@ -99,13 +105,15 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
 
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(final MyViewHolder holder,final int position) {
         OverviewModelClass element = list.get(position);
         holder.tvType.setText(element.getTvType());
-        holder.tvPrice.setText(element.getTvPrice());
-        holder.ivMain.setImageResource(element.getIvMain());
+        holder.tvPrice.setText(element.getTvAmount() + " MDL");
+        holder.ivFigure.setImageResource(element.getIvFigure());
+        holder.tvDateTime.setText(element.getTime() + " " + element.getDate());
     }
 
     @Override

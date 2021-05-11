@@ -1,21 +1,50 @@
 package github.julianNSH.moneymanager.ui.statistics;
 
 public class StatisticsModelClass {
-    Integer ivMain;
-    String tvType,tvPrice;
+    Integer ivIcon;
+    String tvType;
+    float tvAmount;
+    String date, time, comment;
 
-    public StatisticsModelClass(Integer ivMain, String tvType, String tvPrice) {
-        this.ivMain = ivMain;
+    public StatisticsModelClass(Integer ivIcon, String tvType, float tvAmount, String time, String date, String comment) {
+        this.ivIcon = ivIcon;
         this.tvType = tvType;
-        this.tvPrice = tvPrice;
+        this.tvAmount = tvAmount;
+        this.time = time;
+        this.date =date;
+        this.comment = comment;
     }
 
-    public Integer getIvMain() {
-        return ivMain;
+    public String getDate() {
+        return date;
     }
 
-    public void setIvMain(Integer ivMain) {
-        this.ivMain = ivMain;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Integer getIvIcon() {
+        return ivIcon;
+    }
+
+    public void setIvIcon(Integer ivIcon) {
+        this.ivIcon = ivIcon;
     }
 
     public String getTvType() {
@@ -26,11 +55,11 @@ public class StatisticsModelClass {
         this.tvType = tvType;
     }
 
-    public String getTvPrice() {
-        return tvPrice;
+    public float getTvAmount() {
+        return tvAmount;
     }
 
-    public void setTvPrice(String tvPrice) {
-        this.tvPrice = tvPrice;
+    public void setTvAmount(float tvAmount) {
+        this.tvAmount = tvAmount;
     }
 }

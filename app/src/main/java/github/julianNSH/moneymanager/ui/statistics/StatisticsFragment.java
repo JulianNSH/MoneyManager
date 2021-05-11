@@ -3,6 +3,7 @@ package github.julianNSH.moneymanager.ui.statistics;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +13,13 @@ import android.widget.DatePicker;
 
 import com.app.infideap.stylishwidget.view.AProgressBar;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,13 +34,19 @@ public class StatisticsFragment extends Fragment {
     DatePickerDialog datePicker;
     Button statisticsDateButton;
 
-    private Integer image[] = {R.drawable.cat_food, R.drawable.cat_shoping, R.drawable.cat_house, R.drawable.cat_phone,
+    private Integer[] image = {R.drawable.cat_food, R.drawable.cat_shoping, R.drawable.cat_house, R.drawable.cat_phone,
             R.drawable.cat_gift, R.drawable.cat_coffe, R.drawable.ic_flat, R.drawable.ic_flat};
-    private  String title[] = {"Alimente","Îmbrăcăminte","Chirie","Telefonie","Cadouri",
+    private  String[] title = {"Alimente","Îmbrăcăminte","Chirie","Telefonie","Cadouri",
             "Cafea","Dezinfectant","Frizer"};
-    private String subtitle[] = {"2640 MDL","1500 MDL","2500 MDL","300 MDL","700 MDL",
-            "50 MDL","25 MDL", "150 MDL"};
+    private float[] amount = {2640, 1500, 2500, 300, 700, 50, 25, 150};
+    private String[] comment = {"Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+            "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            " Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",
+            " Excepteur sint occaecat cupidatat non proident",
+            "sunt in culpa qui officia deserunt mollit anim id est laborum."," "," "," "};
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"ResourceType", "SetTextI18n"})
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
@@ -89,7 +99,8 @@ public class StatisticsFragment extends Fragment {
         statisticsModelClasses = new ArrayList<>();
 
         for (int i = 0; i < title.length; i++) {
-            StatisticsModelClass listModelClass = new StatisticsModelClass(image[i],title[i],subtitle[i]);
+            StatisticsModelClass listModelClass = new StatisticsModelClass(image[i],title[i], amount[i],
+                    String.valueOf(LocalTime.now()), String.valueOf(LocalDate.now()), comment[i]);
 
             statisticsModelClasses.add(listModelClass);
         }

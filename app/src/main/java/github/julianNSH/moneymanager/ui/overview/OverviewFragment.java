@@ -2,6 +2,7 @@ package github.julianNSH.moneymanager.ui.overview;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,11 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.Clock;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -27,6 +32,7 @@ import java.util.Locale;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -53,14 +59,22 @@ public class OverviewFragment extends Fragment {
     private RecyclerView recyclerView;
     private OverviewAdapter overviewAdapter;
 
+    private String domain;
     private Integer[]  image= {R.drawable.ic_up, R.drawable.ic_down,R.drawable.ic_down,R.drawable.ic_flat,
             R.drawable.ic_down,R.drawable.ic_flat,R.drawable.ic_down,R.drawable.ic_flat,R.drawable.ic_up};
     private  String[]  title= {"Salariu","Alimente","Servicii Comunale","Transfer","Îmbrăcăminte",
             "Transfer","Cadou","Transfer","Cash-Back"};
-    private String[] subtitle = {"13710 MDL","1000 MDL","2500 MDL","5000 MDL","1500 MDL","3000 MDL",
-            "700 MDL","1000 MDL","1500 MDL"};
+    private float[] amount = {13710, 1000, 2500, 5000, 1500,3000, 700, 1000, 1500};
+    private String[] comment = {"Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+            "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            " Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",
+            " Excepteur sint occaecat cupidatat non proident",
+            "sunt in culpa qui officia deserunt mollit anim id est laborum."," "," "," "};
 
-    @SuppressLint("SetTextI18n")
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint({"SetTextI18n", "NonConstantResourceId"})
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_overview, container, false);
@@ -102,7 +116,20 @@ public class OverviewFragment extends Fragment {
         overviewModelClasses = new ArrayList<>();
 
         for (int i = 0; i < title.length; i++) {
-            OverviewModelClass listModelClass = new OverviewModelClass(image[i],title[i],subtitle[i]);
+            switch (image[i]){
+                case R.drawable.ic_up:
+                    domain = "Venit";
+                    break;
+                case R.drawable.ic_down:
+                    domain = "Cheltuieli";
+                    break;
+                default:
+                    domain = "Altele";
+            }
+
+            @SuppressLint("SimpleDateFormat") OverviewModelClass listModelClass = new OverviewModelClass(domain,
+                    image[i],title[i], amount[i], String.valueOf(LocalTime.now()), String.valueOf(LocalDate.now()),
+                    comment[i]);
 
             overviewModelClasses.add(listModelClass);
         }

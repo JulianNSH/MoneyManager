@@ -1,5 +1,6 @@
 package github.julianNSH.moneymanager.ui.statistics;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -28,8 +29,8 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvType,tvPrice;
-        private ImageView ivMain;
+        private TextView tvType,tvPrice, tvDateTime, tvComment;
+        private ImageView ivFigure;
         private LinearLayout rvItem;
 
         public MyViewHolder(View view) {
@@ -38,10 +39,10 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
             rvItem = (LinearLayout) view.findViewById(R.id.list_element);
             tvType = (TextView) view.findViewById(R.id.tvType);
             tvPrice = (TextView) view.findViewById(R.id.tvPrice);
-            ivMain = (ImageView) view.findViewById(R.id.ivMain);
+            ivFigure = (ImageView) view.findViewById(R.id.ivFigure);
+            tvDateTime = (TextView) view.findViewById(R.id.date_time);
 
         }
-
     }
 
     public StatisticsAdapter(Context context, List<StatisticsModelClass> elementsList) {
@@ -60,12 +61,14 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
         itemStatisticsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         viewHolder.rvItem.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
 
                 TextView tv_category = (TextView) itemStatisticsDialog.findViewById(R.id.tv_category);
                 TextView tv_date_time = (TextView) itemStatisticsDialog.findViewById(R.id.tv_date_time);
                 TextView tv_amount = (TextView) itemStatisticsDialog.findViewById(R.id.tv_amount);
+                TextView tv_comment = (TextView) itemStatisticsDialog.findViewById(R.id.tv_comment);
                 Button btn_delete = (Button) itemStatisticsDialog.findViewById(R.id.btn_delete);
                 Button btn_edit = (Button) itemStatisticsDialog.findViewById(R.id.btn_edit);
 
@@ -83,8 +86,10 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
                 });
 
                 tv_category.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
-                tv_date_time.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
-                tv_amount.setText(list.get(viewHolder.getAdapterPosition()).getTvPrice());
+                tv_date_time.setText(list.get(viewHolder.getAdapterPosition()).getTime() + " " +
+                        list.get(viewHolder.getAdapterPosition()).getDate());
+                tv_amount.setText(list.get(viewHolder.getAdapterPosition()).getTvAmount() + " MDL");
+                tv_comment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
 
                 //Toast.makeText(context, "Test Click" + String.valueOf(viewHolder.getAdapterPosition()),  Toast.LENGTH_SHORT).show();
                 itemStatisticsDialog.show();
@@ -94,13 +99,15 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
 
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(final MyViewHolder holder,final int position) {
         StatisticsModelClass element = list.get(position);
         holder.tvType.setText(element.getTvType());
-        holder.tvPrice.setText(element.getTvPrice());
-        holder.ivMain.setImageResource(element.getIvMain());
+        holder.tvPrice.setText(element.getTvAmount() + " MDL");
+        holder.tvDateTime.setText(element.getTime()+" "+element.getDate());
+        holder.ivFigure.setImageResource(element.getIvIcon());
     }
     @Override
     public int getItemCount() {
