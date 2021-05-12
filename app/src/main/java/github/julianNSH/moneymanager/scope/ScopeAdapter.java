@@ -1,4 +1,4 @@
-package github.julianNSH.moneymanager.ui.scope;
+package github.julianNSH.moneymanager.scope;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;

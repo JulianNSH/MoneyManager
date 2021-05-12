@@ -1,4 +1,4 @@
-package github.julianNSH.moneymanager.ui.savings;
+package github.julianNSH.moneymanager.savings;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import github.julianNSH.moneymanager.R;
-import github.julianNSH.moneymanager.ui.scope.ScopeModelClass;
 
 public class SavingsAdapter extends RecyclerView.Adapter<SavingsAdapter.MyViewHolder> {
     SavingsFragment context;

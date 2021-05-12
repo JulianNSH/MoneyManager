@@ -1,4 +1,4 @@
-package github.julianNSH.moneymanager.ui.statistics;
+package github.julianNSH.moneymanager.statistics;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -29,9 +29,9 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvType,tvPrice, tvDateTime, tvComment;
-        private ImageView ivFigure;
-        private LinearLayout rvItem;
+        private final TextView tvType,tvPrice, tvDateTime;
+        private final ImageView ivFigure;
+        private final LinearLayout rvItem;
 
         public MyViewHolder(View view) {
             super(view);
@@ -75,7 +75,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
                 btn_delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context, "Button DELETE Clicked",  Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Button DELETE Clicked" + list.get(viewHolder.getAdapterPosition()).getIvIcon(),  Toast.LENGTH_SHORT).show();
                     }
                 });
                 btn_edit.setOnClickListener(new View.OnClickListener() {

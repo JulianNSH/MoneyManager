@@ -1,4 +1,4 @@
-package github.julianNSH.moneymanager.ui.add;
+package github.julianNSH.moneymanager.add;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -24,46 +24,46 @@ import java.util.Calendar;
 
 import github.julianNSH.moneymanager.R;
 
-public class AddOutgoingFragment extends Fragment {
-    public AddOutgoingFragment(){}
+public class AddIncomeFragment extends Fragment {
+    public AddIncomeFragment(){}
 
-    DatePickerDialog datePicker;
-    EditText outgoingDate;
+    private DatePickerDialog datePicker;
+    private EditText incomeDate;
 
-    TimePickerDialog timePicker;
-    EditText outgoingTime;
+    private TimePickerDialog timePicker;
+    private EditText incomeTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View root = inflater.inflate(R.layout.fragment_add_outgoing, container, false);
+        View root =  inflater.inflate(R.layout.fragment_add_income, container, false);
 
-        //////////////////////////////////INPUT SOURCE OF OUTGOING
+        //////////////////////////////////INPUT SOURCE OF INCOME
         String[]  title= {"Salariu","Cadou","Transfer","Cash-Back"};
-        AutoCompleteTextView outgoingSource = root.findViewById(R.id.outgoing_source);
+        AutoCompleteTextView incomeSource = root.findViewById(R.id.income_source);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, title);
         final String[] selection = new String[1];
-        outgoingSource.setAdapter(arrayAdapter);
-        outgoingSource.setCursorVisible(true);
-        outgoingSource.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        incomeSource.setAdapter(arrayAdapter);
+        incomeSource.setCursorVisible(true);
+        incomeSource.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                outgoingSource.showDropDown();
+                incomeSource.showDropDown();
                 selection[0] = (String) parent.getItemAtPosition(position);
                 Toast.makeText(getContext(), selection[0], Toast.LENGTH_SHORT).show();
             }
         });
-
-        outgoingSource.setOnClickListener(new View.OnClickListener() {
+        incomeSource.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                outgoingSource.showDropDown();
+                incomeSource.showDropDown();
             }
         });
+
         //////////////////////////////////PICK TIME FROM CLOCK
-        outgoingTime = (EditText) root.findViewById(R.id.add_income_time);
-        outgoingTime.setInputType(InputType.TYPE_NULL);
-        outgoingTime.setOnClickListener(new View.OnClickListener() {
+        incomeTime = (EditText) root.findViewById(R.id.add_income_time);
+        incomeTime.setInputType(InputType.TYPE_NULL);
+        incomeTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar time = Calendar.getInstance();
@@ -74,7 +74,7 @@ public class AddOutgoingFragment extends Fragment {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-                        outgoingTime.setText(hourOfDay + " : " + minuteOfHour);
+                        incomeTime.setText(hourOfDay + " : " + minuteOfHour);
                     }
                 }, hour, minute, true);
                 timePicker.show();
@@ -82,9 +82,9 @@ public class AddOutgoingFragment extends Fragment {
         });
 
         //////////////////////////////////PICK A DATE FROM CALENDAR
-        outgoingDate = (EditText) root.findViewById(R.id.add_income_date);
-        outgoingDate.setInputType(InputType.TYPE_NULL);
-        outgoingDate.setOnClickListener(new View.OnClickListener() {
+        incomeDate = (EditText) root.findViewById(R.id.add_income_date);
+        incomeDate.setInputType(InputType.TYPE_NULL);
+        incomeDate.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
@@ -97,7 +97,7 @@ public class AddOutgoingFragment extends Fragment {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        outgoingDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                        incomeDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
                     }
                 }, year, month, day);
 

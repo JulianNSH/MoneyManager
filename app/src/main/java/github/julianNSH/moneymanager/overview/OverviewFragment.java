@@ -1,4 +1,4 @@
-package github.julianNSH.moneymanager.ui.overview;
+package github.julianNSH.moneymanager.overview;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -20,9 +20,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
-import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;

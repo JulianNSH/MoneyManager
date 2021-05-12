@@ -1,10 +1,25 @@
-package github.julianNSH.moneymanager.ui.scope;
+package github.julianNSH.moneymanager.scope;
 
 public class ScopeModelClass {
+    int id;
     String tvTitle, comment;
     float tvFinalAmount, tvCurrentAmount;
     String startTime, startDate, endTime, endDate;
     int pbProgressValue;
+
+    public ScopeModelClass(int id, String tvTitle, float tvFinalAmount, float tvCurrentAmount, String startTime,
+                           String startDate, String endTime, String endDate, String comment, int pbProgressValue){
+        this.id = id;
+        this.tvTitle = tvTitle;
+        this.tvFinalAmount = tvFinalAmount;
+        this.tvCurrentAmount = tvCurrentAmount;
+        this.startTime = startTime;
+        this.startDate = startDate;
+        this.endTime = endTime;
+        this.endDate = endDate;
+        this.comment = comment;
+        this.pbProgressValue = pbProgressValue;
+    }
 
     public ScopeModelClass(String tvTitle, float tvFinalAmount, float tvCurrentAmount, String startTime,
                            String startDate, String endTime, String endDate, String comment, int pbProgressValue){
@@ -17,6 +32,14 @@ public class ScopeModelClass {
         this.endDate = endDate;
         this.comment = comment;
         this.pbProgressValue = pbProgressValue;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getComment() {

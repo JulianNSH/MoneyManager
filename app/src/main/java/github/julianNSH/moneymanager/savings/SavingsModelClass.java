@@ -1,11 +1,22 @@
-package github.julianNSH.moneymanager.ui.savings;
+package github.julianNSH.moneymanager.savings;
 
 public class SavingsModelClass {
+    int id;
     String tvTitlePeriod;
     String tvIncome;
     String tvOutcome;
     String tvResult;
     String tvResultColor;
+
+    public SavingsModelClass(int id, String tvTitlePeriod, String tvIncome, String tvOutcome, String tvResult,
+                             String tvResultColor){
+        this.id = id;
+        this.tvIncome = tvIncome;
+        this.tvOutcome = tvOutcome;
+        this.tvResult = tvResult;
+        this.tvResultColor = tvResultColor;
+        this.tvTitlePeriod = tvTitlePeriod;
+    }
 
     public SavingsModelClass(String tvTitlePeriod, String tvIncome, String tvOutcome, String tvResult,
                              String tvResultColor){
@@ -14,6 +25,14 @@ public class SavingsModelClass {
         this.tvResult = tvResult;
         this.tvResultColor = tvResultColor;
         this.tvTitlePeriod = tvTitlePeriod;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTvResultColor() {

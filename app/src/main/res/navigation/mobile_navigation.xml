@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_overview"
-        android:name="github.julianNSH.moneymanager.ui.overview.OverviewFragment"
+        android:name="github.julianNSH.moneymanager.overview.OverviewFragment"
         android:label="@string/title_overview"
         tools:layout="@layout/fragment_overview">
         <action
@@ -17,22 +17,22 @@
 
     <fragment
         android:id="@+id/navigation_statistics"
-        android:name="github.julianNSH.moneymanager.ui.statistics.StatisticsFragment"
+        android:name="github.julianNSH.moneymanager.statistics.StatisticsFragment"
         android:label="@string/title_statistics"
         tools:layout="@layout/fragment_statistics"/>
     <fragment
         android:id="@+id/navigation_add"
-        android:name="github.julianNSH.moneymanager.ui.add.AddFragment"
+        android:name="github.julianNSH.moneymanager.add.AddFragment"
         android:label="@string/title_add"
         tools:layout="@layout/fragment_add"/>
     <fragment
         android:id="@+id/navigation_scope"
-        android:name="github.julianNSH.moneymanager.ui.scope.ScopeFragment"
+        android:name="github.julianNSH.moneymanager.scope.ScopeFragment"
         android:label="@string/title_scope"
         tools:layout="@layout/fragment_scope"/>
     <fragment
         android:id="@+id/navigation_invest"
-        android:name="github.julianNSH.moneymanager.ui.savings.SavingsFragment"
+        android:name="github.julianNSH.moneymanager.savings.SavingsFragment"
         android:label="@string/title_savings"
         tools:layout="@layout/fragment_savings"/>
 </navigation>

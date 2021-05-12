@@ -1,4 +1,4 @@
-package github.julianNSH.moneymanager.ui.add;
+package github.julianNSH.moneymanager.add;
 
 import android.view.View;
 

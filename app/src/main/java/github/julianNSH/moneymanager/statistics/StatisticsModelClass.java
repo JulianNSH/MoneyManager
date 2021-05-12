@@ -1,11 +1,22 @@
-package github.julianNSH.moneymanager.ui.statistics;
+package github.julianNSH.moneymanager.statistics;
 
 public class StatisticsModelClass {
+    int id, repeat;
     Integer ivIcon;
     String tvType;
     float tvAmount;
     String date, time, comment;
 
+    public StatisticsModelClass(){}
+    public StatisticsModelClass(int id, Integer ivIcon, String tvType, float tvAmount, String time, String date, String comment) {
+        this.id = id;
+        this.ivIcon = ivIcon;
+        this.tvType = tvType;
+        this.tvAmount = tvAmount;
+        this.time = time;
+        this.date =date;
+        this.comment = comment;
+    }
     public StatisticsModelClass(Integer ivIcon, String tvType, float tvAmount, String time, String date, String comment) {
         this.ivIcon = ivIcon;
         this.tvType = tvType;
@@ -13,6 +24,22 @@ public class StatisticsModelClass {
         this.time = time;
         this.date =date;
         this.comment = comment;
+    }
+
+    public int getRepeat() {
+        return repeat;
+    }
+
+    public void setRepeat(int repeat) {
+        this.repeat = repeat;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDate() {

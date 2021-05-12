@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.add.AddOutgoingFragment"
+    tools:context=".add.AddOutgoingFragment"
     android:background="@color/blue2">
 
 
@@ -43,22 +43,38 @@
                         android:text="Categoria"
                         android:layout_margin="5dp"/>
 
-                    <AutoCompleteTextView
-                        android:id="@+id/outgoing_source"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/fg_rect"
-                        android:backgroundTint="@color/white"
-                        android:ems="10"
-                        android:maxLines="1"
-                        android:clickable="true"
-                        android:textSize="15sp"
-                        android:textColor="@color/black"
-                        android:inputType="text"
-                        android:hint="Lista de categorii,..."/>
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <Spinner
+                            android:id="@+id/icon_spinner"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_margin="5dp"
+                            android:padding="5dp"
+                            android:background="@drawable/fg_rect"
+                            android:foreground="@drawable/ic_down"
+                            android:foregroundTint="@color/black"
+                            android:backgroundTint="@color/white"/>
+                        <AutoCompleteTextView
+                            android:id="@+id/outgoing_source"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/fg_rect"
+                            android:backgroundTint="@color/white"
+                            android:ems="10"
+                            android:maxLines="1"
+                            android:clickable="true"
+                            android:textSize="15sp"
+                            android:textColor="@color/black"
+                            android:inputType="text"
+                            android:hint="Selectați sau creați alta"/>
+
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
@@ -93,7 +109,7 @@
                         android:textColor="@color/black"/>
 
                     <EditText
-                        android:id="@+id/incomeAmount"
+                        android:id="@+id/outgoingAmount"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:paddingLeft="5dp"
@@ -105,7 +121,7 @@
                         android:textSize="15sp"
                         android:textColor="@color/black"
                         android:inputType="number"
-                        android:hint="Valoare numerică întreagă"/>
+                        android:hint="Valoare numerarului"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -204,7 +220,7 @@
                         android:layout_margin="5dp"/>
 
                     <EditText
-                        android:id="@+id/editTextTextMultiLine"
+                        android:id="@+id/commentOutgoing"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:paddingLeft="5dp"
@@ -239,7 +255,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/add_scope_btn"
+            android:id="@+id/add_outgoing_btn"
             android:layout_width="150sp"
             android:layout_height="50sp"
             android:layout_alignParentBottom="true"

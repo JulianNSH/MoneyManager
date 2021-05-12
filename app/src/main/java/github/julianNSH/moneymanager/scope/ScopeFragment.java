@@ -1,4 +1,4 @@
-package github.julianNSH.moneymanager.ui.scope;
+package github.julianNSH.moneymanager.scope;
 
 import android.app.Dialog;
 import android.graphics.Color;

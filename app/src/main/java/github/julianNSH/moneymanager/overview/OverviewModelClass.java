@@ -1,9 +1,7 @@
-package github.julianNSH.moneymanager.ui.overview;
-
-import java.sql.Time;
-import java.util.Date;
+package github.julianNSH.moneymanager.overview;
 
 public class OverviewModelClass {
+    int id;
     String tvDomain;
     Integer ivFigure; //figure int id
     String tvType; //Title of transaction
@@ -11,6 +9,17 @@ public class OverviewModelClass {
     String date;  //date of transaction
     String time;  //time of transaction
     String comment; //user comment of transaction
+
+    public OverviewModelClass(int id, String tvDomain, Integer ivFigure, String tvType, float tvAmount, String time, String date, String comment){
+        this.id = id;
+        this.tvDomain = tvDomain;
+        this.ivFigure = ivFigure;
+        this.tvType = tvType;
+        this.tvAmount = tvAmount;
+        this.time = time;
+        this.date = date;
+        this.comment = comment;
+    }
 
     public OverviewModelClass(String tvDomain, Integer ivFigure, String tvType, float tvAmount, String time, String date, String comment){
         this.tvDomain = tvDomain;
@@ -21,7 +30,13 @@ public class OverviewModelClass {
         this.date = date;
         this.comment = comment;
     }
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getTvDomain() { return tvDomain; }
     public void setTvDomain(String tvDomain) { this.tvDomain = tvDomain; }
 

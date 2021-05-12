@@ -1,4 +1,4 @@
-package github.julianNSH.moneymanager.ui.statistics;
+package github.julianNSH.moneymanager.statistics;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
