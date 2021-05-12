@@ -25,11 +25,13 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import github.julianNSH.moneymanager.R;
+import github.julianNSH.moneymanager.database.DatabaseClass;
 
 public class StatisticsFragment extends Fragment {
-    private ArrayList<StatisticsModelClass> statisticsModelClasses;
     private RecyclerView recyclerView;
     private StatisticsAdapter statisticsAdapter;
+    private DatabaseClass databaseClass;
+    private ArrayList<StatisticsModelClass> statisticsModelClasses;
 
     DatePickerDialog datePicker;
     Button statisticsDateButton;
@@ -94,16 +96,11 @@ public class StatisticsFragment extends Fragment {
         );
 
         ///////////////////////List of elements
+        databaseClass = new DatabaseClass(getContext());
 
         recyclerView = (RecyclerView) root.findViewById(R.id.rv_statistics_list);
-        statisticsModelClasses = new ArrayList<>();
 
-        for (int i = 0; i < title.length; i++) {
-            StatisticsModelClass listModelClass = new StatisticsModelClass(image[i],title[i], amount[i],
-                    String.valueOf(LocalTime.now()), String.valueOf(LocalDate.now()), comment[i]);
-
-            statisticsModelClasses.add(listModelClass);
-        }
+        statisticsModelClasses = databaseClass.getAllOutgoingData();
         statisticsAdapter = new StatisticsAdapter(root.getContext() ,statisticsModelClasses);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(mLayoutManager);

@@ -8,20 +8,20 @@ public class StatisticsModelClass {
     String date, time, comment;
 
     public StatisticsModelClass(){}
-    public StatisticsModelClass(int id, Integer ivIcon, String tvType, float tvAmount, String time, String date, String comment) {
+    public StatisticsModelClass(int id, Integer ivIcon, String tvType, float tvAmount, String date, String comment) {
         this.id = id;
         this.ivIcon = ivIcon;
         this.tvType = tvType;
         this.tvAmount = tvAmount;
-        this.time = time;
+        this.time = date;
         this.date =date;
         this.comment = comment;
     }
-    public StatisticsModelClass(Integer ivIcon, String tvType, float tvAmount, String time, String date, String comment) {
+    public StatisticsModelClass(Integer ivIcon, String tvType, float tvAmount, String date, String comment) {
         this.ivIcon = ivIcon;
         this.tvType = tvType;
         this.tvAmount = tvAmount;
-        this.time = time;
+        this.time = date;
         this.date =date;
         this.comment = comment;
     }
