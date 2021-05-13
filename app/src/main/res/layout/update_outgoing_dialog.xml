@@ -72,7 +72,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="5dp"
-        android:background="@color/colorBlueGrey_200" />
+        android:background="@color/colorBlueGrey_100" />
 
         <LinearLayout
             android:layout_width="match_parent"

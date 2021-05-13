@@ -91,7 +91,7 @@ public class OverviewFragment extends Fragment {
                 int month = date.get(Calendar.MONTH);
                 int year = date.get(Calendar.YEAR);
 
-                datePicker = new DatePickerDialog(root.getContext(), android.R.style.Theme_Holo_Dialog,new DatePickerDialog.OnDateSetListener() {
+                datePicker = new DatePickerDialog(root.getContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar,new DatePickerDialog.OnDateSetListener() {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

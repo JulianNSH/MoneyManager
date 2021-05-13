@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".statistics.StatisticsFragment">
+    tools:context=".statistics.StatisticsFragment"
+    android:id="@+id/statistics_fragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -70,12 +71,13 @@
                         android:text="Cheltuieli Totale" />
 
                     <TextView
+                        android:id="@+id/spendingAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="22sp"
                         android:textColor="@color/black"
                         android:lineSpacingExtra="4sp"
-                        android:text="8,520 MDL"
+                        android:text="--.-- MDL"
                         />
 
 
@@ -87,7 +89,7 @@
                         android:layout_marginTop="25dp"
                         app:sw_progressBackground="#ccc"
                         app:sw_progressColor="@color/stat_elem3"
-                        app:sw_progressValue="70"
+                        app:sw_progressValue="0"
                         app:sw_radius="1dp"
                         app:sw_withAnimation="true" />
 
@@ -100,6 +102,8 @@
 
 
                         <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/ll1"
                             android:layout_width="80dp"
                             android:layout_marginLeft="5dp"
                             android:layout_height="wrap_content"
@@ -119,27 +123,31 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/cat1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="10sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="2sp"
-                                    android:text="Alimente"
+                                    android:text="Categoria 1"
                                     />
 
                                 <TextView
+                                    android:id="@+id/catval1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="3sp"
-                                    android:text="2640 MDL"
+                                    android:text="0 MDL"
                                     />
                             </LinearLayout>
 
                         </LinearLayout>
 
                         <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/ll2"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -159,27 +167,31 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/cat2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="10sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="2sp"
-                                    android:text="Chirie"
+                                    android:text="Categoria 2"
                                     />
 
                                 <TextView
+                                    android:id="@+id/catval2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="3sp"
-                                    android:text="2500 MDL"
+                                    android:text="0 MDL"
                                     />
                             </LinearLayout>
 
                         </LinearLayout>
 
                         <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/ll3"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -199,21 +211,23 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/cat3"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="10sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="2sp"
-                                    android:text="Îmbrăcăminte"
+                                    android:text="Categoria 3"
                                     />
 
                                 <TextView
+                                    android:id="@+id/catval3"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="3sp"
-                                    android:text="1500 MDL"
+                                    android:text="0 MDL"
                                     />
                             </LinearLayout>
 
@@ -231,6 +245,8 @@
 
 
                         <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/ll4"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -251,27 +267,31 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/cat4"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="10sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="2sp"
-                                    android:text="Cadouri"
+                                    android:text="Categoria 4"
                                     />
 
                                 <TextView
+                                    android:id="@+id/catval4"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="3sp"
-                                    android:text="700 MDL"
+                                    android:text="0 MDL"
                                     />
                             </LinearLayout>
 
                         </LinearLayout>
 
                         <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/ll5"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -291,27 +311,31 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/cat5"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="10sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="2sp"
-                                    android:text="Telefonie"
+                                    android:text="Categoria 5"
                                     />
 
                                 <TextView
+                                    android:id="@+id/catval5"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="3sp"
-                                    android:text="300 MDL"
+                                    android:text="0 MDL"
                                     />
                             </LinearLayout>
-
+layout
                         </LinearLayout>
 
                         <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/ll6"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -331,6 +355,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/cat6"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="10sp"
@@ -340,12 +365,13 @@
                                     />
 
                                 <TextView
+                                    android:id="@+id/catval6"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="3sp"
-                                    android:text="880 MDL"
+                                    android:text="0 MDL"
                                     />
                             </LinearLayout>
 
@@ -375,7 +401,7 @@
                 android:paddingTop="30dp"
                 android:overScrollMode="never"
                 android:nestedScrollingEnabled="false"
-                android:id="@+id/rv_statistics_list"/>
+                android:id="@+id/rv_statistics_list" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

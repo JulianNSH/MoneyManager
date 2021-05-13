@@ -1,6 +1,6 @@
 package github.julianNSH.moneymanager.statistics;
 
-public class StatisticsModelClass {
+public class StatisticsModelClass implements Comparable{
     int id, repeat;
     Integer ivIcon;
     String tvType;
@@ -88,5 +88,12 @@ public class StatisticsModelClass {
 
     public void setTvAmount(float tvAmount) {
         this.tvAmount = tvAmount;
+    }
+
+
+    @Override
+    public int compareTo(Object o) {
+        float comp = ((StatisticsModelClass)o).getTvAmount();
+        return (int) (comp-this.tvAmount);
     }
 }
