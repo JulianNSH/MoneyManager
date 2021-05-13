@@ -85,7 +85,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
 
                 //CALL METHODS FOR BUTTON CLICKS
                 onDeleteButtonClick(itemView, viewHolder);
-                onUpdateButtonClick(itemView, viewHolder);
+                onUpdateButtonClick(context, itemStatisticsDialog, itemView);
             }
         });
         return viewHolder;
@@ -128,22 +128,22 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
     /*********************************************************************************************
      *  UPDATE ELEMENT FROM LIST THROUGH DIALOG WINDOW
      */
-    public void onUpdateButtonClick(View itemView, MyViewHolder viewHolder){
-        updateDialog = new Dialog(context);
+    public static void onUpdateButtonClick(Context context, Dialog item, View itemView){
+        Dialog updateDialog = new Dialog(context);
         updateDialog.setContentView(R.layout.update_outgoing_dialog);
         updateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        Button btn_edit = (Button) itemStatisticsDialog.findViewById(R.id.btn_edit);
+        Button btn_edit = (Button) item.findViewById(R.id.btn_edit);
 
-        databaseClass = new DatabaseClass(itemView.getContext());
+        DatabaseClass databaseClass = new DatabaseClass(itemView.getContext());
         btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Button EDIT Clicked",  Toast.LENGTH_SHORT).show();
-                itemStatisticsDialog.dismiss();
+                item.dismiss();
                 updateDialog.show();
             }
         });
-        itemStatisticsDialog.show();
+        item.show();
     }
 }

@@ -21,6 +21,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import github.julianNSH.moneymanager.R;
+import github.julianNSH.moneymanager.statistics.StatisticsAdapter;
 
 
 public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyViewHolder> {
@@ -85,7 +86,8 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
                 btn_edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context, "Button EDIT Clicked",  Toast.LENGTH_SHORT).show();
+                        StatisticsAdapter.onUpdateButtonClick(context, itemOverviewDialog, itemView);
+                        //Toast.makeText(context, "Button EDIT Clicked",  Toast.LENGTH_SHORT).show();
                     }
                 });
 

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.infideap.stylishwidget.view.AProgressBar;
 
@@ -37,7 +38,7 @@ public class StatisticsFragment extends Fragment {
     private DatabaseClass databaseClass;
     private ArrayList<StatisticsModelClass> statisticsModelClasses, sortedClass;
     private LinearLayout ll1,ll2,ll3,ll4,ll5,ll6;
-    AProgressBar iconProgressBar;
+    AProgressBar iconProgressBar, tempProgressBar;
 
     private float totalSpending;
     private DatePickerDialog datePicker;
@@ -49,14 +50,19 @@ public class StatisticsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_statistics, container, false);
+        tempProgressBar = (AProgressBar) root.findViewById(R.id.progressBar_statistics);
 
-
-        //DATE BUTTON //TODO get data by selected month and year
+        //DATE BUTTON
         final Calendar date = Calendar.getInstance();
         final String[] monthsOfYear = {"Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie",
                 "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"};
         statisticsDateButton = (Button) root.findViewById(R.id.btn_date);
-        if(statisticsDateButton.getText() =="") statisticsDateButton.setText(monthsOfYear[date.get(Calendar.MONTH)]+ " " + date.get(Calendar.YEAR));
+
+        showStatisticsData(root, date.get(Calendar.MONTH)+1+ "/" + date.get(Calendar.YEAR));
+
+        if(statisticsDateButton.getText() =="")
+            statisticsDateButton.setText(monthsOfYear[date.get(Calendar.MONTH)]+ " " + date.get(Calendar.YEAR));
+
         statisticsDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +70,8 @@ public class StatisticsFragment extends Fragment {
                 int month = date.get(Calendar.MONTH);
                 int year = date.get(Calendar.YEAR);
 
-                datePicker = new DatePickerDialog(root.getContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar,new DatePickerDialog.OnDateSetListener() {
+                datePicker = new DatePickerDialog(root.getContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                        new DatePickerDialog.OnDateSetListener() {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -87,6 +94,7 @@ public class StatisticsFragment extends Fragment {
 
     @SuppressLint({"ResourceType", "SetTextI18n"})
     public void showStatisticsData(View view, String date){
+        iconProgressBar =  tempProgressBar;
         ///////////////////////List of elements
         databaseClass = new DatabaseClass(getContext());
 
@@ -104,20 +112,23 @@ public class StatisticsFragment extends Fragment {
         totalSpending = 0;
         float[] biggestCateg = new float[6];
         int[] pbValues = new int[6];
-        biggestCateg[5]=0; pbValues[5] = 100;
+        biggestCateg[5]=0;
         sortedClass = statisticsModelClasses;
-        iconProgressBar =  (AProgressBar) view.findViewById(R.id.progressBar_statistics);
 
+        //SORTING AND ORGANIZING CATEGORIES (DESC)
         Collections.sort(sortedClass);
-
         for (int i = 0; i<statisticsModelClasses.size(); i++){
             totalSpending+=statisticsModelClasses.get(i).getTvAmount();
             if(i>=5) biggestCateg[5]+= sortedClass.get(i).getTvAmount();
             if(i<=4) biggestCateg[i] = sortedClass.get(i).getTvAmount();
         }
-        pbValues[0] = (int) (totalSpending*biggestCateg[0])/100;
-        for (int i = 1 ;i<6; i++) pbValues[i] += (int) pbValues[i-1] +(totalSpending*biggestCateg[i])/100;
 
+        //SETTING PROGRESS VALUES(percents) for existing categories
+        pbValues[0] = (int) ((int) (biggestCateg[0]*100)/totalSpending)+1;
+        for (int i = 1 ;i<6; i++) {
+            pbValues[i] += (int) pbValues[i - 1] + (biggestCateg[i]*100) / totalSpending;
+            if (i==sortedClass.size()) break;
+        }
         spendingAmount = (TextView) view.findViewById(R.id.spendingAmount);
         spendingAmount.setText(totalSpending + " "+getResources().getString(R.string.currency));
         TextView cat1,cat2,cat3,cat4,cat5, catval1,catval2,catval3,catval4,catval5,catval6;
@@ -140,7 +151,6 @@ public class StatisticsFragment extends Fragment {
             cat1.setText(sortedClass.get(0).getTvType());
             catval1 = (TextView) view.findViewById(R.id.catval1);
             catval1.setText(biggestCateg[0] +" "+getResources().getString(R.string.currency));
-            iconProgressBar.setProgressValues(31);
         }
 
         if(sortedClass.size()>=2) {
@@ -181,16 +191,22 @@ public class StatisticsFragment extends Fragment {
 //            iconProgressBar.setProgressValues(pbValues[0], pbValues[1], pbValues[2], pbValues[3],
 //                    pbValues[4],pbValues[5]);
         }
-
-        ///////////////////////PROGRES BAR
-        iconProgressBar.setProgressColors(
-                Color.parseColor(getResources().getString(R.color.stat_elem1)),
-                Color.parseColor(getResources().getString(R.color.stat_elem2)),
-                Color.parseColor(getResources().getString(R.color.stat_elem3)),
-                Color.parseColor(getResources().getString(R.color.stat_elem4)),
-                Color.parseColor(getResources().getString(R.color.stat_elem5)),
-                Color.parseColor(getResources().getString(R.color.stat_elem6))
-        );
+        ///////////////////////SETTING PROGRESS BAR TODO Fix progressbar
+//        if(sortedClass.size() == 1)iconProgressBar.setProgressValue(pbValues[0]);
+//        if(sortedClass.size() == 2)iconProgressBar.setProgressValues(pbValues[0],pbValues[1]);
+//        if(sortedClass.size() == 3)iconProgressBar.setProgressValues(pbValues[0],pbValues[1],pbValues[2]);
+//        if(sortedClass.size() == 4)iconProgressBar.setProgressValues(pbValues[0],pbValues[1],pbValues[2],pbValues[3]);
+//        if(sortedClass.size() == 5)iconProgressBar.setProgressValues(pbValues[0],pbValues[1],pbValues[2],pbValues[3],pbValues[4]);
+//        if(sortedClass.size() >= 6)iconProgressBar.setProgressValues(pbValues[0],pbValues[1],pbValues[2],pbValues[3],pbValues[4],pbValues[5]);
+//
+//        iconProgressBar.setProgressColors(
+//                Color.parseColor(getResources().getString(R.color.stat_elem1)),
+//                Color.parseColor(getResources().getString(R.color.stat_elem2)),
+//                Color.parseColor(getResources().getString(R.color.stat_elem3)),
+//                Color.parseColor(getResources().getString(R.color.stat_elem4)),
+//                Color.parseColor(getResources().getString(R.color.stat_elem5)),
+//                Color.parseColor(getResources().getString(R.color.stat_elem6))
+//        );
     }
 
 //
