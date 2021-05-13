@@ -142,6 +142,30 @@ public class DatabaseClass extends SQLiteOpenHelper {
         }
         return outgoings;
     }
+    //SELECT * FROM outgoing WHERE date_time LIKE "%3/2021"
+    public ArrayList<StatisticsModelClass> getOutgoingDataByMonthYear(String date){
+        ArrayList<StatisticsModelClass> outgoings = new ArrayList<StatisticsModelClass>();
+        String query = "SELECT * FROM "+TABLE_OUTGOING+" WHERE "+KEY_DATETIME+" LIKE "+
+                "'%"+date+"' ORDER BY "+KEY_DATETIME+" DESC";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        if(c.moveToFirst()){
+            do{
+                StatisticsModelClass temp = new StatisticsModelClass();
+                temp.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+                temp.setIvIcon(c.getInt(c.getColumnIndex(KEY_OUTGOING_ICON)));
+                temp.setTvType(c.getString(c.getColumnIndex(KEY_OUTGOING_SOURCE)));
+                temp.setTvAmount(c.getFloat(c.getColumnIndex(KEY_AMOUNT)));
+                temp.setDate(c.getString(c.getColumnIndex(KEY_DATETIME)));
+                temp.setComment(c.getString(c.getColumnIndex(KEY_COMMENT)));
+                temp.setRepeat(c.getInt(c.getColumnIndex(KEY_REPEAT)));
+                outgoings.add(temp);
+            } while (c.moveToNext());
+        }
+        return outgoings;
+    }
     //UPDATE TABLE
     //DELETE ELEMENT
     public void deleteOutgoing(int outgoing_id){
