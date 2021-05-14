@@ -1,28 +1,40 @@
 package github.julianNSH.moneymanager.statistics;
 
-public class StatisticsModelClass implements Comparable{
+public class StatisticsModelClass implements Comparable<StatisticsModelClass>{
     int id, repeat;
     Integer ivIcon;
     String tvType;
     float tvAmount;
-    String date, time, comment;
+    String date;
+    String time;
+    String comment;
 
     public StatisticsModelClass(){}
-    public StatisticsModelClass(int id, Integer ivIcon, String tvType, float tvAmount, String date, String comment) {
+
+    public StatisticsModelClass(int id, String tvType, float tvAmount, String time,String date, String comment) {
+        this.id = id;
+        this.tvType = tvType;
+        this.tvAmount = tvAmount;
+        this.time = time;
+        this.date = date;
+        this.comment = comment;
+    }
+    //Constructor fo Outgoings
+    public StatisticsModelClass(int id, Integer ivIcon, String tvType, float tvAmount, String time,String date, String comment) {
         this.id = id;
         this.ivIcon = ivIcon;
         this.tvType = tvType;
         this.tvAmount = tvAmount;
-        this.time = date;
-        this.date =date;
+        this.time = time;
+        this.date = date;
         this.comment = comment;
     }
-    public StatisticsModelClass(Integer ivIcon, String tvType, float tvAmount, String date, String comment) {
+    public StatisticsModelClass(Integer ivIcon, String tvType, float tvAmount, String time,String date, String comment) {
         this.ivIcon = ivIcon;
         this.tvType = tvType;
         this.tvAmount = tvAmount;
-        this.time = date;
-        this.date =date;
+        this.time = time;
+        this.date = date;
         this.comment = comment;
     }
 
@@ -48,14 +60,6 @@ public class StatisticsModelClass implements Comparable{
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public String getComment() {
@@ -89,10 +93,16 @@ public class StatisticsModelClass implements Comparable{
     public void setTvAmount(float tvAmount) {
         this.tvAmount = tvAmount;
     }
+    public String getTime() {
+        return time;
+    }
 
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(StatisticsModelClass o) {
         float comp = ((StatisticsModelClass)o).getTvAmount();
         return (int) (comp-this.tvAmount);
     }

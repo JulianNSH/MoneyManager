@@ -1,6 +1,6 @@
 package github.julianNSH.moneymanager.overview;
 
-public class OverviewModelClass {
+public class OverviewModelClass implements Comparable<OverviewModelClass>{
     int id;
     String tvDomain;
     Integer ivFigure; //figure int id
@@ -9,6 +9,7 @@ public class OverviewModelClass {
     String date;  //date of transaction
     String time;  //time of transaction
     String comment; //user comment of transaction
+    public OverviewModelClass(){}
 
     public OverviewModelClass(int id, String tvDomain, Integer ivFigure, String tvType, float tvAmount, String time, String date, String comment){
         this.id = id;
@@ -71,4 +72,9 @@ public class OverviewModelClass {
 
     public String getComment() { return comment; }
     public void setComment(String comment) { this.comment = comment; }
+
+    @Override
+    public int compareTo(OverviewModelClass o) {
+        return -time.compareTo(o.time);
+    }
 }

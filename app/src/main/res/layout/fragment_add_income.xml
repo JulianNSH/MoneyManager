@@ -204,7 +204,7 @@
                         android:layout_margin="5dp"/>
 
                     <EditText
-                        android:id="@+id/editTextTextMultiLine"
+                        android:id="@+id/commentIncome"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:paddingLeft="5dp"
@@ -239,7 +239,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/add_scope_btn"
+            android:id="@+id/add_income_btn"
             android:layout_width="150sp"
             android:layout_height="50sp"
             android:layout_alignParentBottom="true"

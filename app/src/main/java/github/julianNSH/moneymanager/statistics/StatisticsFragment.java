@@ -101,12 +101,6 @@ public class StatisticsFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_statistics_list);
 
         statisticsModelClasses = databaseClass.getOutgoingDataByMonthYear(date);
-        statisticsAdapter = new StatisticsAdapter(view.getContext() ,statisticsModelClasses);
-
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(statisticsAdapter);
 
         // Total spending
         totalSpending = 0;
@@ -123,6 +117,13 @@ public class StatisticsFragment extends Fragment {
             if(i<=4) biggestCateg[i] = sortedClass.get(i).getTvAmount();
         }
 
+        statisticsModelClasses = databaseClass.getOutgoingDataByMonthYear(date);
+        statisticsAdapter = new StatisticsAdapter(view.getContext() ,statisticsModelClasses);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(statisticsAdapter);
         //SETTING PROGRESS VALUES(percents) for existing categories
         pbValues[0] = (int) ((int) (biggestCateg[0]*100)/totalSpending)+1;
         for (int i = 1 ;i<6; i++) {

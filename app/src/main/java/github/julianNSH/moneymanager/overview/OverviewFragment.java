@@ -2,6 +2,7 @@ package github.julianNSH.moneymanager.overview;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -21,13 +23,11 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -36,6 +36,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import github.julianNSH.moneymanager.R;
+import github.julianNSH.moneymanager.database.DatabaseClass;
 
 public class OverviewFragment extends Fragment {
     ////////////////////////////////////////////////////////////////Chart Elements
@@ -49,41 +50,32 @@ public class OverviewFragment extends Fragment {
     private static final float BAR_WIDTH = 0.2f;
     private BarChart chart;
 
-    DatePickerDialog datePicker;
-    Button overviewDateButton;
-
     ////////////////////////////////////////////////////////////////Recycler Elements
     private ArrayList<OverviewModelClass> overviewModelClasses;
     private RecyclerView recyclerView;
     private OverviewAdapter overviewAdapter;
 
-    private String domain;
-    private Integer[]  image= {R.drawable.ic_up, R.drawable.ic_down,R.drawable.ic_down,R.drawable.ic_flat,
-            R.drawable.ic_down,R.drawable.ic_flat,R.drawable.ic_down,R.drawable.ic_flat,R.drawable.ic_up};
-    private  String[]  title= {"Salariu","Alimente","Servicii Comunale","Transfer","Îmbrăcăminte",
-            "Transfer","Cadou","Transfer","Cash-Back"};
-    private float[] amount = {13710, 1000, 2500, 5000, 1500,3000, 700, 1000, 1500};
-    private String[] comment = {"Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            " Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",
-            " Excepteur sint occaecat cupidatat non proident",
-            "sunt in culpa qui officia deserunt mollit anim id est laborum."," "," "," "};
-
-
+    //////////////////////////
+    private DatabaseClass databaseClass;
+    private TextView incomeOverview, outgoingOverview, inOutView;
+    private DatePickerDialog datePicker;
+    private Button overviewDateButton;
+    private Calendar date;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"SetTextI18n", "NonConstantResourceId"})
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_overview, container, false);
-        View statisticsView = inflater.inflate(R.layout.fragment_statistics, container, false);
 
         //////////////DATE PICKER
-        final Calendar date = Calendar.getInstance();
+        date = Calendar.getInstance();
         final String[] monthsOfYear = {"Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie",
                 "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"};
         overviewDateButton = (Button) root.findViewById(R.id.btn_date);
-        overviewDateButton.setText(monthsOfYear[date.get(Calendar.MONTH)]+ " " + date.get(Calendar.YEAR));
+        showOverviewData(root, date.get(Calendar.MONTH), date.get(Calendar.YEAR));
+
+        if(overviewDateButton.getText() =="")
+            overviewDateButton.setText(monthsOfYear[date.get(Calendar.MONTH)]+ " " + date.get(Calendar.YEAR));
         overviewDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,6 +88,7 @@ public class OverviewFragment extends Fragment {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         overviewDateButton.setText(monthsOfYear[month] + " " + year);
+                        showOverviewData(root, month, year);
                     }
                 }, year, month, day);
 
@@ -108,31 +101,74 @@ public class OverviewFragment extends Fragment {
             }
         });
 
-        ////RECICLERVIEW
-        recyclerView = (RecyclerView) root.findViewById(R.id.rvTransaction);
 
-        overviewModelClasses = new ArrayList<>();
+        return root;
+    }
 
-        for (int i = 0; i < title.length; i++) {
-            switch (image[i]){
-                case R.drawable.ic_up:
-                    domain = "Venit";
-                    break;
-                case R.drawable.ic_down:
-                    domain = "Cheltuieli";
-                    break;
-                default:
-                    domain = "Altele";
+
+    @SuppressLint({"ResourceType", "SetTextI18n", "DefaultLocale"})
+    public void showOverviewData(View view, int month, int year){
+        String date = month+1+"/"+year;
+        databaseClass = new DatabaseClass(getContext());
+        overviewModelClasses = databaseClass.getOverviewData(date);
+        float totalIncome=databaseClass.getTotalIncome(date);
+        float totalOutgoing=databaseClass.getTotalOutgoing(date);
+        float inOutRatio;
+        //TOP LAYOUT 
+        if(overviewModelClasses!=null) {
+            incomeOverview = (TextView) view.findViewById(R.id.incomeOverview);
+            incomeOverview.setText("+"+totalIncome +" "+ getResources().getString(R.string.currency));
+            outgoingOverview = (TextView) view.findViewById(R.id.outgoingOverview);
+            outgoingOverview.setText("-"+totalOutgoing +" "+ getResources().getString(R.string.currency));
+
+            //Exclude possibility of divide by zero
+            if(totalIncome==0) {
+                inOutRatio = totalOutgoing * 100;
+            } else {inOutRatio = totalOutgoing*100/totalIncome;}
+
+            inOutView = (TextView) view.findViewById(R.id.in_out_percent);
+            inOutView.setText(String.format("%3.1f",inOutRatio)+"%");
+            if(inOutRatio<=50){
+                inOutView.setTextColor(getResources().getColor(R.color.lvl1));
+                inOutView.getBackground().setColorFilter(getResources().getColor(R.color.lvl1),
+                        PorterDuff.Mode.SRC_ATOP);
             }
-
-            @SuppressLint("SimpleDateFormat") OverviewModelClass listModelClass = new OverviewModelClass(domain,
-                    image[i],title[i], amount[i], String.valueOf(LocalTime.now()), String.valueOf(LocalDate.now()),
-                    comment[i]);
-
-            overviewModelClasses.add(listModelClass);
+            if(inOutRatio>50 && inOutRatio<=80){
+                inOutView.setTextColor(getResources().getColor(R.color.lvl2));
+                inOutView.getBackground().setColorFilter(getResources().getColor(R.color.lvl2),
+                        PorterDuff.Mode.SRC_ATOP);
+            }
+            if(inOutRatio>80){
+                inOutView.setTextColor(getResources().getColor(R.color.lvl3));
+                inOutView.getBackground().setColorFilter(getResources().getColor(R.color.lvl3),
+                        PorterDuff.Mode.SRC_ATOP);
+            }
+            if (inOutRatio>100)inOutView.setText(">100%");
         }
-        overviewAdapter = new OverviewAdapter(root.getContext(),overviewModelClasses);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(root.getContext());
+        
+        ////RECICLERVIEW
+        recyclerView = (RecyclerView) view.findViewById(R.id.rvTransaction);
+
+        if(overviewModelClasses!=null) {
+            Collections.sort(overviewModelClasses);
+            for (int i = 0; i <overviewModelClasses.size(); i++) {
+                switch (overviewModelClasses.get(i).getTvDomain()){
+                    case "income":
+                        overviewModelClasses.get(i).setTvDomain("Venit");
+                        overviewModelClasses.get(i).setIvFigure(R.drawable.ic_up);
+                        break;
+                    case "outgoing":
+                        overviewModelClasses.get(i).setTvDomain("Cheltuieli");
+                        overviewModelClasses.get(i).setIvFigure(R.drawable.ic_down);
+                        break;
+                    default:
+                        overviewModelClasses.get(i).setTvDomain("Altele");
+                        overviewModelClasses.get(i).setIvFigure(R.drawable.ic_flat);
+                }
+            }
+        }
+        overviewAdapter = new OverviewAdapter(view.getContext(),overviewModelClasses);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(overviewAdapter);
@@ -140,31 +176,29 @@ public class OverviewFragment extends Fragment {
 
 
         /////CHART
-        chart = root.findViewById(R.id.fragment_groupedbarchart_chart);
-        BarData data = createChartData();
-        configureChartAppearance();
+        chart = view.findViewById(R.id.fragment_groupedbarchart_chart);
+        BarData data = createChartData(month, year);
+        configureChartAppearance(month);
         prepareChartData(data);
-
-        return root;
     }
 
-    void configureChartAppearance() {
+    void configureChartAppearance(int month) {
         chart.setPinchZoom(false);
         chart.setDrawBarShadow(false);
         chart.setDrawGridBackground(false);
         chart.setDoubleTapToZoomEnabled(false);
         chart.getDescription().setEnabled(false);
 
+        final String[] months1 = {"Ian", "Feb", "Mar", "Apr", "Mai", "Iun", "Iul", "Aug", "Sep",
+                "Oct", "Noi", "Dec"};
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setGranularity(1f);
         xAxis.setCenterAxisLabels(true);
         xAxis.setValueFormatter(new ValueFormatter() {
-            private final SimpleDateFormat mFormat = new SimpleDateFormat("MMM", Locale.ENGLISH);
             @Override
             public String getFormattedValue(float value) {
-                long millis = (long) value*1000L;
-                return mFormat.format(new Date(millis));
+                return months1[(int)value+month];
             }
         });
 
@@ -174,31 +208,19 @@ public class OverviewFragment extends Fragment {
         leftAxis.setAxisMinimum(0f);
 
         chart.getAxisRight().setEnabled(false);
-
         chart.getXAxis().setAxisMinimum(0);
-
         chart.getXAxis().setAxisMaximum(MAX_X_VALUE);
     }
 
-    BarData createChartData() {
-        Random r = new Random();
+    BarData createChartData(int month, int year) {
         ArrayList<BarEntry> values1 = new ArrayList<>();
         ArrayList<BarEntry> values2 = new ArrayList<>();
 
+        date = Calendar.getInstance();
         for (int i = 0; i < MAX_X_VALUE; i++) {
-            if(i==3){
 
-                values1.add(new BarEntry(i, 14.2f));
-                values2.add(new BarEntry(i, 8.5f));
-                continue;
-            }
-            if(i==1){
-                values1.add(new BarEntry(i,0));
-                values2.add(new BarEntry(i, 0));
-                continue;
-            }
-            values1.add(new BarEntry(i, MIN_Y_VALUE + r.nextFloat() * (MAX_Y_VALUE - MIN_Y_VALUE)));
-            values2.add(new BarEntry(i, (MIN_Y_VALUE-4) + r.nextFloat() * ((MAX_Y_VALUE-4) - (MIN_Y_VALUE-4))));
+            values1.add(new BarEntry(i, databaseClass.getTotalIncome(month+i-2+"/"+year)));
+            values2.add(new BarEntry(i, databaseClass.getTotalOutgoing(month+i-2+"/"+year)));
         }
 
         BarDataSet set1 = new BarDataSet(values1, GROUP_1_LABEL);

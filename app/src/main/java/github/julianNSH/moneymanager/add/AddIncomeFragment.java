@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -23,15 +24,19 @@ import androidx.fragment.app.Fragment;
 import java.util.Calendar;
 
 import github.julianNSH.moneymanager.R;
+import github.julianNSH.moneymanager.database.DatabaseClass;
+import github.julianNSH.moneymanager.statistics.StatisticsModelClass;
 
 public class AddIncomeFragment extends Fragment {
     public AddIncomeFragment(){}
-
+    private Button addIncome;
     private DatePickerDialog datePicker;
     private EditText incomeDate;
 
     private TimePickerDialog timePicker;
-    private EditText incomeTime;
+    private EditText incomeTime, amount, comment;
+    private String[] selection;
+    private DatabaseClass databaseClass;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -42,7 +47,7 @@ public class AddIncomeFragment extends Fragment {
         AutoCompleteTextView incomeSource = root.findViewById(R.id.income_source);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, title);
-        final String[] selection = new String[1];
+        selection = new String[1];
         incomeSource.setAdapter(arrayAdapter);
         incomeSource.setCursorVisible(true);
         incomeSource.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -108,7 +113,30 @@ public class AddIncomeFragment extends Fragment {
                 datePicker.show();
             }
         });
+        /**********************************************************************************************
+         ADD Income
+         */
+        addIncome = (Button) root.findViewById(R.id.add_income_btn);
+        amount = (EditText) root.findViewById(R.id.incomeAmount);
+        comment = (EditText) root.findViewById(R.id.commentIncome);
 
+        StatisticsModelClass inputOutgoing = new StatisticsModelClass();
+
+        databaseClass = new DatabaseClass(getContext());
+
+        addIncome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inputOutgoing.setTvType(String.valueOf(incomeSource.getText()));
+                inputOutgoing.setTvAmount(Float.parseFloat(String.valueOf(amount.getText())));
+                inputOutgoing.setComment(String.valueOf(comment.getText()));
+                inputOutgoing.setTime(String.valueOf(incomeTime.getText()));
+                inputOutgoing.setDate(String.valueOf(incomeDate.getText()));
+                inputOutgoing.setRepeat(0);
+                long id = databaseClass.addIncome(inputOutgoing);
+                Toast.makeText(getContext(), "Added Income with ID "+id, Toast.LENGTH_SHORT).show();
+            }
+        });
         return root;
     }
 }

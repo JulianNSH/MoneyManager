@@ -18,7 +18,6 @@ import android.widget.Toast;
 import java.util.List;
 
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
@@ -77,7 +76,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
                 TextView tv_comment = (TextView) itemStatisticsDialog.findViewById(R.id.tv_comment);
 
                 tv_category.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
-                tv_date_time.setText(list.get(viewHolder.getAdapterPosition()).getTime() + " " +
+                tv_date_time.setText(list.get(viewHolder.getAdapterPosition()).getTime()+" "+
                         list.get(viewHolder.getAdapterPosition()).getDate());
                 tv_amount.setText(list.get(viewHolder.getAdapterPosition()).getTvAmount() + " "+
                         v.getResources().getString(R.string.currency));
@@ -85,7 +84,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
 
                 //CALL METHODS FOR BUTTON CLICKS
                 onDeleteButtonClick(itemView, viewHolder);
-                onUpdateButtonClick(context, itemStatisticsDialog, itemView);
+                onUpdateButtonClick(itemView);
             }
         });
         return viewHolder;
@@ -128,22 +127,22 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
     /*********************************************************************************************
      *  UPDATE ELEMENT FROM LIST THROUGH DIALOG WINDOW
      */
-    public static void onUpdateButtonClick(Context context, Dialog item, View itemView){
-        Dialog updateDialog = new Dialog(context);
+    public  void onUpdateButtonClick( View itemView){
+        updateDialog = new Dialog(context);
         updateDialog.setContentView(R.layout.update_outgoing_dialog);
         updateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        Button btn_edit = (Button) item.findViewById(R.id.btn_edit);
+        Button btn_edit = (Button) itemStatisticsDialog.findViewById(R.id.btn_edit);
 
         DatabaseClass databaseClass = new DatabaseClass(itemView.getContext());
         btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Button EDIT Clicked",  Toast.LENGTH_SHORT).show();
-                item.dismiss();
+                itemStatisticsDialog.dismiss();
                 updateDialog.show();
             }
         });
-        item.show();
+        itemStatisticsDialog.show();
     }
 }

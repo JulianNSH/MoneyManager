@@ -46,7 +46,6 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
         }
     }
 
-
     public OverviewAdapter(Context context, List<OverviewModelClass> elementsList) {
         this.list = elementsList;
         this.context = context;
@@ -86,7 +85,6 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
                 btn_edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        StatisticsAdapter.onUpdateButtonClick(context, itemOverviewDialog, itemView);
                         //Toast.makeText(context, "Button EDIT Clicked",  Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -96,7 +94,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
                 tv_date_time.setText(list.get(viewHolder.getAdapterPosition()).getTime()+" " +
                         list.get(viewHolder.getAdapterPosition()).getDate());
                 tv_comment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
-                tv_amount.setText(list.get(viewHolder.getAdapterPosition()).getTvAmount() + " MDL");
+                tv_amount.setText(list.get(viewHolder.getAdapterPosition()).getTvAmount() + " "+itemView.getResources().getString(R.string.currency));
 
                 //Toast.makeText(context, "Test Click" + String.valueOf(viewHolder.getAdapterPosition()),  Toast.LENGTH_SHORT).show();
                 itemOverviewDialog.show();
