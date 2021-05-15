@@ -3,6 +3,7 @@ package github.julianNSH.moneymanager.statistics;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
@@ -39,7 +41,6 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
 
         public MyViewHolder(View view) {
             super(view);
-
             rvItem = (LinearLayout) view.findViewById(R.id.list_element);
             tvType = (TextView) view.findViewById(R.id.tvType);
             tvPrice = (TextView) view.findViewById(R.id.tvPrice);
@@ -59,7 +60,6 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_element, parent, false);
         MyViewHolder viewHolder = new MyViewHolder(itemView);
-
         itemStatisticsDialog = new Dialog(context);
         itemStatisticsDialog.setContentView(R.layout.statistics_dialog);
         itemStatisticsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -85,9 +85,11 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
 
                 //CALL METHODS FOR BUTTON CLICKS
                 onDeleteButtonClick(itemView, viewHolder);
+
                 onUpdateButtonClick(itemView, list, viewHolder);
             }
         });
+
         return viewHolder;
 
     }
@@ -120,8 +122,9 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
                 databaseClass.deleteOutgoing(list.get(viewHolder.getAdapterPosition()).getId());
                 Toast.makeText(context, list.get(viewHolder.getAdapterPosition()).getTvType() +
                         " was deleted", Toast.LENGTH_SHORT).show();
-
                 itemStatisticsDialog.dismiss();
+                
+
             }
         });
     }

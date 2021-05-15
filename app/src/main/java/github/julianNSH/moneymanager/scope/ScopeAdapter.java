@@ -82,8 +82,10 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
                         list.get(viewHolder.getAdapterPosition()).getStartDate());
                 tvEndDateTime.setText(list.get(viewHolder.getAdapterPosition()).getEndTime()+" "+
                         list.get(viewHolder.getAdapterPosition()).getEndDate());
-                tvTotalAmount.setText(list.get(viewHolder.getAdapterPosition()).getTvFinalAmount()+" MDL");
-                tvCurrentAmount.setText(list.get(viewHolder.getAdapterPosition()).getTvCurrentAmount()+ " MDL");
+                tvTotalAmount.setText(list.get(viewHolder.getAdapterPosition()).getTvFinalAmount()+" "+
+                        v.getResources().getString(R.string.currency));
+                tvCurrentAmount.setText(list.get(viewHolder.getAdapterPosition()).getTvCurrentAmount()+ " "+
+                        v.getResources().getString(R.string.currency));
                 progressBar.setProgressValue(list.get(viewHolder.getAdapterPosition()).getPbProgressValue());
                 tvProgressValue.setText(list.get(viewHolder.getAdapterPosition()).getPbProgressValue() + " %");
                 tvComment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
@@ -117,10 +119,10 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         ScopeModelClass element = list.get(position);
         holder.scopeTitle.setText(element.getTvTitle());
-        holder.scope_start_DT.setText("De la: "+element.getStartTime()+" "+element.getStartDate());
+        holder.scope_start_DT.setText("De la:  "+element.getStartTime()+" "+element.getStartDate());
         holder.scope_end_DT.setText("Până la: "+element.getEndTime()+" "+element.getEndDate());
         holder.value_of_progress.setText(element.getTvCurrentAmount()+" / "+element.getTvFinalAmount() + " MDL");
-        holder.progressBar.setProgressValue(element.getPbProgressValue());
+        holder.progressBar.setProgressValue(element.getTvCurrentAmount()*100/element.getTvFinalAmount());
     }
 
     @Override

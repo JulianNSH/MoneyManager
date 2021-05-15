@@ -35,6 +35,7 @@
                         android:layout_margin="5dp"/>
 
                     <EditText
+                        android:id="@+id/scope_title"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:paddingLeft="5dp"
@@ -54,11 +55,11 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                android:layout_marginTop="10dp"
+                android:background="@color/colorBlueGrey_100"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="5dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -143,11 +144,11 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                android:layout_marginTop="10dp"
+                android:background="@color/colorBlueGrey_100"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="5dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -267,11 +268,11 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                android:layout_marginTop="10dp"
+                android:background="@color/colorBlueGrey_100"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="5dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -293,7 +294,7 @@
                         android:layout_margin="5dp"/>
 
                     <EditText
-                        android:id="@+id/editTextTextMultiLine"
+                        android:id="@+id/scope_comment"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:paddingLeft="5dp"

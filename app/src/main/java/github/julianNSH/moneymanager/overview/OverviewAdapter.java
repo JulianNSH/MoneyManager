@@ -77,6 +77,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
                 TextView tv_comment = (TextView) itemOverviewDialog.findViewById(R.id.tv_comment);
 
                 onDeleteButtonClick(itemView, viewHolder);
+                onUpdateButtonClick(itemView, list, viewHolder);
 
                 tv_domain.setText(list.get(viewHolder.getAdapterPosition()).getTvDomain());
                 tv_category.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
@@ -129,5 +130,26 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
             }
         });
     }
+    /*********************************************************************************************
+     *  UPDATE ELEMENT FROM LIST THROUGH DIALOG WINDOW
+     */
+    public void onUpdateButtonClick(View itemView, List<OverviewModelClass> list, OverviewAdapter.MyViewHolder viewHolder) {
+        Button btn_update = (Button) itemOverviewDialog.findViewById(R.id.btn_edit);
 
+        databaseClass = new DatabaseClass(itemView.getContext());
+
+        btn_update.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                if(list.get(viewHolder.getAdapterPosition()).getTvDomain() ==
+                        itemView.getResources().getString(R.string.outgoings)){
+                    Toast.makeText(context, "Button EDIT Clicked", Toast.LENGTH_SHORT).show();
+                    itemOverviewDialog.dismiss();
+                    OutgoingHandler handler = new OutgoingHandler();
+                   // handler.callOutgoingHandler(itemView, list, viewHolder);
+                }
+            }
+        });
+    }
 }

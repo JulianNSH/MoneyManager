@@ -9,4 +9,6 @@
     <string name="currency"> MDL</string>
     <string name="income">Venit</string>
     <string name="outgoings">Cheltuieli</string>
+    <string name="from">De La:</string>
+    <string name="until">Până la</string>
 </resources>

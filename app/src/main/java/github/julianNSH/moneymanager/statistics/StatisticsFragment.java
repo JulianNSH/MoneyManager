@@ -89,6 +89,11 @@ public class StatisticsFragment extends Fragment {
             }
         });
 
+
+        //Update checker
+
+            showStatisticsData(root, date.get(Calendar.MONTH)+1+ "/" + date.get(Calendar.YEAR));
+
         return root;
     }
 

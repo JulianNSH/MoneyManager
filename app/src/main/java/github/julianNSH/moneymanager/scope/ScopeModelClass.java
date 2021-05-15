@@ -7,6 +7,7 @@ public class ScopeModelClass {
     String startTime, startDate, endTime, endDate;
     int pbProgressValue;
 
+    public ScopeModelClass(){}
     public ScopeModelClass(int id, String tvTitle, float tvFinalAmount, float tvCurrentAmount, String startTime,
                            String startDate, String endTime, String endDate, String comment, int pbProgressValue){
         this.id = id;

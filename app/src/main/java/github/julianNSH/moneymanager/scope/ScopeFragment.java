@@ -1,14 +1,22 @@
 package github.julianNSH.moneymanager.scope;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,27 +29,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import github.julianNSH.moneymanager.R;
+import github.julianNSH.moneymanager.database.DatabaseClass;
 
 public class ScopeFragment extends Fragment {
     private ArrayList<ScopeModelClass> scopeModelClasses;
     private RecyclerView recyclerView;
     private ScopeAdapter scopeAdapter;
     private Dialog addScopeDialog;
-
-    private String[] title = {"Casa","Masina","Apartament","Televizor","Mobila",
-            "Calculator","Telefon","Frigider"};
-    private float[] finalAmount = {1000000, 300000, 4000000, 30000, 70000, 430500, 300000, 300000};
-    private float[] currentAmount = {150000, 50000, 400000, 10000, 70000, 430500, 200000, 200000};
-    private String[] comment = {"Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            " Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",
-            " Excepteur sint occaecat cupidatat non proident",
-            "sunt in culpa qui officia deserunt mollit anim id est laborum."," "," "," "};
-
-    private Integer[] pbProgressValues = {15, 17, 10, 33, 100, 100, 66, 66};
+    private EditText startScopeTime, startScopeDate, endScopeTime, endScopeDate;
+    private TimePickerDialog timePicker;
+    private DatePickerDialog datePicker;
+    private DatabaseClass databaseClass;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -50,14 +51,8 @@ public class ScopeFragment extends Fragment {
 
         recyclerView = (RecyclerView) root.findViewById(R.id.recyclerViewScope);
         scopeModelClasses = new ArrayList<>();
-
-        for (int i=0; i<title.length; i++){
-            ScopeModelClass listModelClass = new ScopeModelClass(title[i], finalAmount[i], currentAmount[i],
-                    String.valueOf(LocalTime.now()), String.valueOf(LocalDate.now()),
-                    String.valueOf(LocalTime.now()), String.valueOf(LocalDate.now()),
-                    comment[i], pbProgressValues[i]);
-            scopeModelClasses.add(listModelClass);
-        }
+        databaseClass = new DatabaseClass(getContext());
+        scopeModelClasses = databaseClass.getAllScopes();
         scopeAdapter = new ScopeAdapter(root.getContext(), scopeModelClasses);
         RecyclerView.LayoutManager sLayoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(sLayoutManager);
@@ -66,23 +61,149 @@ public class ScopeFragment extends Fragment {
 
 
         //ADD SCOPE DIALOG
-        addScopeDialog = new Dialog(root.getContext());
-        addScopeDialog.setContentView(R.layout.scope_add_dialog);
-        addScopeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         Button addScopeButton = (Button) root.findViewById(R.id.btn_dialog);
         addScopeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Button addScope = (Button) addScopeDialog.findViewById(R.id.btn_add_scope);
-                addScope.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(root.getContext(), "Button ADD Clicked", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                addScopeDialog.show();
+                showScopeDialog(v);
             }
         });
         return root;
+    }
+
+    @SuppressLint("CutPasteId")
+    public void showScopeDialog(View root){
+        //INIT Dialog View
+        addScopeDialog = new Dialog(root.getContext());
+        addScopeDialog.setContentView(R.layout.scope_add_dialog);
+        addScopeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        //////////////////////////////////PICK TIME FROM CLOCK
+        startScopeTime = (EditText) addScopeDialog.findViewById(R.id.add_start_time);
+        startScopeTime.setInputType(InputType.TYPE_NULL);
+        startScopeTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar time = Calendar.getInstance();
+                int hour = time.get(Calendar.HOUR_OF_DAY);
+                int minute = time.get(Calendar.MINUTE);
+
+                timePicker = new TimePickerDialog(addScopeDialog.getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
+                        startScopeTime.setText(hourOfDay + ":" + minuteOfHour);
+                    }
+                }, hour, minute, true);
+                timePicker.show();
+            }
+        });
+        endScopeTime = (EditText) addScopeDialog.findViewById(R.id.add_end_time);
+        endScopeTime.setInputType(InputType.TYPE_NULL);
+        endScopeTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar time = Calendar.getInstance();
+                int hour = time.get(Calendar.HOUR_OF_DAY);
+                int minute = time.get(Calendar.MINUTE);
+
+                timePicker = new TimePickerDialog(addScopeDialog.getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
+                        endScopeTime.setText(hourOfDay + ":" + minuteOfHour);
+                    }
+                }, hour, minute, true);
+                timePicker.show();
+            }
+        });
+
+        //////////////////////////////////PICK A DATE FROM CALENDAR
+        startScopeDate = (EditText) addScopeDialog.findViewById(R.id.add_start_date);
+        startScopeDate.setInputType(InputType.TYPE_NULL);
+        startScopeDate.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                final Calendar date = Calendar.getInstance();
+                int day = date.get(Calendar.DAY_OF_MONTH);
+                int month = date.get(Calendar.MONTH);
+                int year = date.get(Calendar.YEAR);
+
+                datePicker = new DatePickerDialog(addScopeDialog.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        startScopeDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                    }
+                }, year, month, day);
+
+                /*android.R.style.Theme_Holo_Dialog,
+                datePicker.getDatePicker().setSpinnersShown(true);
+                datePicker.getDatePicker().setCalendarViewShown(false);
+                */
+                datePicker.show();
+            }
+        });
+        endScopeDate = (EditText) addScopeDialog.findViewById(R.id.add_end_date);
+        endScopeDate.setInputType(InputType.TYPE_NULL);
+        endScopeDate.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                final Calendar date = Calendar.getInstance();
+                int day = date.get(Calendar.DAY_OF_MONTH);
+                int month = date.get(Calendar.MONTH);
+                int year = date.get(Calendar.YEAR);
+
+                datePicker = new DatePickerDialog(addScopeDialog.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        endScopeDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                    }
+                }, year, month, day);
+
+                /*android.R.style.Theme_Holo_Dialog,
+                datePicker.getDatePicker().setSpinnersShown(true);
+                datePicker.getDatePicker().setCalendarViewShown(false);
+                */
+                datePicker.show();
+            }
+        });
+
+        //Collect and send data to database
+
+        ScopeModelClass scopeData = new ScopeModelClass();
+        EditText scopeTitle = (EditText) addScopeDialog.findViewById(R.id.scope_title);
+        EditText currentAmount = (EditText) addScopeDialog.findViewById(R.id.current_amount);
+        EditText neededAmount = (EditText) addScopeDialog.findViewById(R.id.total_amount);
+        EditText startTime = (EditText) addScopeDialog.findViewById(R.id.add_start_time);
+        EditText startDate = (EditText) addScopeDialog.findViewById(R.id.add_start_date);
+        EditText endTime = (EditText) addScopeDialog.findViewById(R.id.add_end_time);
+        EditText endDate = (EditText) addScopeDialog.findViewById(R.id.add_end_date);
+        EditText comment = (EditText) addScopeDialog.findViewById(R.id.scope_comment);
+
+
+        databaseClass = new DatabaseClass(getContext());
+
+        Button addScope = (Button) addScopeDialog.findViewById(R.id.btn_add_scope);
+        addScope.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                scopeData.setTvTitle(String.valueOf(scopeTitle.getText()));
+                scopeData.setTvCurrentAmount(Float.parseFloat(String.valueOf(currentAmount.getText())));
+                scopeData.setTvFinalAmount(Float.parseFloat(String.valueOf(neededAmount.getText())));
+                scopeData.setStartTime(String.valueOf(startTime.getText()));
+                scopeData.setStartDate(String.valueOf(startDate.getText()));
+                scopeData.setEndTime(String.valueOf(endTime.getText()));
+                scopeData.setEndDate(String.valueOf(endDate.getText()));
+                scopeData.setComment(String.valueOf(comment.getText()));
+                long id = databaseClass.addScope(scopeData);
+                Toast.makeText(root.getContext(), "Item "+id+" added", Toast.LENGTH_SHORT).show();
+            }
+        });
+        addScopeDialog.show();
     }
 }
