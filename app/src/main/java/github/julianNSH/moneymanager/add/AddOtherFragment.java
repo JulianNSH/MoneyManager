@@ -20,28 +20,31 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import github.julianNSH.moneymanager.R;
+import github.julianNSH.moneymanager.database.DatabaseClass;
 
 public class AddOtherFragment extends Fragment {
     public AddOtherFragment(){}
 
-    DatePickerDialog datePicker;
-    EditText otherTransactionDate;
+    private DatePickerDialog datePicker;
+    private EditText otherTransactionDate;
 
-    TimePickerDialog timePicker;
-    EditText otherTransactionTime;
-
+    private TimePickerDialog timePicker;
+    private EditText otherTransactionTime;
+    private DatabaseClass databaseClass;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_add_other, container, false);
 
         //////////////////////////////////INPUT OTHER SOURCES
-        String[]  title= {"Salariu","Cadou","Transfer","Cash-Back"};
+        databaseClass = new DatabaseClass(getContext());
+        ArrayList<String> titles = databaseClass.getDistinctScopes();
         AutoCompleteTextView otherSource = root.findViewById(R.id.other_source);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, title);
+                android.R.layout.simple_list_item_1, titles);
         final String[] selection = new String[1];
         otherSource.setAdapter(arrayAdapter);
         otherSource.setCursorVisible(true);

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import github.julianNSH.moneymanager.R;
@@ -43,10 +44,11 @@ public class AddIncomeFragment extends Fragment {
         View root =  inflater.inflate(R.layout.fragment_add_income, container, false);
 
         //////////////////////////////////INPUT SOURCE OF INCOME
-        String[]  title= {"Salariu","Cadou","Transfer","Cash-Back"};
+        databaseClass = new DatabaseClass(getContext());
+        ArrayList<String> titles = databaseClass.getDistinctIncome();
         AutoCompleteTextView incomeSource = root.findViewById(R.id.income_source);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, title);
+                android.R.layout.simple_list_item_1, titles);
         selection = new String[1];
         incomeSource.setAdapter(arrayAdapter);
         incomeSource.setCursorVisible(true);

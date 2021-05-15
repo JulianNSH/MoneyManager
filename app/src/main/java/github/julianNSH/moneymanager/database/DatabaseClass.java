@@ -171,6 +171,19 @@ public class DatabaseClass extends SQLiteOpenHelper{
 
 
     }
+    public ArrayList<String> getDistinctIncome(){
+        ArrayList<String> titles = new ArrayList<>();
+        String query = "SELECT DISTINCT "+KEY_INCOME_SOURCE+" FROM "+TABLE_INCOME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        if(c.moveToFirst()){
+            do{
+                titles.add(c.getString(c.getColumnIndex(KEY_INCOME_SOURCE)));
+            } while (c.moveToNext());
+        }
+        return titles;
+    }
     //UPDATE TABLE
     //DELETE ELEMENT
 
@@ -274,6 +287,19 @@ public class DatabaseClass extends SQLiteOpenHelper{
         }
         return outgoings;
     }
+    public ArrayList<String> getDistinctOutgoings(){
+        ArrayList<String> titles = new ArrayList<>();
+        String query = "SELECT DISTINCT "+KEY_OUTGOING_SOURCE+" FROM "+TABLE_OUTGOING;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        if(c.moveToFirst()){
+            do{
+                titles.add(c.getString(c.getColumnIndex(KEY_OUTGOING_SOURCE)));
+            } while (c.moveToNext());
+        }
+        return titles;
+    }
     //UPDATE TABLE
     public int updateOutgoing (StatisticsModelClass upd){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -368,6 +394,19 @@ public class DatabaseClass extends SQLiteOpenHelper{
             } while (c.moveToNext());
         }
         return scopeList;
+    }
+    public ArrayList<String> getDistinctScopes(){
+        ArrayList<String> titles = new ArrayList<>();
+        String query = "SELECT DISTINCT "+KEY_SCOPE_LIST_TITLE+" FROM "+TABLE_SCOPES_LIST;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        if(c.moveToFirst()){
+            do{
+                titles.add(c.getString(c.getColumnIndex(KEY_SCOPE_LIST_TITLE)));
+            } while (c.moveToNext());
+        }
+        return titles;
     }
     //UPDATE TABLE
     public int updateScope(ScopeModelClass updScope){

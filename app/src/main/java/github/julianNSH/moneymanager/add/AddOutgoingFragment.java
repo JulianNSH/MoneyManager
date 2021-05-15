@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import github.julianNSH.moneymanager.R;
@@ -33,7 +34,7 @@ public class AddOutgoingFragment extends Fragment {
     private Button addOutgoing;
     private Integer icon;
     private EditText amount, comment;
-    DatabaseClass databaseClass;
+    private DatabaseClass databaseClass;
 
     private DatePickerDialog datePicker;
     private EditText outgoingDate;
@@ -78,10 +79,11 @@ public class AddOutgoingFragment extends Fragment {
         });
 
         //////////////////////////////////INPUT SOURCE OF OUTGOING
-        String[]  title= {"Salariu","Cadou","Transfer","Cash-Back"};
+        databaseClass = new DatabaseClass(getContext());
+        ArrayList<String> titles = databaseClass.getDistinctOutgoings();
         AutoCompleteTextView outgoingSource = root.findViewById(R.id.outgoing_source);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, title);
+                android.R.layout.simple_list_item_1, titles);
         selection = new String[1];
         outgoingSource.setAdapter(arrayAdapter);
         outgoingSource.setCursorVisible(true);
