@@ -370,7 +370,27 @@ public class DatabaseClass extends SQLiteOpenHelper{
         return scopeList;
     }
     //UPDATE TABLE
+    public int updateScope(ScopeModelClass updScope){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues val = new ContentValues();
+        val.put(KEY_SCOPE_LIST_TITLE, updScope.getTvTitle());
+        val.put(KEY_CURRENT_AMOUNT, updScope.getTvCurrentAmount());
+        val.put(KEY_NEEDED_AMOUNT, updScope.getTvFinalAmount());
+        val.put(KEY_START_TIME, updScope.getStartTime());
+        val.put(KEY_START_DATE, updScope.getStartDate());
+        val.put(KEY_END_TIME, updScope.getEndTime());
+        val.put(KEY_END_DATE, updScope.getEndDate());
+        val.put(KEY_COMMENT, updScope.getComment());
+
+        return db.update(TABLE_SCOPES_LIST, val, KEY_ID + " = ?",
+                new String[]{String.valueOf(updScope.getId())});
+    }
     //DELETE ELEMENT
+    public void deleteScope(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SCOPES_LIST, KEY_ID + " = ?", new String[]{String.valueOf(id)});
+    }
 
 
     @Override

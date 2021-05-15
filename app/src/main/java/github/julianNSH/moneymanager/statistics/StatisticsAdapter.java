@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
 import github.julianNSH.moneymanager.overview.OutgoingHandler;
+import github.julianNSH.moneymanager.scope.ScopeHandler;
 
 
 public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.MyViewHolder>{
@@ -108,6 +109,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
     public int getItemCount() {
         return list.size();
     }
+
     /*********************************************************************************************
      *  DELETE ELEMENT FROM LIST THROUGH DIALOG WINDOW
      */
@@ -134,7 +136,6 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
     public  void onUpdateButtonClick( View itemView, List<StatisticsModelClass> list, MyViewHolder viewHolder){
         Button btn_edit = (Button) itemStatisticsDialog.findViewById(R.id.btn_edit);
 
-        DatabaseClass databaseClass = new DatabaseClass(itemView.getContext());
         btn_edit.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override

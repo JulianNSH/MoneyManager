@@ -5,13 +5,11 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.os.Bundle;
 import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -19,68 +17,45 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
+import java.util.List;
 
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
 
-public class ScopeFragment extends Fragment {
-    private ArrayList<ScopeModelClass> scopeModelClasses;
-    private RecyclerView recyclerView;
-    private ScopeAdapter scopeAdapter;
-    private Dialog addScopeDialog;
-    private EditText startScopeTime, startScopeDate, endScopeTime, endScopeDate;
-    private TimePickerDialog timePicker;
+public class ScopeHandler {
+    public ScopeHandler(){}
+    private Button updateButton;
+
+    private EditText amount, comment;
+    DatabaseClass databaseClass;
+
     private DatePickerDialog datePicker;
-    private DatabaseClass databaseClass;
+    Dialog updateDialog;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState){
-        View root = inflater.inflate(R.layout.fragment_scope, container, false);
+    private TimePickerDialog timePicker;
+    private EditText startScopeTime,startScopeDate,endScopeTime,endScopeDate;
+    private Button updButton;
 
-        recyclerView = (RecyclerView) root.findViewById(R.id.recyclerViewScope);
-        scopeModelClasses = new ArrayList<>();
-        databaseClass = new DatabaseClass(getContext());
-        scopeModelClasses = databaseClass.getAllScopes();
-        scopeAdapter = new ScopeAdapter(root.getContext(), scopeModelClasses);
-        RecyclerView.LayoutManager sLayoutManager = new LinearLayoutManager(root.getContext());
-        recyclerView.setLayoutManager(sLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(scopeAdapter);
-
-
-        //ADD SCOPE DIALOG
-        Button addScopeButton = (Button) root.findViewById(R.id.btn_dialog);
-        addScopeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showScopeDialog(v);
-            }
-        });
-        return root;
-    }
-
-    @SuppressLint("CutPasteId")
-    public void showScopeDialog(View root){
-        //INIT Dialog View
-        addScopeDialog = new Dialog(root.getContext());
-        addScopeDialog.setContentView(R.layout.scope_add_dialog);
-        addScopeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n", "CutPasteId", "ResourceAsColor"})
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void callOutgoingHandler(@NotNull View root, List<ScopeModelClass> list, ScopeAdapter.MyViewHolder viewHolder){
+        updateDialog = new Dialog(root.getContext());
+        updateDialog.setContentView(R.layout.scope_add_dialog);
+        updateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        updButton = (Button) updateDialog.findViewById(R.id.btn_add_scope);
+        updButton.setText("SALVARE");
+        updButton.setBackgroundColor(R.color.blue1);
 
         //////////////////////////////////PICK TIME FROM CLOCK
-        startScopeTime = (EditText) addScopeDialog.findViewById(R.id.add_start_time);
+        startScopeTime = (EditText) updateDialog.findViewById(R.id.add_start_time);
         startScopeTime.setInputType(InputType.TYPE_NULL);
+        startScopeTime.setText(list.get(viewHolder.getAdapterPosition()).getStartTime());
         startScopeTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +63,7 @@ public class ScopeFragment extends Fragment {
                 int hour = time.get(Calendar.HOUR_OF_DAY);
                 int minute = time.get(Calendar.MINUTE);
 
-                timePicker = new TimePickerDialog(addScopeDialog.getContext(), new TimePickerDialog.OnTimeSetListener() {
+                timePicker = new TimePickerDialog(updateDialog.getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
@@ -98,8 +73,9 @@ public class ScopeFragment extends Fragment {
                 timePicker.show();
             }
         });
-        endScopeTime = (EditText) addScopeDialog.findViewById(R.id.add_end_time);
+        endScopeTime = (EditText) updateDialog.findViewById(R.id.add_end_time);
         endScopeTime.setInputType(InputType.TYPE_NULL);
+        endScopeTime.setText(list.get(viewHolder.getAdapterPosition()).getEndTime());
         endScopeTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +83,7 @@ public class ScopeFragment extends Fragment {
                 int hour = time.get(Calendar.HOUR_OF_DAY);
                 int minute = time.get(Calendar.MINUTE);
 
-                timePicker = new TimePickerDialog(addScopeDialog.getContext(), new TimePickerDialog.OnTimeSetListener() {
+                timePicker = new TimePickerDialog(updateDialog.getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
@@ -119,8 +95,9 @@ public class ScopeFragment extends Fragment {
         });
 
         //////////////////////////////////PICK A DATE FROM CALENDAR
-        startScopeDate = (EditText) addScopeDialog.findViewById(R.id.add_start_date);
+        startScopeDate = (EditText) updateDialog.findViewById(R.id.add_start_date);
         startScopeDate.setInputType(InputType.TYPE_NULL);
+        startScopeDate.setText(list.get(viewHolder.getAdapterPosition()).getStartDate());
         startScopeDate.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -130,7 +107,7 @@ public class ScopeFragment extends Fragment {
                 int month = date.get(Calendar.MONTH);
                 int year = date.get(Calendar.YEAR);
 
-                datePicker = new DatePickerDialog(addScopeDialog.getContext(), new DatePickerDialog.OnDateSetListener() {
+                datePicker = new DatePickerDialog(updateDialog.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -145,8 +122,9 @@ public class ScopeFragment extends Fragment {
                 datePicker.show();
             }
         });
-        endScopeDate = (EditText) addScopeDialog.findViewById(R.id.add_end_date);
+        endScopeDate = (EditText) updateDialog.findViewById(R.id.add_end_date);
         endScopeDate.setInputType(InputType.TYPE_NULL);
+        endScopeDate.setText(list.get(viewHolder.getAdapterPosition()).getEndDate());
         endScopeDate.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -156,7 +134,7 @@ public class ScopeFragment extends Fragment {
                 int month = date.get(Calendar.MONTH);
                 int year = date.get(Calendar.YEAR);
 
-                datePicker = new DatePickerDialog(addScopeDialog.getContext(), new DatePickerDialog.OnDateSetListener() {
+                datePicker = new DatePickerDialog(updateDialog.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -172,22 +150,32 @@ public class ScopeFragment extends Fragment {
             }
         });
 
-        //Collect and send data to database
+
+        /**********************************************************************************************
+         Update SCOPE
+         */
+
+        TextView title = (TextView) updateDialog.findViewById(R.id.dialog_title);
+        title.setText("Modificarea scopului selectat");
+        updateButton = (Button) updateDialog.findViewById(R.id.btn_add_scope);
+        EditText scopeTitle = (EditText) updateDialog.findViewById(R.id.scope_title);
+        EditText currentAmount = (EditText) updateDialog.findViewById(R.id.current_amount);
+        EditText neededAmount = (EditText) updateDialog.findViewById(R.id.total_amount);
+        EditText comment = (EditText) updateDialog.findViewById(R.id.scope_comment);
+        scopeTitle.setText(list.get(viewHolder.getAdapterPosition()).getTvTitle());
+        currentAmount.setText(String.valueOf(list.get(viewHolder.getAdapterPosition()).getTvCurrentAmount()));
+        neededAmount.setText(String.valueOf(list.get(viewHolder.getAdapterPosition()).getTvFinalAmount()));
+        if(list.get(viewHolder.getAdapterPosition()).getComment()!=null)
+            comment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
 
         ScopeModelClass scopeData = new ScopeModelClass();
-        EditText scopeTitle = (EditText) addScopeDialog.findViewById(R.id.scope_title);
-        EditText currentAmount = (EditText) addScopeDialog.findViewById(R.id.current_amount);
-        EditText neededAmount = (EditText) addScopeDialog.findViewById(R.id.total_amount);
-        EditText comment = (EditText) addScopeDialog.findViewById(R.id.scope_comment);
 
+        databaseClass = new DatabaseClass(root.getContext());
 
-        databaseClass = new DatabaseClass(getContext());
-
-        Button addScope = (Button) addScopeDialog.findViewById(R.id.btn_add_scope);
-        addScope.setOnClickListener(new View.OnClickListener() {
+        updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                scopeData.setId(list.get(viewHolder.getAdapterPosition()).getId());
                 scopeData.setTvTitle(String.valueOf(scopeTitle.getText()));
                 scopeData.setTvCurrentAmount(Float.parseFloat(String.valueOf(currentAmount.getText())));
                 scopeData.setTvFinalAmount(Float.parseFloat(String.valueOf(neededAmount.getText())));
@@ -196,10 +184,12 @@ public class ScopeFragment extends Fragment {
                 scopeData.setEndTime(String.valueOf(endScopeTime.getText()));
                 scopeData.setEndDate(String.valueOf(endScopeDate.getText()));
                 scopeData.setComment(String.valueOf(comment.getText()));
-                long id = databaseClass.addScope(scopeData);
-                Toast.makeText(root.getContext(), "Item "+id+" added", Toast.LENGTH_SHORT).show();
+                long id = databaseClass.updateScope(scopeData);
+                Toast.makeText(root.getContext(), "UPDATED Scope with ID "+id, Toast.LENGTH_SHORT).show();
+                updateDialog.dismiss();
             }
         });
-        addScopeDialog.show();
+
+        updateDialog.show();
     }
 }

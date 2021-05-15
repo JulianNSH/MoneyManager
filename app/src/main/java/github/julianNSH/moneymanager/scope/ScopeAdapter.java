@@ -23,6 +23,10 @@ import com.app.infideap.stylishwidget.view.AProgressBar;
 import java.util.List;
 
 import github.julianNSH.moneymanager.R;
+import github.julianNSH.moneymanager.database.DatabaseClass;
+import github.julianNSH.moneymanager.overview.OutgoingHandler;
+import github.julianNSH.moneymanager.statistics.StatisticsAdapter;
+import github.julianNSH.moneymanager.statistics.StatisticsModelClass;
 
 public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder> {
     private Context context;
@@ -65,7 +69,7 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
 
 
         viewHolder.rvItem.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
+            @SuppressLint({"SetTextI18n", "DefaultLocale"})
             @Override
             public void onClick(View v) {
                 TextView tvTitle = (TextView) itemScopeDialog.findViewById(R.id.tv_title);
@@ -86,25 +90,14 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
                         v.getResources().getString(R.string.currency));
                 tvCurrentAmount.setText(list.get(viewHolder.getAdapterPosition()).getTvCurrentAmount()+ " "+
                         v.getResources().getString(R.string.currency));
-                progressBar.setProgressValue(list.get(viewHolder.getAdapterPosition()).getPbProgressValue());
-                tvProgressValue.setText(list.get(viewHolder.getAdapterPosition()).getPbProgressValue() + " %");
+                progressBar.setProgressValue(list.get(viewHolder.getAdapterPosition()).getTvCurrentAmount()*100/
+                        list.get(viewHolder.getAdapterPosition()).getTvFinalAmount());
+                tvProgressValue.setText(String.format("%3.1f",list.get(viewHolder.getAdapterPosition()).getTvCurrentAmount()*100/
+                        list.get(viewHolder.getAdapterPosition()).getTvFinalAmount())+ " %");
                 tvComment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
 
-                Button btn_delete = (Button) itemScopeDialog.findViewById(R.id.btn_delete);
-                Button btn_edit = (Button) itemScopeDialog.findViewById(R.id.btn_edit);
-
-                btn_delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context, "Button DELETE Clicked",  Toast.LENGTH_SHORT).show();
-                    }
-                });
-                btn_edit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context, "Button EDIT Clicked",  Toast.LENGTH_SHORT).show();
-                    }
-                });
+                onDeleteButtonClick(itemView, viewHolder);
+                onUpdateButtonClick(itemView,list,viewHolder);
 
                 itemScopeDialog.show();
             }
@@ -129,5 +122,43 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
     public int getItemCount() {
         return list.size();
     }
+    /*********************************************************************************************
+     *  DELETE ELEMENT FROM LIST THROUGH DIALOG WINDOW
+     */
+    public void onDeleteButtonClick(View itemView, MyViewHolder viewHolder) {
+        Button btn_delete = (Button) itemScopeDialog.findViewById(R.id.btn_delete);
 
+        DatabaseClass databaseClass = new DatabaseClass(itemView.getContext());
+
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseClass.deleteScope(list.get(viewHolder.getAdapterPosition()).getId());
+                Toast.makeText(context, list.get(viewHolder.getAdapterPosition()).getTvTitle() +
+                        " was deleted", Toast.LENGTH_SHORT).show();
+                itemScopeDialog.dismiss();
+
+
+            }
+        });
+    }
+    /*********************************************************************************************
+     *  UPDATE ELEMENT FROM LIST THROUGH DIALOG WINDOW
+     */
+    public  void onUpdateButtonClick(View itemView, List<ScopeModelClass> list, MyViewHolder viewHolder){
+        Button btn_edit = (Button) itemScopeDialog.findViewById(R.id.btn_edit);
+
+        DatabaseClass databaseClass = new DatabaseClass(itemView.getContext());
+        btn_edit.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Button EDIT Clicked",  Toast.LENGTH_SHORT).show();
+                itemScopeDialog.dismiss();
+                ScopeHandler handler = new ScopeHandler();
+                handler.callOutgoingHandler(itemView,list, viewHolder);
+            }
+        });
+        itemScopeDialog.show();
+    }
 }

@@ -27,11 +27,12 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/dialog_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
                         android:textColor="@color/black"
-                        android:text="Crearea scopului nou"
+                        android:text="Crearea scopului"
                         android:layout_margin="5dp"/>
 
                     <EditText
@@ -97,7 +98,7 @@
                             android:backgroundTint="@color/white"
                             android:textSize="13sp"
                             android:textColor="@color/black"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:hint="Valoarea "/>
                     </LinearLayout>
                 </LinearLayout>
@@ -135,7 +136,7 @@
                             android:backgroundTint="@color/white"
                             android:textSize="13sp"
                             android:textColor="@color/black"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:hint="Valoarea"/>
                     </LinearLayout>
                 </LinearLayout>
