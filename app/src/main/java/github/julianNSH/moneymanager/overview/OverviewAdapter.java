@@ -21,6 +21,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import github.julianNSH.moneymanager.R;
+import github.julianNSH.moneymanager.database.DatabaseClass;
 import github.julianNSH.moneymanager.statistics.StatisticsAdapter;
 
 
@@ -28,6 +29,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
     private Context context;
     private List<OverviewModelClass> list;
     Dialog itemOverviewDialog;
+    DatabaseClass databaseClass;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -73,21 +75,8 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
                 TextView tv_date_time = (TextView) itemOverviewDialog.findViewById(R.id.tv_date_time);
                 TextView tv_amount = (TextView) itemOverviewDialog.findViewById(R.id.tv_amount);
                 TextView tv_comment = (TextView) itemOverviewDialog.findViewById(R.id.tv_comment);
-                Button btn_delete = (Button) itemOverviewDialog.findViewById(R.id.btn_delete);
-                Button btn_edit = (Button) itemOverviewDialog.findViewById(R.id.btn_edit);
 
-                btn_delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context, "Button DELETE Clicked",  Toast.LENGTH_SHORT).show();
-                    }
-                });
-                btn_edit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Toast.makeText(context, "Button EDIT Clicked",  Toast.LENGTH_SHORT).show();
-                    }
-                });
+                onDeleteButtonClick(itemView, viewHolder);
 
                 tv_domain.setText(list.get(viewHolder.getAdapterPosition()).getTvDomain());
                 tv_category.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
@@ -120,6 +109,25 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
     public int getItemCount() {
         return list.size();
     }
+    /*********************************************************************************************
+     *  DELETE ELEMENT FROM LIST THROUGH DIALOG WINDOW
+     */
+    public void onDeleteButtonClick(View itemView, OverviewAdapter.MyViewHolder viewHolder) {
+        Button btn_delete = (Button) itemOverviewDialog.findViewById(R.id.btn_delete);
 
+        databaseClass = new DatabaseClass(itemView.getContext());
+
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseClass.deleteFromOverview(list.get(viewHolder.getAdapterPosition()).getId(),
+                        list.get(viewHolder.getAdapterPosition()).getTvDomain());
+                Toast.makeText(context, list.get(viewHolder.getAdapterPosition()).getTvType() +
+                        " was deleted", Toast.LENGTH_SHORT).show();
+
+                itemOverviewDialog.dismiss();
+            }
+        });
+    }
 
 }

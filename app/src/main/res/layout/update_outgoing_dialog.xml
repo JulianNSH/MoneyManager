@@ -106,7 +106,7 @@
                     android:ems="10"
                     android:textSize="15sp"
                     android:textColor="@color/black"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:hint="Valoare numerarului"/>
             </LinearLayout>
         </LinearLayout>

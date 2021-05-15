@@ -12,10 +12,12 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.overview.OverviewModelClass;
+import github.julianNSH.moneymanager.savings.SavingsModelClass;
 import github.julianNSH.moneymanager.statistics.StatisticsModelClass;
 
-public class DatabaseClass extends SQLiteOpenHelper {
+public class DatabaseClass extends SQLiteOpenHelper{
     //Logcat
     private static final String LOG = "DatabaseLog";
     //Database Version
@@ -120,6 +122,17 @@ public class DatabaseClass extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         return overview;
+    }
+    //Delete data
+    public void deleteFromOverview(int id, String strId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        if(strId.equals("Venit")) {
+            db.delete(TABLE_INCOME, KEY_ID + " = ?", new String[]{String.valueOf(id)});
+        }
+        if(strId.equals("Cheltuieli")) {
+            db.delete(TABLE_OUTGOING, KEY_ID + " = ?", new String[]{String.valueOf(id)});
+        }
     }
     /**********************************************************************************************
         INCOME METHODS
@@ -259,12 +272,46 @@ public class DatabaseClass extends SQLiteOpenHelper {
         return outgoings;
     }
     //UPDATE TABLE
+    public int updateOutgoing (StatisticsModelClass upd){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues val = new ContentValues();
+        val.put(KEY_OUTGOING_ICON, upd.getIvIcon());
+        val.put(KEY_OUTGOING_SOURCE, upd.getTvType());
+        val.put(KEY_AMOUNT, upd.getTvAmount());
+        val.put(KEY_TIME, upd.getTime());
+        val.put(KEY_DATE, upd.getDate());
+        val.put(KEY_COMMENT, upd.getComment());
+        val.put(KEY_REPEAT, upd.getRepeat());
+
+        return db.update(TABLE_OUTGOING, val, KEY_ID + " = ?",
+                new String[]{String.valueOf(upd.getId())});
+    }
     //DELETE ELEMENT
     public void deleteOutgoing(int outgoing_id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_OUTGOING, KEY_ID + " = ?", new String[]{String.valueOf(outgoing_id)});
     }
 
+    //TODO get data for savings
+    /**********************************************************************************************
+     SAVINGS QUERY METHODS
+     **********************************************************************************************/
+    public ArrayList<SavingsModelClass> getSavingsUniqueDates(){
+        ArrayList<SavingsModelClass> dates = new ArrayList<>();
+        String query = "SELECT DISTINCT "+KEY_DATE+" FROM "+TABLE_OUTGOING;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        if(c.moveToFirst()){
+            do{
+                SavingsModelClass temp = new SavingsModelClass();
+                temp.setDate(c.getString(c.getColumnIndex(KEY_DATE)));
+            } while (c.moveToNext());
+        }
+        return dates;
+    }
     /**********************************************************************************************
         SCOPE METHODS
      **********************************************************************************************/
@@ -298,4 +345,5 @@ public class DatabaseClass extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_SCOPES_LIST);
         onCreate(db);
     }
+
 }

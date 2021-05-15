@@ -3,24 +3,29 @@ package github.julianNSH.moneymanager.savings;
 public class SavingsModelClass {
     int id;
     String tvTitlePeriod;
-    String tvIncome;
-    String tvOutcome;
-    String tvResult;
+    float tvIncome;
+    float tvOutcome;
+    float tvResult;
+    String date;
     String tvResultColor;
+    public SavingsModelClass(){}
 
-    public SavingsModelClass(int id, String tvTitlePeriod, String tvIncome, String tvOutcome, String tvResult,
-                             String tvResultColor){
+    public SavingsModelClass(int id, String tvTitlePeriod, String date, float tvIncome, float tvOutcome,
+                             float tvResult,String tvResultColor){
+
         this.id = id;
         this.tvIncome = tvIncome;
+        this.date = date;
         this.tvOutcome = tvOutcome;
         this.tvResult = tvResult;
         this.tvResultColor = tvResultColor;
         this.tvTitlePeriod = tvTitlePeriod;
     }
 
-    public SavingsModelClass(String tvTitlePeriod, String tvIncome, String tvOutcome, String tvResult,
+    public SavingsModelClass(String tvTitlePeriod, String date, float tvIncome, float tvOutcome, float tvResult,
                              String tvResultColor){
         this.tvIncome = tvIncome;
+        this.date = date;
         this.tvOutcome = tvOutcome;
         this.tvResult = tvResult;
         this.tvResultColor = tvResultColor;
@@ -52,27 +57,35 @@ public class SavingsModelClass {
         this.tvTitlePeriod = tvTitlePeriod;
     }
 
-    public String getTvIncome() {
+    public float getTvIncome() {
         return tvIncome;
     }
 
-    public void setTvIncome(String tvIncome) {
+    public void setTvIncome(float tvIncome) {
         this.tvIncome = tvIncome;
     }
 
-    public String getTvOutcome() {
+    public float getTvOutcome() {
         return tvOutcome;
     }
 
-    public void setTvOutcome(String tvOutcome) {
+    public void setTvOutcome(float tvOutcome) {
         this.tvOutcome = tvOutcome;
     }
 
-    public String getTvResult() {
+    public float getTvResult() {
         return tvResult;
     }
 
-    public void setTvResult(String tvResult) {
+    public void setTvResult(float tvResult) {
         this.tvResult = tvResult;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

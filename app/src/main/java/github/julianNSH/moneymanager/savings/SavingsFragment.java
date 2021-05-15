@@ -44,38 +44,38 @@ public class SavingsFragment extends Fragment {
         savingsModelClasses = new ArrayList<>();
 
 
-        for (int i=0; i<title.length; i++){
-            //
-            int temp = income[i]-outcome[i];
-            if(min > temp){
-                min = temp;
-            }
-
-            if(max < temp){
-                max = temp;
-            }
-            //
-            total+= temp;
-            if (income[i] > outcome[i]) {
-                color = "#44bd32";
-            } else {
-                color = "#e84118";
-            }
-            //
-            SavingsModelClass listModelClass = new SavingsModelClass(title[i], income[i] + " MDL",
-                    outcome[i] + " MDL", income[i]-outcome[i] + " MDL", color);
-            savingsModelClasses.add(listModelClass);
-        }
+//        for (int i=0; i<title.length; i++){
+//            //
+//            int temp = income[i]-outcome[i];
+//            if(min > temp){
+//                min = temp;
+//            }
+//
+//            if(max < temp){
+//                max = temp;
+//            }
+//            //
+//            total+= temp;
+//            if (income[i] > outcome[i]) {
+//                color = "#44bd32";
+//            } else {
+//                color = "#e84118";
+//            }
+//            //
+//            SavingsModelClass listModelClass = new SavingsModelClass(title[i], income[i] + " MDL",
+//                    outcome[i] + " MDL", income[i]-outcome[i] + " MDL", color);
+//            savingsModelClasses.add(listModelClass);
+//        }
         /////////////////////////////
         savingTotal = (TextView) root.findViewById(R.id.savingTotal);
-        savingTotal.setText(total + " MDL");
+        savingTotal.setText(total + root.getResources().getString(R.string.currency));
         savingActual = (TextView) root.findViewById(R.id.savingActual);
-        savingActual.setText(income[7]-outcome[7] + " MDL");
+        savingActual.setText(income[7]-outcome[7] + " "+root.getResources().getString(R.string.currency));
 
         savingMaxim = (TextView) root.findViewById(R.id.savingMaxim);
-        savingMaxim.setText(max + " MDL");
+        savingMaxim.setText(max + " "+ root.getResources().getString(R.string.currency));
         savingMinim = (TextView) root.findViewById(R.id.savingMinim);
-        savingMinim.setText(min + " MDL");
+        savingMinim.setText(min + " "+ root.getResources().getString(R.string.currency));
 
         ///////////////////////////////////
         savingsAdapter = new SavingsAdapter(SavingsFragment.this, savingsModelClasses);

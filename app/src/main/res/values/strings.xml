@@ -7,4 +7,6 @@
     <string name="title_add">Adaugare</string>
 
     <string name="currency"> MDL</string>
+    <string name="income">Venit</string>
+    <string name="outgoings">Cheltuieli</string>
 </resources>

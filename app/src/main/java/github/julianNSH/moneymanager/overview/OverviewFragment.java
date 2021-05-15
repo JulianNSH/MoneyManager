@@ -13,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
@@ -40,12 +42,10 @@ import github.julianNSH.moneymanager.database.DatabaseClass;
 
 public class OverviewFragment extends Fragment {
     ////////////////////////////////////////////////////////////////Chart Elements
-    private static final int MAX_X_VALUE = 7;
-    private static final int MAX_Y_VALUE = 20;
-    private static final int MIN_Y_VALUE = 12;
-    private static final int GROUPS = 2;
-    private static final String GROUP_1_LABEL = "Venit";
-    private static final String GROUP_2_LABEL = "Cheltuieli";
+    private final int MAX_X_VALUE = 7;
+    private final int GROUPS = 2;
+    private static String GROUP_1_LABEL;
+    private static String GROUP_2_LABEL;
     private static final float BAR_SPACE = 0.05f;
     private static final float BAR_WIDTH = 0.2f;
     private BarChart chart;
@@ -154,11 +154,11 @@ public class OverviewFragment extends Fragment {
             for (int i = 0; i <overviewModelClasses.size(); i++) {
                 switch (overviewModelClasses.get(i).getTvDomain()){
                     case "income":
-                        overviewModelClasses.get(i).setTvDomain("Venit");
+                        overviewModelClasses.get(i).setTvDomain(getResources().getString(R.string.income));
                         overviewModelClasses.get(i).setIvFigure(R.drawable.ic_up);
                         break;
                     case "outgoing":
-                        overviewModelClasses.get(i).setTvDomain("Cheltuieli");
+                        overviewModelClasses.get(i).setTvDomain(getResources().getString(R.string.outgoings));
                         overviewModelClasses.get(i).setIvFigure(R.drawable.ic_down);
                         break;
                     default:
@@ -189,17 +189,30 @@ public class OverviewFragment extends Fragment {
         chart.setDoubleTapToZoomEnabled(false);
         chart.getDescription().setEnabled(false);
 
-        final String[] months1 = {"Ian", "Feb", "Mar", "Apr", "Mai", "Iun", "Iul", "Aug", "Sep",
-                "Oct", "Noi", "Dec"};
+        //TODO fix chart xAxis
+        final HashMap<Integer, String> months = new HashMap<>();
+        months.put(1, "Ian");
+        months.put(2, "Feb");
+        months.put(3, "Mar");
+        months.put(4, "Apr");
+        months.put(5, "Mai");
+        months.put(6, "Iun");
+        months.put(7, "Iul");
+        months.put(8, "Aug");
+        months.put(9, "Sep");
+        months.put(10, "Oct");
+        months.put(11, "Noi");
+        months.put(12, "Dec");
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setGranularity(1f);
         xAxis.setCenterAxisLabels(true);
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
-            public String getFormattedValue(float value) {
-                return months1[(int)value+month];
+            public String getFormattedValue(float value, AxisBase axis) {
+                return months.get((int)value);
             }
+
         });
 
         YAxis leftAxis = chart.getAxisLeft();
@@ -222,7 +235,8 @@ public class OverviewFragment extends Fragment {
             values1.add(new BarEntry(i, databaseClass.getTotalIncome(month+i-2+"/"+year)));
             values2.add(new BarEntry(i, databaseClass.getTotalOutgoing(month+i-2+"/"+year)));
         }
-
+        GROUP_1_LABEL = getResources().getString(R.string.income);
+        GROUP_2_LABEL = getResources().getString(R.string.outgoings);
         BarDataSet set1 = new BarDataSet(values1, GROUP_1_LABEL);
         BarDataSet set2 = new BarDataSet(values2, GROUP_2_LABEL);
         set1.setColor(ColorTemplate.MATERIAL_COLORS[0]);

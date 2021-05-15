@@ -1,5 +1,6 @@
 package github.julianNSH.moneymanager.savings;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,13 +43,14 @@ public class SavingsAdapter extends RecyclerView.Adapter<SavingsAdapter.MyViewHo
         return new MyViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         SavingsModelClass element = list.get(position);
         holder.savingsTitlePeriod.setText(element.getTvTitlePeriod());
-        holder.savingsIncome.setText(element.getTvIncome());
-        holder.savingsOutcome.setText(element.getTvOutcome());
-        holder.savingsResult.setText(element.getTvResult());
+        holder.savingsIncome.setText(element.getTvIncome()+" "+R.string.currency);
+        holder.savingsOutcome.setText(element.getTvOutcome()+" "+R.string.currency);
+        holder.savingsResult.setText(element.getTvResult()+" "+R.string.currency);
         holder.savingsResult.setTextColor(Color.parseColor(element.getTvResultColor()));
     }
 

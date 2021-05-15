@@ -52,7 +52,7 @@
                         android:textSize="22sp"
                         android:textColor="@color/black"
                         android:lineSpacingExtra="4sp"
-                        android:text="58,320 MDL"
+                        android:text=""
                         />
 
                     <LinearLayout

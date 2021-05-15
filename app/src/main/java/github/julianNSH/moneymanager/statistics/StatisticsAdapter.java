@@ -21,6 +21,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
+import github.julianNSH.moneymanager.overview.OutgoingHandler;
 
 
 public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.MyViewHolder>{
@@ -28,7 +29,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
     DatabaseClass databaseClass;
 
     private List<StatisticsModelClass> list;
-    Dialog itemStatisticsDialog, updateDialog;
+    Dialog itemStatisticsDialog;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -84,7 +85,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
 
                 //CALL METHODS FOR BUTTON CLICKS
                 onDeleteButtonClick(itemView, viewHolder);
-                onUpdateButtonClick(itemView);
+                onUpdateButtonClick(itemView, list, viewHolder);
             }
         });
         return viewHolder;
@@ -127,20 +128,18 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
     /*********************************************************************************************
      *  UPDATE ELEMENT FROM LIST THROUGH DIALOG WINDOW
      */
-    public  void onUpdateButtonClick( View itemView){
-        updateDialog = new Dialog(context);
-        updateDialog.setContentView(R.layout.update_outgoing_dialog);
-        updateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
+    public  void onUpdateButtonClick( View itemView, List<StatisticsModelClass> list, MyViewHolder viewHolder){
         Button btn_edit = (Button) itemStatisticsDialog.findViewById(R.id.btn_edit);
 
         DatabaseClass databaseClass = new DatabaseClass(itemView.getContext());
         btn_edit.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Button EDIT Clicked",  Toast.LENGTH_SHORT).show();
                 itemStatisticsDialog.dismiss();
-                updateDialog.show();
+                OutgoingHandler handler = new OutgoingHandler();
+                handler.callOutgoingHandler(itemView, list, viewHolder);
             }
         });
         itemStatisticsDialog.show();

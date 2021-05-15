@@ -63,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="2sp"
-                        android:text="Venitul"
+                        android:text="@string/income"
                         android:textColor="#4CAF50"
                         android:textSize="12sp" />
 
@@ -73,7 +73,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:lineSpacingExtra="4sp"
-                        android:text="+14,210 MDL"
+                        android:text=""
                         android:textColor="#4CAF50"
                         android:textSize="20sp" />
 
@@ -82,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5sp"
                         android:lineSpacingExtra="4sp"
-                        android:text="Cheltuieli"
+                        android:text="@string/outgoings"
                         android:textColor="#ff4757"
                         android:textSize="12sp" />
 
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:lineSpacingExtra="4sp"
-                        android:text="-8,520 MDL"
+                        android:text=""
                         android:textColor="#ff4757"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -128,7 +128,7 @@
                             android:backgroundTint="@color/lvl2"
                             android:textColor="@color/lvl2"
                             android:textSize="20sp"
-                            android:text="60%"/>
+                            android:text=""/>
                 </LinearLayout>
             </LinearLayout>
             </LinearLayout>
