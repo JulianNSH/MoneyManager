@@ -11,6 +11,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import github.julianNSH.moneymanager.overview.OverviewModelClass;
 import github.julianNSH.moneymanager.savings.SavingsModelClass;
@@ -21,7 +22,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
     //Logcat
     private static final String LOG = "DatabaseLog";
     //Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     //Database Name
     private static final String DATABASE_NAME = "moneyManagerDatabase";
     //Table Names
@@ -44,6 +45,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
     private static final String KEY_OUTGOING_ICON = "icon";
     //SCOPES column names
     private static final String KEY_SCOPE_SOURCE = "scope";
+    private static final String KEY_SCOPE_ID = "id_list";
     //SCOPES_LIST column names
     private static final String KEY_SCOPE_LIST_TITLE = "scope_list";
     private static final String KEY_START_DATE = "start_date";
@@ -65,7 +67,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
             " TEXT,"+ KEY_AMOUNT + " REAL,"+ KEY_TIME +" DATETIME,"+KEY_DATE +" DATETIME,"+ KEY_COMMENT +" TEXT,"+ KEY_REPEAT +" INTEGER"+")";
     //CREATE SCOPE TABLE
     private static final String CREATE_TABLE_SCOPE = "CREATE TABLE " + TABLE_SCOPES+
-            "("+ KEY_ID +" INTEGER PRIMARY KEY,"+ KEY_SCOPE_SOURCE +" TEXT,"+ KEY_AMOUNT +
+            "("+ KEY_ID +" INTEGER PRIMARY KEY,"+ KEY_SCOPE_SOURCE +" TEXT,"+ KEY_SCOPE_ID +" INTEGER,"+ KEY_AMOUNT +
             " REAL,"+ KEY_TIME +" DATETIME,"+KEY_DATE +" DATETIME,"+ KEY_COMMENT +" TEXT,"+ KEY_REPEAT +" INTEGER"+")";
     //CREATE SCOPE_LIST TABLE
     private static final String CREATE_TABLE_SCOPE_LIST ="CREATE TABLE " + TABLE_SCOPES_LIST+
@@ -124,6 +126,25 @@ public class DatabaseClass extends SQLiteOpenHelper{
                 overview.add(temp);
             } while (c.moveToNext());
         }
+        String queryScope = "SELECT * FROM "+TABLE_SCOPES+" WHERE "+KEY_DATE+" LIKE "+
+                "'%"+date+"' ORDER BY "+KEY_TIME+" ASC";
+
+        db = this.getReadableDatabase();
+        c = db.rawQuery(queryScope, null);
+
+        if(c.moveToFirst()){
+            do{
+                OverviewModelClass temp = new OverviewModelClass();
+                temp.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+                temp.setTvDomain("other");
+                temp.setTvType(c.getString(c.getColumnIndex(KEY_SCOPE_SOURCE)));
+                temp.setTvAmount(c.getFloat(c.getColumnIndex(KEY_AMOUNT)));
+                temp.setTime(c.getString(c.getColumnIndex(KEY_TIME)));
+                temp.setDate(c.getString(c.getColumnIndex(KEY_DATE)));
+                temp.setComment(c.getString(c.getColumnIndex(KEY_COMMENT)));
+                overview.add(temp);
+            } while (c.moveToNext());
+        }
         return overview;
     }
     //Delete data
@@ -135,6 +156,10 @@ public class DatabaseClass extends SQLiteOpenHelper{
         }
         if(strId.equals("Cheltuieli")) {
             db.delete(TABLE_OUTGOING, KEY_ID + " = ?", new String[]{String.valueOf(id)});
+        }
+
+        if(strId.equals("Scop")) {
+            db.delete(TABLE_SCOPES, KEY_ID + " = ?", new String[]{String.valueOf(id)});
         }
     }
     /**********************************************************************************************
@@ -345,7 +370,31 @@ public class DatabaseClass extends SQLiteOpenHelper{
         SCOPE METHODS
      **********************************************************************************************/
     //CREATE ELEMENT
+    public long addScopeValue(ScopeModelClass inputSourceVal) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_SCOPE_SOURCE, inputSourceVal.getTvTitle());
+        values.put(KEY_SCOPE_ID, inputSourceVal.getGeneralId());
+        values.put(KEY_AMOUNT, inputSourceVal.getTvInitialAmount());
+        values.put(KEY_TIME, inputSourceVal.getTime());
+        values.put(KEY_DATE, inputSourceVal.getDate());
+        values.put(KEY_COMMENT, inputSourceVal.getComment());
+        values.put(KEY_REPEAT, inputSourceVal.getRepeat());
+
+        long scope_id = db.insert(TABLE_SCOPES, null, values);
+
+        return scope_id;
+    }
     //READ TABLE
+    public float getTotalScopeById(int id){
+        String query = "SELECT SUM("+KEY_AMOUNT+") AS "+ KEY_AMOUNT+" FROM "+TABLE_SCOPES+
+                " WHERE "+KEY_ID+" = "+ id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        return cursor.getFloat(cursor.getColumnIndex(KEY_AMOUNT));
+    }
     //UPDATE TABLE
     //DELETE ELEMENT
 
@@ -358,7 +407,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
         ContentValues values = new ContentValues();
 
         values.put(KEY_SCOPE_LIST_TITLE, scope.getTvTitle());
-        values.put(KEY_CURRENT_AMOUNT, scope.getTvCurrentAmount());
+        values.put(KEY_CURRENT_AMOUNT, scope.getTvInitialAmount());
         values.put(KEY_NEEDED_AMOUNT, scope.getTvFinalAmount());
         values.put(KEY_START_TIME, scope.getStartTime());
         values.put(KEY_START_DATE, scope.getStartDate());
@@ -383,7 +432,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
                 ScopeModelClass temp = new ScopeModelClass();
                 temp.setId(c.getInt(c.getColumnIndex(KEY_ID)));
                 temp.setTvTitle(c.getString(c.getColumnIndex(KEY_SCOPE_LIST_TITLE)));
-                temp.setTvCurrentAmount(c.getFloat(c.getColumnIndex(KEY_CURRENT_AMOUNT)));
+                temp.setTvInitialAmount(c.getFloat(c.getColumnIndex(KEY_CURRENT_AMOUNT)));
                 temp.setTvFinalAmount(c.getFloat(c.getColumnIndex(KEY_NEEDED_AMOUNT)));
                 temp.setStartTime(c.getString(c.getColumnIndex(KEY_START_TIME)));
                 temp.setStartDate(c.getString(c.getColumnIndex(KEY_START_DATE)));
@@ -395,15 +444,17 @@ public class DatabaseClass extends SQLiteOpenHelper{
         }
         return scopeList;
     }
-    public ArrayList<String> getDistinctScopes(){
-        ArrayList<String> titles = new ArrayList<>();
-        String query = "SELECT DISTINCT "+KEY_SCOPE_LIST_TITLE+" FROM "+TABLE_SCOPES_LIST;
+    public HashMap<Integer, String> getScopes(){
+        HashMap<Integer, String> titles = new HashMap<Integer, String>();
+        String query = "SELECT "+KEY_ID+", "+KEY_SCOPE_LIST_TITLE+" FROM "+TABLE_SCOPES_LIST+" ORDER BY "
+                +KEY_ID+" DESC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(query, null);
 
         if(c.moveToFirst()){
             do{
-                titles.add(c.getString(c.getColumnIndex(KEY_SCOPE_LIST_TITLE)));
+                titles.put(c.getInt(c.getColumnIndex(KEY_ID)),
+                        c.getString(c.getColumnIndex(KEY_SCOPE_LIST_TITLE)));
             } while (c.moveToNext());
         }
         return titles;
@@ -414,7 +465,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
 
         ContentValues val = new ContentValues();
         val.put(KEY_SCOPE_LIST_TITLE, updScope.getTvTitle());
-        val.put(KEY_CURRENT_AMOUNT, updScope.getTvCurrentAmount());
+        val.put(KEY_CURRENT_AMOUNT, updScope.getTvInitialAmount());
         val.put(KEY_NEEDED_AMOUNT, updScope.getTvFinalAmount());
         val.put(KEY_START_TIME, updScope.getStartTime());
         val.put(KEY_START_DATE, updScope.getStartDate());
@@ -448,5 +499,6 @@ public class DatabaseClass extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_SCOPES_LIST);
         onCreate(db);
     }
+
 
 }

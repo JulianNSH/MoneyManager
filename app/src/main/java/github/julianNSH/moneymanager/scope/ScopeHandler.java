@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.text.InputType;
@@ -20,7 +19,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.util.Calendar;
 import java.util.List;
@@ -163,7 +161,7 @@ public class ScopeHandler {
         EditText neededAmount = (EditText) updateDialog.findViewById(R.id.total_amount);
         EditText comment = (EditText) updateDialog.findViewById(R.id.scope_comment);
         scopeTitle.setText(list.get(viewHolder.getAdapterPosition()).getTvTitle());
-        currentAmount.setText(String.valueOf(list.get(viewHolder.getAdapterPosition()).getTvCurrentAmount()));
+        currentAmount.setText(String.valueOf(list.get(viewHolder.getAdapterPosition()).getTvInitialAmount()));
         neededAmount.setText(String.valueOf(list.get(viewHolder.getAdapterPosition()).getTvFinalAmount()));
         if(list.get(viewHolder.getAdapterPosition()).getComment()!=null)
             comment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
@@ -177,7 +175,7 @@ public class ScopeHandler {
             public void onClick(View v) {
                 scopeData.setId(list.get(viewHolder.getAdapterPosition()).getId());
                 scopeData.setTvTitle(String.valueOf(scopeTitle.getText()));
-                scopeData.setTvCurrentAmount(Float.parseFloat(String.valueOf(currentAmount.getText())));
+                scopeData.setTvInitialAmount(Float.parseFloat(String.valueOf(currentAmount.getText())));
                 scopeData.setTvFinalAmount(Float.parseFloat(String.valueOf(neededAmount.getText())));
                 scopeData.setStartTime(String.valueOf(startScopeTime.getText()));
                 scopeData.setStartDate(String.valueOf(startScopeDate.getText()));

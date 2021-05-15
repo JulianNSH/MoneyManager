@@ -3,36 +3,36 @@ package github.julianNSH.moneymanager.scope;
 public class ScopeModelClass {
     int id;
     String tvTitle, comment;
-    float tvFinalAmount, tvCurrentAmount;
-    String startTime, startDate, endTime, endDate;
-    int pbProgressValue;
+    float tvFinalAmount, tvInitialAmount, currentAmount;
+    String startTime, startDate, endTime, endDate, date, time;
+    int generalId,repeat;
 
     public ScopeModelClass(){}
-    public ScopeModelClass(int id, String tvTitle, float tvFinalAmount, float tvCurrentAmount, String startTime,
-                           String startDate, String endTime, String endDate, String comment, int pbProgressValue){
+    public ScopeModelClass(int id, String tvTitle, float tvFinalAmount, float tvInitialAmount, String startTime,
+                           String startDate, String endTime, String endDate, String comment, int generalId){
         this.id = id;
         this.tvTitle = tvTitle;
         this.tvFinalAmount = tvFinalAmount;
-        this.tvCurrentAmount = tvCurrentAmount;
+        this.tvInitialAmount = tvInitialAmount;
         this.startTime = startTime;
         this.startDate = startDate;
         this.endTime = endTime;
         this.endDate = endDate;
         this.comment = comment;
-        this.pbProgressValue = pbProgressValue;
+        this.generalId = generalId;
     }
 
-    public ScopeModelClass(String tvTitle, float tvFinalAmount, float tvCurrentAmount, String startTime,
-                           String startDate, String endTime, String endDate, String comment, int pbProgressValue){
+    public ScopeModelClass(String tvTitle, float tvFinalAmount, float tvInitialAmount, String startTime,
+                           String startDate, String endTime, String endDate, String comment, int generalId){
         this.tvTitle = tvTitle;
         this.tvFinalAmount = tvFinalAmount;
-        this.tvCurrentAmount = tvCurrentAmount;
+        this.tvInitialAmount = tvInitialAmount;
         this.startTime = startTime;
         this.startDate = startDate;
         this.endTime = endTime;
         this.endDate = endDate;
         this.comment = comment;
-        this.pbProgressValue = pbProgressValue;
+        this.generalId = generalId;
     }
 
     public int getId() {
@@ -43,6 +43,38 @@ public class ScopeModelClass {
         this.id = id;
     }
 
+    public float getCurrentAmount() {
+        return currentAmount;
+    }
+
+    public void setCurrentAmount(float currentAmount) {
+        this.currentAmount = currentAmount+tvInitialAmount;
+    }
+
+    public int getRepeat() {
+        return repeat;
+    }
+
+    public void setRepeat(int repeat) {
+        this.repeat = repeat;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     public String getComment() {
         return comment;
     }
@@ -51,12 +83,12 @@ public class ScopeModelClass {
         this.comment = comment;
     }
 
-    public float getTvCurrentAmount() {
-        return tvCurrentAmount;
+    public float getTvInitialAmount() {
+        return tvInitialAmount;
     }
 
-    public void setTvCurrentAmount(float tvCurrentAmount) {
-        this.tvCurrentAmount = tvCurrentAmount;
+    public void setTvInitialAmount(float tvInitialAmount) {
+        this.tvInitialAmount = tvInitialAmount;
     }
 
     public String getStartTime() {
@@ -91,12 +123,12 @@ public class ScopeModelClass {
         this.endDate = endDate;
     }
 
-    public int getPbProgressValue() {
-        return pbProgressValue;
+    public int getGeneralId() {
+        return generalId;
     }
 
-    public void setPbProgressValue(int pbProgressValue) {
-        this.pbProgressValue = pbProgressValue;
+    public void setGeneralId(int generalId) {
+        this.generalId = generalId;
     }
 
     public String getTvTitle() {

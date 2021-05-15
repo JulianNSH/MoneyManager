@@ -162,7 +162,7 @@ public class OverviewFragment extends Fragment {
                         overviewModelClasses.get(i).setIvFigure(R.drawable.ic_down);
                         break;
                     default:
-                        overviewModelClasses.get(i).setTvDomain("Altele");
+                        overviewModelClasses.get(i).setTvDomain("Scop");
                         overviewModelClasses.get(i).setIvFigure(R.drawable.ic_flat);
                 }
             }

@@ -57,7 +57,7 @@ public class AddIncomeFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 incomeSource.showDropDown();
                 selection[0] = (String) parent.getItemAtPosition(position);
-                Toast.makeText(getContext(), selection[0], Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), selection[0], Toast.LENGTH_SHORT).show();
             }
         });
         incomeSource.setOnClickListener(new View.OnClickListener() {

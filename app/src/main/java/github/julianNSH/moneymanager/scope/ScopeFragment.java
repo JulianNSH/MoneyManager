@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -26,8 +25,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -189,7 +186,7 @@ public class ScopeFragment extends Fragment {
             public void onClick(View v) {
 
                 scopeData.setTvTitle(String.valueOf(scopeTitle.getText()));
-                scopeData.setTvCurrentAmount(Float.parseFloat(String.valueOf(currentAmount.getText())));
+                scopeData.setTvInitialAmount(Float.parseFloat(String.valueOf(currentAmount.getText())));
                 scopeData.setTvFinalAmount(Float.parseFloat(String.valueOf(neededAmount.getText())));
                 scopeData.setStartTime(String.valueOf(startScopeTime.getText()));
                 scopeData.setStartDate(String.valueOf(startScopeDate.getText()));

@@ -24,15 +24,13 @@ import java.util.List;
 
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
-import github.julianNSH.moneymanager.overview.OutgoingHandler;
-import github.julianNSH.moneymanager.statistics.StatisticsAdapter;
-import github.julianNSH.moneymanager.statistics.StatisticsModelClass;
 
 public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder> {
     private Context context;
 
     private List<ScopeModelClass> list;
     Dialog itemScopeDialog;
+    DatabaseClass databaseClass;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView scopeTitle, value_of_progress, scope_start_DT, scope_end_DT;
@@ -67,6 +65,11 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
         itemScopeDialog.setContentView(R.layout.scope_dialog);
         itemScopeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        databaseClass = new DatabaseClass(context);
+
+        for (int i =0; i<list.size(); i++){
+            list.get(i).setCurrentAmount(databaseClass.getTotalScopeById(list.get(i).getId()));
+        }
 
         viewHolder.rvItem.setOnClickListener(new View.OnClickListener() {
             @SuppressLint({"SetTextI18n", "DefaultLocale"})
@@ -88,11 +91,11 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
                         list.get(viewHolder.getAdapterPosition()).getEndDate());
                 tvTotalAmount.setText(list.get(viewHolder.getAdapterPosition()).getTvFinalAmount()+" "+
                         v.getResources().getString(R.string.currency));
-                tvCurrentAmount.setText(list.get(viewHolder.getAdapterPosition()).getTvCurrentAmount()+ " "+
+                tvCurrentAmount.setText(list.get(viewHolder.getAdapterPosition()).getCurrentAmount()+ " "+
                         v.getResources().getString(R.string.currency));
-                progressBar.setProgressValue(list.get(viewHolder.getAdapterPosition()).getTvCurrentAmount()*100/
+                progressBar.setProgressValue(list.get(viewHolder.getAdapterPosition()).getCurrentAmount()*100/
                         list.get(viewHolder.getAdapterPosition()).getTvFinalAmount());
-                tvProgressValue.setText(String.format("%3.1f",list.get(viewHolder.getAdapterPosition()).getTvCurrentAmount()*100/
+                tvProgressValue.setText(String.format("%3.1f",list.get(viewHolder.getAdapterPosition()).getCurrentAmount()*100/
                         list.get(viewHolder.getAdapterPosition()).getTvFinalAmount())+ " %");
                 tvComment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
 
@@ -114,8 +117,8 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
         holder.scopeTitle.setText(element.getTvTitle());
         holder.scope_start_DT.setText("De la:  "+element.getStartTime()+" "+element.getStartDate());
         holder.scope_end_DT.setText("Până la: "+element.getEndTime()+" "+element.getEndDate());
-        holder.value_of_progress.setText(element.getTvCurrentAmount()+" / "+element.getTvFinalAmount() + " MDL");
-        holder.progressBar.setProgressValue(element.getTvCurrentAmount()*100/element.getTvFinalAmount());
+        holder.value_of_progress.setText(element.getCurrentAmount()+" / "+element.getTvFinalAmount() + " MDL");
+        holder.progressBar.setProgressValue(element.getCurrentAmount()*100/element.getTvFinalAmount());
     }
 
     @Override

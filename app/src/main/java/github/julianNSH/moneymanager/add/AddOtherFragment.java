@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -22,38 +23,44 @@ import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
+import github.julianNSH.moneymanager.scope.ScopeModelClass;
 
 public class AddOtherFragment extends Fragment {
     public AddOtherFragment(){}
 
     private DatePickerDialog datePicker;
     private EditText otherTransactionDate;
-
+    private int commonId;
     private TimePickerDialog timePicker;
-    private EditText otherTransactionTime;
+    private EditText otherTransactionTime, amount, comment;
     private DatabaseClass databaseClass;
+    private Button addAtSource;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_add_other, container, false);
 
         //////////////////////////////////INPUT OTHER SOURCES
         databaseClass = new DatabaseClass(getContext());
-        ArrayList<String> titles = databaseClass.getDistinctScopes();
+        HashMap<Integer, String> titles = databaseClass.getScopes();
         AutoCompleteTextView otherSource = root.findViewById(R.id.other_source);
+        ArrayList<String> title = new ArrayList<>(titles.values());
+        
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, titles);
+                android.R.layout.simple_list_item_1,title);
         final String[] selection = new String[1];
         otherSource.setAdapter(arrayAdapter);
-        otherSource.setCursorVisible(true);
+        otherSource.setInputType(InputType.TYPE_NULL);
         otherSource.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 otherSource.showDropDown();
                 selection[0] = (String) parent.getItemAtPosition(position);
-                Toast.makeText(getContext(), selection[0], Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), selection[0], Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -78,7 +85,7 @@ public class AddOtherFragment extends Fragment {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-                        otherTransactionTime.setText(hourOfDay + " : " + minuteOfHour);
+                        otherTransactionTime.setText(hourOfDay + ":" + minuteOfHour);
                     }
                 }, hour, minute, true);
                 timePicker.show();
@@ -105,14 +112,44 @@ public class AddOtherFragment extends Fragment {
                     }
                 }, year, month, day);
 
-                /*android.R.style.Theme_Holo_Dialog,
-                datePicker.getDatePicker().setSpinnersShown(true);
-                datePicker.getDatePicker().setCalendarViewShown(false);
-                */
                 datePicker.show();
             }
         });
+        /**********************************************************************************************
+         ADD SOURCE VALUE
+         */
+        addAtSource = (Button) root.findViewById(R.id.add_scope_btn);
+        amount = (EditText) root.findViewById(R.id.current_amount);
+        comment = (EditText) root.findViewById(R.id.commentScopeVal);
 
+        for (Map.Entry<Integer, String> i:titles.entrySet()) {
+            if(i.getValue()==selection[0]){
+                commonId=i.getKey();
+                break;
+            }
+        }
+        ScopeModelClass inputSourceVal = new ScopeModelClass();
+        //TODO FIX Hashmap
+        //TODO Migrate to spendings when complete
+        //TODO SAVINGS PAGE!!!
+        //TODO Reload
+        //TODO update from overview
+        databaseClass = new DatabaseClass(getContext());
+
+        addAtSource.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inputSourceVal.setTvTitle(selection[0]);
+                inputSourceVal.setTvInitialAmount(Float.parseFloat(String.valueOf(amount.getText())));
+                inputSourceVal.setComment(String.valueOf(comment.getText()));
+                inputSourceVal.setTime(String.valueOf(otherTransactionTime.getText()));
+                inputSourceVal.setDate(String.valueOf(otherTransactionDate.getText()));
+                inputSourceVal.setGeneralId(1);
+                inputSourceVal.setRepeat(0);
+                long id = databaseClass.addScopeValue(inputSourceVal);
+                Toast.makeText(getContext(), "Added Source values with ID "+id, Toast.LENGTH_SHORT).show();
+            }
+        });
         return root;
     }
 }
