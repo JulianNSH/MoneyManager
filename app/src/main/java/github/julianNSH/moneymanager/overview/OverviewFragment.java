@@ -108,7 +108,7 @@ public class OverviewFragment extends Fragment {
 
     @SuppressLint({"ResourceType", "SetTextI18n", "DefaultLocale"})
     public void showOverviewData(View view, int month, int year){
-        String date = month+1+"/"+year;
+        String date = String.format("%04d-%02d", year, month+1);
         databaseClass = new DatabaseClass(getContext());
         overviewModelClasses = databaseClass.getOverviewData(date);
         float totalIncome=databaseClass.getTotalIncome(date);
@@ -225,6 +225,7 @@ public class OverviewFragment extends Fragment {
         chart.getXAxis().setAxisMaximum(MAX_X_VALUE);
     }
 
+    @SuppressLint("DefaultLocale")
     BarData createChartData(int month, int year) {
         ArrayList<BarEntry> values1 = new ArrayList<>();
         ArrayList<BarEntry> values2 = new ArrayList<>();
@@ -232,8 +233,8 @@ public class OverviewFragment extends Fragment {
         date = Calendar.getInstance();
         for (int i = 0; i < MAX_X_VALUE; i++) {
 
-            values1.add(new BarEntry(i, databaseClass.getTotalIncome(month+i-2+"/"+year)));
-            values2.add(new BarEntry(i, databaseClass.getTotalOutgoing(month+i-2+"/"+year)));
+            values1.add(new BarEntry(i, databaseClass.getTotalIncome(String.format("%04d-%02d", year, month+i-2))));
+            values2.add(new BarEntry(i, databaseClass.getTotalOutgoing(String.format("%04d-%02d", year, month+i-2))));
         }
         GROUP_1_LABEL = getResources().getString(R.string.income);
         GROUP_2_LABEL = getResources().getString(R.string.outgoings);

@@ -4,29 +4,29 @@ public class SavingsModelClass {
     int id;
     String tvTitlePeriod;
     float tvIncome;
-    float tvOutcome;
+    float tvOutgoings;
     float tvResult;
     String date;
     String tvResultColor;
     public SavingsModelClass(){}
 
-    public SavingsModelClass(int id, String tvTitlePeriod, String date, float tvIncome, float tvOutcome,
+    public SavingsModelClass(int id, String tvTitlePeriod, String date, float tvIncome, float tvOutgoings,
                              float tvResult,String tvResultColor){
 
         this.id = id;
         this.tvIncome = tvIncome;
         this.date = date;
-        this.tvOutcome = tvOutcome;
+        this.tvOutgoings = tvOutgoings;
         this.tvResult = tvResult;
         this.tvResultColor = tvResultColor;
         this.tvTitlePeriod = tvTitlePeriod;
     }
 
-    public SavingsModelClass(String tvTitlePeriod, String date, float tvIncome, float tvOutcome, float tvResult,
+    public SavingsModelClass(String tvTitlePeriod, String date, float tvIncome, float tvOutgoings, float tvResult,
                              String tvResultColor){
         this.tvIncome = tvIncome;
         this.date = date;
-        this.tvOutcome = tvOutcome;
+        this.tvOutgoings = tvOutgoings;
         this.tvResult = tvResult;
         this.tvResultColor = tvResultColor;
         this.tvTitlePeriod = tvTitlePeriod;
@@ -65,12 +65,12 @@ public class SavingsModelClass {
         this.tvIncome = tvIncome;
     }
 
-    public float getTvOutcome() {
-        return tvOutcome;
+    public float getTvOutgoings() {
+        return tvOutgoings;
     }
 
-    public void setTvOutcome(float tvOutcome) {
-        this.tvOutcome = tvOutcome;
+    public void setTvOutgoings(float tvOutgoings) {
+        this.tvOutgoings = tvOutgoings;
     }
 
     public float getTvResult() {

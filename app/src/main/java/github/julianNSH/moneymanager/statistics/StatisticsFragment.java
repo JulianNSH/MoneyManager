@@ -46,7 +46,7 @@ public class StatisticsFragment extends Fragment {
     private TextView spendingAmount;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    @SuppressLint({"ResourceType", "SetTextI18n"})
+    @SuppressLint({"ResourceType", "SetTextI18n", "DefaultLocale"})
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_statistics, container, false);
@@ -58,7 +58,7 @@ public class StatisticsFragment extends Fragment {
                 "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"};
         statisticsDateButton = (Button) root.findViewById(R.id.btn_date);
 
-        showStatisticsData(root, date.get(Calendar.MONTH)+1+ "/" + date.get(Calendar.YEAR));
+        showStatisticsData(root, String.format("%04d-%02d", date.get(Calendar.YEAR),date.get(Calendar.MONTH)+1));
 
         if(statisticsDateButton.getText() =="")
             statisticsDateButton.setText(monthsOfYear[date.get(Calendar.MONTH)]+ " " + date.get(Calendar.YEAR));
@@ -72,11 +72,11 @@ public class StatisticsFragment extends Fragment {
 
                 datePicker = new DatePickerDialog(root.getContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                         new DatePickerDialog.OnDateSetListener() {
-                    @SuppressLint("SetTextI18n")
+                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         statisticsDateButton.setText(monthsOfYear[month] + " " + year);
-                        showStatisticsData(root, month+1 + "/" + year);
+                        showStatisticsData(root, String.format("%04d-%02d", year, month+1));
                     }
                 }, year, month, day);
 
@@ -92,7 +92,7 @@ public class StatisticsFragment extends Fragment {
 
         //Update checker
 
-            showStatisticsData(root, date.get(Calendar.MONTH)+1+ "/" + date.get(Calendar.YEAR));
+            showStatisticsData(root, String.format("%04d-%02d", date.get(Calendar.YEAR),date.get(Calendar.MONTH)+1));
 
         return root;
     }

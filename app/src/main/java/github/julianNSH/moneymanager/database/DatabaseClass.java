@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.overview.OverviewModelClass;
 import github.julianNSH.moneymanager.savings.SavingsModelClass;
 import github.julianNSH.moneymanager.scope.ScopeModelClass;
@@ -88,8 +89,8 @@ public class DatabaseClass extends SQLiteOpenHelper{
     //Read data for overview
     public ArrayList<OverviewModelClass> getOverviewData(String date){
         ArrayList<OverviewModelClass> overview = new ArrayList<OverviewModelClass>();
-        String queryIncome = "SELECT * FROM "+TABLE_INCOME+" WHERE "+KEY_DATE+" LIKE "+
-                "'%"+date+"' ORDER BY "+KEY_TIME+" ASC";
+        String queryIncome = "SELECT * FROM "+TABLE_INCOME+" WHERE "+KEY_DATE+" LIKE '"
+                +date+"%' ORDER BY "+KEY_TIME+" ASC";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(queryIncome, null);
@@ -108,8 +109,8 @@ public class DatabaseClass extends SQLiteOpenHelper{
             } while (c.moveToNext());
         }
         
-        String queryOutgoing = "SELECT * FROM "+TABLE_OUTGOING+" WHERE "+KEY_DATE+" LIKE "+
-                "'%"+date+"' ORDER BY "+KEY_TIME+" ASC";
+        String queryOutgoing = "SELECT * FROM "+TABLE_OUTGOING+" WHERE "+KEY_DATE+" LIKE '"
+                +date+"%' ORDER BY "+KEY_TIME+" ASC";
 
         db = this.getReadableDatabase();
         c = db.rawQuery(queryOutgoing, null);
@@ -127,8 +128,8 @@ public class DatabaseClass extends SQLiteOpenHelper{
                 overview.add(temp);
             } while (c.moveToNext());
         }
-        String queryScope = "SELECT * FROM "+TABLE_SCOPES+" WHERE "+KEY_DATE+" LIKE "+
-                "'%"+date+"' ORDER BY "+KEY_TIME+" ASC";
+        String queryScope = "SELECT * FROM "+TABLE_SCOPES+" WHERE "+KEY_DATE+" LIKE '"
+                +date+"%' ORDER BY "+KEY_TIME+" ASC";
 
         db = this.getReadableDatabase();
         c = db.rawQuery(queryScope, null);
@@ -187,7 +188,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getReadableDatabase();
 
         String query = "SELECT SUM("+KEY_AMOUNT+") AS "+ KEY_AMOUNT+" FROM "+TABLE_INCOME+
-                " WHERE "+KEY_DATE+" LIKE "+ "'%"+date+"'";
+                " WHERE "+KEY_DATE+" LIKE '"+date+"%'";
 
         Log.e(LOG, query);
         Cursor cursor = db.rawQuery(query, null);
@@ -238,7 +239,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
     //READ TABLE
     public float getTotalOutgoing(String date){
         String query = "SELECT SUM("+KEY_AMOUNT+") AS "+ KEY_AMOUNT+" FROM "+TABLE_OUTGOING+
-                " WHERE "+KEY_DATE+" LIKE "+ "'%"+date+"'";
+                " WHERE "+KEY_DATE+" LIKE '"+date+"%'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
@@ -291,8 +292,8 @@ public class DatabaseClass extends SQLiteOpenHelper{
     //SELECT * FROM outgoing WHERE date_time LIKE "%3/2021"
     public ArrayList<StatisticsModelClass> getOutgoingDataByMonthYear(String date){
         ArrayList<StatisticsModelClass> outgoings = new ArrayList<StatisticsModelClass>();
-        String query = "SELECT * FROM "+TABLE_OUTGOING+" WHERE "+KEY_DATE+" LIKE "+
-                "'%"+date+"' ORDER BY "+KEY_TIME+" ASC";
+        String query = "SELECT * FROM "+TABLE_OUTGOING+" WHERE "+KEY_DATE+" LIKE '"
+                +date+"%' ORDER BY "+KEY_TIME+" ASC";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(query, null);
@@ -514,6 +515,46 @@ public class DatabaseClass extends SQLiteOpenHelper{
     }
 
 
+    /**********************************************************************************************
+     SAVINGS METHODS
+     **********************************************************************************************/
+    //SELECT DISTINCT strftime('%m/%Y', date) as "date" FROM outgoing UNION SELECT DISTINCT strftime('%m/%Y', date) as "date" FROM income ORDER BY date DESC
+    public ArrayList<String> getDistinctDates(){
+        String query = "SELECT DISTINCT strftime('%Y-%m', "+KEY_DATE+") as '"+KEY_DATE+"' FROM "+TABLE_OUTGOING+
+                " UNION SELECT DISTINCT strftime('%Y-%m', "+KEY_DATE+") as '"+KEY_DATE+"'  FROM "+TABLE_INCOME+"  ORDER BY date DESC";
+        ArrayList<String> queryResult = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        if (c.moveToFirst()){
+            do{
+                queryResult.add(c.getString(c.getColumnIndex(KEY_DATE)));
+            }while (c.moveToNext());
+        }
+        return queryResult;
+    }
+//
+//    incomeQuery = "SELECT SUM("+KEY_AMOUNT+") AS "+ KEY_AMOUNT+" FROM "+TABLE_INCOME+" WHERE "+KEY_DATE+" LIKE '"+distinctDates.get(i)+"%'";
+//    outgoingQuery = "SELECT SUM("+KEY_AMOUNT+") AS "+ KEY_AMOUNT+" FROM "+TABLE_OUTGOING+" WHERE "+KEY_DATE+" LIKE '"+distinctDates.get(i)+"%'";
+
+    public float getIncomeByDate(String date){
+        String query = "SELECT SUM("+KEY_AMOUNT+") AS "+ KEY_AMOUNT+" FROM "+TABLE_INCOME+" WHERE "+KEY_DATE+" LIKE '"+date+"%'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        Log.e(LOG, query);
+        return cursor.getFloat(cursor.getColumnIndex(KEY_AMOUNT));
+    }
+    public float getOutgoingByDate(String date){
+        String query = "SELECT SUM("+KEY_AMOUNT+") AS "+ KEY_AMOUNT+" FROM "+TABLE_OUTGOING+" WHERE "+KEY_DATE+" LIKE '"+date+"%'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        Log.e(LOG, query);
+        return cursor.getFloat(cursor.getColumnIndex(KEY_AMOUNT));
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_INCOME);

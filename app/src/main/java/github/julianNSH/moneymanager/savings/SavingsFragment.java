@@ -14,67 +14,64 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.LineChart;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import github.julianNSH.moneymanager.R;
+import github.julianNSH.moneymanager.database.DatabaseClass;
 
 public class SavingsFragment extends Fragment {
     private ArrayList<SavingsModelClass> savingsModelClasses;
     private RecyclerView recyclerView;
     private SavingsAdapter savingsAdapter;
+    private DatabaseClass databaseClass;
 
     private LineChart chart;
 
+    private float max, min,current, total, income, outgoing;
     private TextView savingTotal, savingActual, savingMaxim, savingMinim;
-    private String title[] = {"Septembrie 2020","Octombrie 2020","Noiembrie 2020","Decembrie 2020","Ianuarie 2021",
-            "Februarie 2021","Martie 2021","Aprilie 2021"};
-    private int income[] = {15000, 20000, 18000, 16500, 34000, 12000, 14760, 19999};
-    private int outcome[] = {11000, 14230, 19230, 9400, 20000, 14800, 9500, 16730};
-    //
-    private String color;
-    private int total = 0;
-    private int min = income[1]-outcome[1];
-    private int max = income[1]-outcome[1];
+
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_savings, container, false);
 
-        recyclerView = (RecyclerView) root.findViewById(R.id.reciclerViewSavings);
+        recyclerView = root.findViewById(R.id.reciclerViewSavings);
         savingsModelClasses = new ArrayList<>();
+        databaseClass = new DatabaseClass(root.getContext());
 
 
-//        for (int i=0; i<title.length; i++){
-//            //
-//            int temp = income[i]-outcome[i];
-//            if(min > temp){
-//                min = temp;
-//            }
-//
-//            if(max < temp){
-//                max = temp;
-//            }
-//            //
-//            total+= temp;
-//            if (income[i] > outcome[i]) {
-//                color = "#44bd32";
-//            } else {
-//                color = "#e84118";
-//            }
-//            //
-//            SavingsModelClass listModelClass = new SavingsModelClass(title[i], income[i] + " MDL",
-//                    outcome[i] + " MDL", income[i]-outcome[i] + " MDL", color);
-//            savingsModelClasses.add(listModelClass);
-//        }
+        ArrayList<String> distinctDates = databaseClass.getDistinctDates();
+        total=0;
+        max = databaseClass.getIncomeByDate(distinctDates.get(0))-databaseClass.getOutgoingByDate(distinctDates.get(0));
+        min = databaseClass.getIncomeByDate(distinctDates.get(0))-databaseClass.getOutgoingByDate(distinctDates.get(0));
+        for (int i =0; i<distinctDates.size(); i++) {
+            SavingsModelClass savingElement = new SavingsModelClass();
+
+            income = databaseClass.getTotalIncome(distinctDates.get(i));
+            outgoing = databaseClass.getTotalOutgoing(distinctDates.get(i));
+            if(income-outgoing>=max) max =income-outgoing;
+            if(income-outgoing<=min) min =income-outgoing;
+            savingElement.setTvTitlePeriod(customDateParser(distinctDates.get(i)));
+            savingElement.setTvIncome(income);
+            savingElement.setTvOutgoings(outgoing);
+            savingElement.setTvResult(income-outgoing);
+
+            savingsModelClasses.add(savingElement);
+            total+= income-outgoing;
+            if(i==0) current = income-outgoing;
+        }
+
         /////////////////////////////
-        savingTotal = (TextView) root.findViewById(R.id.savingTotal);
+        savingTotal = root.findViewById(R.id.savingTotal);
         savingTotal.setText(total + root.getResources().getString(R.string.currency));
-        savingActual = (TextView) root.findViewById(R.id.savingActual);
-        savingActual.setText(income[7]-outcome[7] + " "+root.getResources().getString(R.string.currency));
+        savingActual = root.findViewById(R.id.savingActual);
+        savingActual.setText(current + " "+root.getResources().getString(R.string.currency));
 
-        savingMaxim = (TextView) root.findViewById(R.id.savingMaxim);
+        savingMaxim = root.findViewById(R.id.savingMaxim);
         savingMaxim.setText(max + " "+ root.getResources().getString(R.string.currency));
-        savingMinim = (TextView) root.findViewById(R.id.savingMinim);
+        savingMinim = root.findViewById(R.id.savingMinim);
         savingMinim.setText(min + " "+ root.getResources().getString(R.string.currency));
 
         ///////////////////////////////////
@@ -89,4 +86,15 @@ public class SavingsFragment extends Fragment {
         return root;
     }
 
+    @SuppressLint("SimpleDateFormat")
+    public String customDateParser(String getDate){
+        String resultDate = null;
+        try {
+            resultDate = String.valueOf(new SimpleDateFormat("yyyy-MM").parse(getDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return resultDate;
+    }
 }

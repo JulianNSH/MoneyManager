@@ -16,16 +16,16 @@ import github.julianNSH.moneymanager.R;
 
 public class SavingsAdapter extends RecyclerView.Adapter<SavingsAdapter.MyViewHolder> {
     SavingsFragment context;
-    private List<SavingsModelClass> list;
+    private final List<SavingsModelClass> list;
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView savingsTitlePeriod, savingsIncome, savingsOutcome, savingsResult;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            savingsTitlePeriod = (TextView) itemView.findViewById(R.id.savingsTitlePeriod);
-            savingsIncome = (TextView) itemView.findViewById(R.id.savingIncome);
-            savingsOutcome = (TextView) itemView.findViewById(R.id.savingOutcome);
-            savingsResult = (TextView) itemView.findViewById(R.id.savingsResult);
+            savingsTitlePeriod = itemView.findViewById(R.id.savingsTitlePeriod);
+            savingsIncome = itemView.findViewById(R.id.savingIncome);
+            savingsOutcome = itemView.findViewById(R.id.savingOutcome);
+            savingsResult = itemView.findViewById(R.id.savingsResult);
         }
     }
 
@@ -47,11 +47,16 @@ public class SavingsAdapter extends RecyclerView.Adapter<SavingsAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         SavingsModelClass element = list.get(position);
+        int color;
+        if(element.getTvIncome()>=element.getTvOutgoings()){
+            color = context.getResources().getColor(R.color.green2);
+        } else {color = context.getResources().getColor(R.color.red2);}
+        
         holder.savingsTitlePeriod.setText(element.getTvTitlePeriod());
-        holder.savingsIncome.setText(element.getTvIncome()+" "+R.string.currency);
-        holder.savingsOutcome.setText(element.getTvOutcome()+" "+R.string.currency);
-        holder.savingsResult.setText(element.getTvResult()+" "+R.string.currency);
-        holder.savingsResult.setTextColor(Color.parseColor(element.getTvResultColor()));
+        holder.savingsIncome.setText(element.getTvIncome()+" "+context.getResources().getString(R.string.currency));
+        holder.savingsOutcome.setText(element.getTvOutgoings()+" "+context.getResources().getString(R.string.currency));
+        holder.savingsResult.setText(element.getTvResult()+" "+context.getResources().getString(R.string.currency));
+        holder.savingsResult.setTextColor(color);
     }
 
     @Override

@@ -136,10 +136,10 @@ public class AddOutgoingFragment extends Fragment {
                 int year = date.get(Calendar.YEAR);
 
                 datePicker = new DatePickerDialog(root.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @SuppressLint("SetTextI18n")
+                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        outgoingDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                        outgoingDate.setText(String.format("%04d-%02d-%02d", year, month+1, dayOfMonth));
                     }
                 }, year, month, day);
 

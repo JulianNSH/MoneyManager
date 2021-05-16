@@ -68,7 +68,7 @@ public class AddIncomeFragment extends Fragment {
         });
 
         //////////////////////////////////PICK TIME FROM CLOCK
-        incomeTime = (EditText) root.findViewById(R.id.add_income_time);
+        incomeTime = root.findViewById(R.id.add_income_time);
         incomeTime.setInputType(InputType.TYPE_NULL);
         incomeTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +89,7 @@ public class AddIncomeFragment extends Fragment {
         });
 
         //////////////////////////////////PICK A DATE FROM CALENDAR
-        incomeDate = (EditText) root.findViewById(R.id.add_income_date);
+        incomeDate = root.findViewById(R.id.add_income_date);
         incomeDate.setInputType(InputType.TYPE_NULL);
         incomeDate.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -101,10 +101,10 @@ public class AddIncomeFragment extends Fragment {
                 int year = date.get(Calendar.YEAR);
 
                 datePicker = new DatePickerDialog(root.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @SuppressLint("SetTextI18n")
+                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        incomeDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                        incomeDate.setText(String.format("%04d-%02d-%02d", year, month+1, dayOfMonth));
                     }
                 }, year, month, day);
 
@@ -118,9 +118,9 @@ public class AddIncomeFragment extends Fragment {
         /**********************************************************************************************
          ADD Income
          */
-        addIncome = (Button) root.findViewById(R.id.add_income_btn);
-        amount = (EditText) root.findViewById(R.id.incomeAmount);
-        comment = (EditText) root.findViewById(R.id.commentIncome);
+        addIncome = root.findViewById(R.id.add_income_btn);
+        amount = root.findViewById(R.id.incomeAmount);
+        comment = root.findViewById(R.id.commentIncome);
 
         StatisticsModelClass inputOutgoing = new StatisticsModelClass();
 
