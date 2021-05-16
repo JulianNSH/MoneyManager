@@ -200,7 +200,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
                         android:textColor="@color/black"
-                        android:text="Comentariu"
+                        android:text="Comentariul"
                         android:layout_margin="5dp"/>
 
                     <EditText

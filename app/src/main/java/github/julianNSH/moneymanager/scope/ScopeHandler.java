@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.text.InputType;
@@ -48,7 +49,6 @@ public class ScopeHandler {
         updateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         updButton = (Button) updateDialog.findViewById(R.id.btn_add_scope);
         updButton.setText("SALVARE");
-        updButton.setBackgroundColor(R.color.blue1);
 
         //////////////////////////////////PICK TIME FROM CLOCK
         startScopeTime = (EditText) updateDialog.findViewById(R.id.add_start_time);
@@ -62,10 +62,10 @@ public class ScopeHandler {
                 int minute = time.get(Calendar.MINUTE);
 
                 timePicker = new TimePickerDialog(updateDialog.getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @SuppressLint("SetTextI18n")
+                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-                        startScopeTime.setText(hourOfDay + ":" + minuteOfHour);
+                        startScopeTime.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour));
                     }
                 }, hour, minute, true);
                 timePicker.show();
@@ -82,10 +82,10 @@ public class ScopeHandler {
                 int minute = time.get(Calendar.MINUTE);
 
                 timePicker = new TimePickerDialog(updateDialog.getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @SuppressLint("SetTextI18n")
+                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-                        endScopeTime.setText(hourOfDay + ":" + minuteOfHour);
+                        endScopeTime.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour));
                     }
                 }, hour, minute, true);
                 timePicker.show();
@@ -182,6 +182,7 @@ public class ScopeHandler {
                 scopeData.setEndTime(String.valueOf(endScopeTime.getText()));
                 scopeData.setEndDate(String.valueOf(endScopeDate.getText()));
                 scopeData.setComment(String.valueOf(comment.getText()));
+                scopeData.setIsCompleted(0);
                 long id = databaseClass.updateScope(scopeData);
                 Toast.makeText(root.getContext(), "UPDATED Scope with ID "+id, Toast.LENGTH_SHORT).show();
                 updateDialog.dismiss();

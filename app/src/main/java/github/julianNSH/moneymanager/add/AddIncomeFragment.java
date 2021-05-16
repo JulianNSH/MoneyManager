@@ -78,10 +78,10 @@ public class AddIncomeFragment extends Fragment {
                 int minute = time.get(Calendar.MINUTE);
 
                 timePicker = new TimePickerDialog(root.getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @SuppressLint("SetTextI18n")
+                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-                        incomeTime.setText(hourOfDay + " : " + minuteOfHour);
+                        incomeTime.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour));
                     }
                 }, hour, minute, true);
                 timePicker.show();

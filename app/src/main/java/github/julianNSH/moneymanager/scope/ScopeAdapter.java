@@ -5,11 +5,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +38,7 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
         private TextView scopeTitle, value_of_progress, scope_start_DT, scope_end_DT;
         private AProgressBar progressBar;
         private LinearLayout rvItem;
+        private ImageView isCompleted;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -45,6 +48,7 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
             scopeTitle = (TextView) itemView.findViewById(R.id.scopeTitle);
             value_of_progress = (TextView) itemView.findViewById(R.id.value_of_progress);
             progressBar = (AProgressBar) itemView.findViewById(R.id.pb_scope);
+            isCompleted = (ImageView) itemView.findViewById(R.id.isCompletedCheck);
         }
     }
 
@@ -83,6 +87,8 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
                 AProgressBar progressBar = (AProgressBar) itemScopeDialog.findViewById(R.id.pb_scope);
                 TextView tvProgressValue = (TextView) itemScopeDialog.findViewById(R.id.value_of_progress);
                 TextView tvComment = (TextView) itemScopeDialog.findViewById(R.id.tv_comment);
+                Button btnComplete = (Button) itemScopeDialog.findViewById(R.id.btn_complete);
+                btnComplete.setVisibility(LinearLayout.GONE);
 
                 tvTitle.setText(list.get(viewHolder.getAdapterPosition()).getTvTitle());
                 tvStartDateTime.setText(list.get(viewHolder.getAdapterPosition()).getStartTime()+" "+
@@ -100,7 +106,20 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
                 tvComment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
 
                 onDeleteButtonClick(itemView, viewHolder);
-                onUpdateButtonClick(itemView,list,viewHolder);
+                onUpdateButtonClick(itemView,viewHolder);
+
+                //if scope get necessary amount of money user can complete it and all scope transactions
+                //transfers to outgoings
+
+                if(list.get(viewHolder.getAdapterPosition()).getCurrentAmount()>=
+                        list.get(viewHolder.getAdapterPosition()).getTvFinalAmount() &&
+                        list.get(viewHolder.getAdapterPosition()).getTvInitialAmount()!=
+                                list.get(viewHolder.getAdapterPosition()).getTvFinalAmount()) {
+                    btnComplete.setVisibility(LinearLayout.VISIBLE);
+                    onCompleteButtonClick(viewHolder);
+                }
+
+
 
                 itemScopeDialog.show();
             }
@@ -119,6 +138,7 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
         holder.scope_end_DT.setText("Până la: "+element.getEndTime()+" "+element.getEndDate());
         holder.value_of_progress.setText(element.getCurrentAmount()+" / "+element.getTvFinalAmount() + " MDL");
         holder.progressBar.setProgressValue(element.getCurrentAmount()*100/element.getTvFinalAmount());
+        if(element.getIsCompleted()==1) holder.isCompleted.setVisibility(LinearLayout.VISIBLE);
     }
 
     @Override
@@ -148,7 +168,7 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
     /*********************************************************************************************
      *  UPDATE ELEMENT FROM LIST THROUGH DIALOG WINDOW
      */
-    public  void onUpdateButtonClick(View itemView, List<ScopeModelClass> list, MyViewHolder viewHolder){
+    public  void onUpdateButtonClick(View itemView, MyViewHolder viewHolder){
         Button btn_edit = (Button) itemScopeDialog.findViewById(R.id.btn_edit);
 
         DatabaseClass databaseClass = new DatabaseClass(itemView.getContext());
@@ -163,5 +183,24 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
             }
         });
         itemScopeDialog.show();
+    }
+    /*********************************************************************************************
+     *  COMPLETED SCOPE -> OUTGOINGS
+     */
+    public  void onCompleteButtonClick(MyViewHolder viewHolder){
+
+        Button btnComplete = (Button) itemScopeDialog.findViewById(R.id.btn_complete);
+        DatabaseClass databaseClass = new DatabaseClass(context);
+        btnComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list.get(viewHolder.getAdapterPosition()).setIsCompleted(1);
+                list.get(viewHolder.getAdapterPosition()).setTvInitialAmount(0);
+                list.get(viewHolder.getAdapterPosition()).setTvInitialAmount(
+                        list.get(viewHolder.getAdapterPosition()).getTvFinalAmount());
+                databaseClass.updateScope(list.get(viewHolder.getAdapterPosition()));
+                Toast.makeText(context, "Scope completed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

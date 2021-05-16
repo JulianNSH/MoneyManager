@@ -22,7 +22,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
     //Logcat
     private static final String LOG = "DatabaseLog";
     //Database Version
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     //Database Name
     private static final String DATABASE_NAME = "moneyManagerDatabase";
     //Table Names
@@ -54,6 +54,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
     private static final String KEY_END_TIME = "end_time";
     private static final String KEY_CURRENT_AMOUNT = "current_amount";
     private static final String KEY_NEEDED_AMOUNT = "needed_amount";
+    private static final String KEY_IS_COMPLETED = "is_completed";
 
     //CREATE TABLE STATEMENTS
 
@@ -74,7 +75,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
             "("+ KEY_ID +" INTEGER PRIMARY KEY,"+ KEY_SCOPE_LIST_TITLE +" TEXT,"+ KEY_CURRENT_AMOUNT +
             " REAL,"+ KEY_NEEDED_AMOUNT + " REAL,"+ KEY_START_TIME +" DATETIME,"+
             KEY_START_DATE +" DATETIME,"+ KEY_END_TIME +" DATETIME,"+
-            KEY_END_DATE +" DATETIME,"+ KEY_COMMENT +" TEXT"+")";
+            KEY_END_DATE +" DATETIME,"+ KEY_COMMENT +" TEXT, "+KEY_IS_COMPLETED+" INTEGER"+")";
 
 
     public DatabaseClass(@Nullable Context context) {
@@ -414,6 +415,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
         values.put(KEY_END_TIME, scope.getEndTime());
         values.put(KEY_END_DATE, scope.getEndDate());
         values.put(KEY_COMMENT, scope.getComment());
+        values.put(KEY_IS_COMPLETED, scope.getIsCompleted());
 
         long scope_id = db.insert(TABLE_SCOPES_LIST, null, values);
 
@@ -439,6 +441,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
                 temp.setEndTime(c.getString(c.getColumnIndex(KEY_END_TIME)));
                 temp.setEndDate(c.getString(c.getColumnIndex(KEY_END_DATE)));
                 temp.setComment(c.getString(c.getColumnIndex(KEY_COMMENT)));
+                temp.setIsCompleted(c.getInt(c.getColumnIndex(KEY_IS_COMPLETED)));
                 scopeList.add(temp);
             } while (c.moveToNext());
         }
@@ -472,6 +475,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
         val.put(KEY_END_TIME, updScope.getEndTime());
         val.put(KEY_END_DATE, updScope.getEndDate());
         val.put(KEY_COMMENT, updScope.getComment());
+        val.put(KEY_IS_COMPLETED, updScope.getIsCompleted());
 
         return db.update(TABLE_SCOPES_LIST, val, KEY_ID + " = ?",
                 new String[]{String.valueOf(updScope.getId())});

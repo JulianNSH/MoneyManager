@@ -58,7 +58,8 @@
                         android:textSize="15sp"
                         android:textColor="@color/black"
                         android:inputType="text"
-                        android:hint="Tastați pentru selectare"/>
+                        android:hint="Tastați pentru selectare"
+                        android:drawableRight="@android:drawable/arrow_down_float"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -207,7 +208,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
                         android:textColor="@color/black"
-                        android:text="Comentariu"
+                        android:text="Comentariul"
                         android:layout_margin="5dp"/>
 
                     <EditText

@@ -5,7 +5,7 @@ public class ScopeModelClass {
     String tvTitle, comment;
     float tvFinalAmount, tvInitialAmount, currentAmount;
     String startTime, startDate, endTime, endDate, date, time;
-    int generalId,repeat;
+    int generalId,repeat, isCompleted;
 
     public ScopeModelClass(){}
     public ScopeModelClass(int id, String tvTitle, float tvFinalAmount, float tvInitialAmount, String startTime,
@@ -33,6 +33,14 @@ public class ScopeModelClass {
         this.endDate = endDate;
         this.comment = comment;
         this.generalId = generalId;
+    }
+
+    public int getIsCompleted() {
+        return isCompleted;
+    }
+
+    public void setIsCompleted(int isCompleted) {
+        this.isCompleted = isCompleted;
     }
 
     public int getId() {
