@@ -17,6 +17,8 @@ import com.github.mikephil.charting.charts.LineChart;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
@@ -88,13 +90,16 @@ public class SavingsFragment extends Fragment {
 
     @SuppressLint("SimpleDateFormat")
     public String customDateParser(String getDate){
-        String resultDate = null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMMM yyyy", new Locale("ro", "RO"));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        Date date = null;
         try {
-            resultDate = String.valueOf(new SimpleDateFormat("yyyy-MM").parse(getDate));
+            date = sdf.parse(getDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        String resultDate = simpleDateFormat.format(date);
 
-        return resultDate;
+        return resultDate.substring(0,1).toUpperCase()+resultDate.substring(1);
     }
 }
