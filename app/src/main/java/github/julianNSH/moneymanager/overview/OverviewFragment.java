@@ -23,13 +23,10 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -71,7 +68,7 @@ public class OverviewFragment extends Fragment {
         date = Calendar.getInstance();
         final String[] monthsOfYear = {"Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie",
                 "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"};
-        overviewDateButton = (Button) root.findViewById(R.id.btn_date);
+        overviewDateButton = root.findViewById(R.id.btn_date);
         showOverviewData(root, date.get(Calendar.MONTH), date.get(Calendar.YEAR));
 
         if(overviewDateButton.getText() =="")
@@ -116,9 +113,9 @@ public class OverviewFragment extends Fragment {
         float inOutRatio;
         //TOP LAYOUT 
         if(overviewModelClasses!=null) {
-            incomeOverview = (TextView) view.findViewById(R.id.incomeOverview);
+            incomeOverview = view.findViewById(R.id.incomeOverview);
             incomeOverview.setText("+"+totalIncome +" "+ getResources().getString(R.string.currency));
-            outgoingOverview = (TextView) view.findViewById(R.id.outgoingOverview);
+            outgoingOverview = view.findViewById(R.id.outgoingOverview);
             outgoingOverview.setText("-"+totalOutgoing +" "+ getResources().getString(R.string.currency));
 
             //Exclude possibility of divide by zero
@@ -126,7 +123,7 @@ public class OverviewFragment extends Fragment {
                 inOutRatio = totalOutgoing * 100;
             } else {inOutRatio = totalOutgoing*100/totalIncome;}
 
-            inOutView = (TextView) view.findViewById(R.id.in_out_percent);
+            inOutView = view.findViewById(R.id.in_out_percent);
             inOutView.setText(String.format("%3.1f",inOutRatio)+"%");
             if(inOutRatio<=50){
                 inOutView.setTextColor(getResources().getColor(R.color.lvl1));
@@ -147,7 +144,7 @@ public class OverviewFragment extends Fragment {
         }
         
         ////RECICLERVIEW
-        recyclerView = (RecyclerView) view.findViewById(R.id.rvTransaction);
+        recyclerView = view.findViewById(R.id.rvTransaction);
 
         if(overviewModelClasses!=null) {
             Collections.sort(overviewModelClasses);

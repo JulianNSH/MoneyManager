@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="34dp"
+                android:padding="20dp"
                 android:background="@drawable/bottom_rect">
 
                 <LinearLayout
@@ -32,15 +32,15 @@
                     android:orientation="vertical"
                     android:layout_marginTop="5dp"
                     android:paddingTop="20dp"
-                    android:paddingLeft="28dp"
-                    android:paddingRight="28dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
                     android:paddingBottom="10dp"
                     android:background="@drawable/white_rect">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
+                        android:textSize="15sp"
                         android:textColor="@color/black"
                         android:lineSpacingExtra="2sp"
                         android:text="Sumar" />
@@ -64,7 +64,8 @@
                         <com.github.mikephil.charting.charts.LineChart
                             android:id="@+id/savings_linechart"
                             android:layout_width="match_parent"
-                            android:layout_height="fill_parent" />
+                            android:padding="2dp"
+                            android:layout_height="250dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -94,7 +95,7 @@
                                     android:textSize="10sp"
                                     android:textColor="@color/black"
                                     android:lineSpacingExtra="2sp"
-                                    android:text="Curent"
+                                    android:text="Recent"
                                     />
 
                                 <TextView

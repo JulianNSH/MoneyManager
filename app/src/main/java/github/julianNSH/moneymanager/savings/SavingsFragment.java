@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,6 +32,7 @@ public class SavingsFragment extends Fragment {
     private RecyclerView recyclerView;
     private SavingsAdapter savingsAdapter;
     private DatabaseClass databaseClass;
+    private ArrayList<Entry> chartData;
 
     private LineChart chart;
 
@@ -42,6 +47,7 @@ public class SavingsFragment extends Fragment {
         recyclerView = root.findViewById(R.id.reciclerViewSavings);
         savingsModelClasses = new ArrayList<>();
         databaseClass = new DatabaseClass(root.getContext());
+        chartData = new ArrayList<>();
 
 
         ArrayList<String> distinctDates = databaseClass.getDistinctDates();
@@ -61,6 +67,8 @@ public class SavingsFragment extends Fragment {
             savingElement.setTvResult(income-outgoing);
 
             savingsModelClasses.add(savingElement);
+            chartData.add(new Entry(i,income-outgoing));
+
             total+= income-outgoing;
             if(i==0) current = income-outgoing;
         }
@@ -84,6 +92,15 @@ public class SavingsFragment extends Fragment {
         recyclerView.setAdapter(savingsAdapter);
 
         /////////////////////////
+        chart = root.findViewById(R.id.savings_linechart);
+        LineDataSet lineDataSet = new LineDataSet(chartData, "Progresul");
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(lineDataSet);
+
+        LineData data = new LineData(dataSets);
+        chart.setData(data);
+        chart.invalidate();
+
 
         return root;
     }
