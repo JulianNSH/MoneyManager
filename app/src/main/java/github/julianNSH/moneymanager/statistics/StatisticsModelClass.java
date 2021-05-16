@@ -1,8 +1,10 @@
 package github.julianNSH.moneymanager.statistics;
 
+import github.julianNSH.moneymanager.R;
+
 public class StatisticsModelClass implements Comparable<StatisticsModelClass>{
     int id, repeat;
-    Integer ivIcon;
+    Integer ivIcon = R.drawable.ic_flat;
     String tvType;
     float tvAmount;
     String date;

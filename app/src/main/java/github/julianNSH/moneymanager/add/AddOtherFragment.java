@@ -120,31 +120,32 @@ public class AddOtherFragment extends Fragment {
         addAtSource = (Button) root.findViewById(R.id.add_scope_btn);
         amount = (EditText) root.findViewById(R.id.current_amount);
         comment = (EditText) root.findViewById(R.id.commentScopeVal);
-        int commonId = 0;
-        for (Map.Entry<Integer, String> i:titles.entrySet()) {
-            if(i.getValue()==selection[0]){
-                commonId=(int )i.getKey();
-                break;
-            }
-        }
+
         ScopeModelClass inputSourceVal = new ScopeModelClass();
 
-        //TODO Migrate to spendings when complete
+
         //TODO SAVINGS PAGE!!!//new date field yyyy-mm-dd for
+        //SELECT DISTINCT strftime('%m/%Y', date) as "date" FROM scopes ORDER BY date DESC
         //TODO Reload
         //TODO update from overview
         databaseClass = new DatabaseClass(getContext());
 
-        int finalCommonId = commonId;
         addAtSource.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int commonId = 0;
+                for (Map.Entry<Integer, String> i:titles.entrySet()) {
+                    if(i.getValue().equals(selection[0])){
+                        commonId=i.getKey();
+                        break;
+                    }
+                }
                 inputSourceVal.setTvTitle(selection[0]);
                 inputSourceVal.setTvInitialAmount(Float.parseFloat(String.valueOf(amount.getText())));
                 inputSourceVal.setComment(String.valueOf(comment.getText()));
                 inputSourceVal.setTime(String.valueOf(otherTransactionTime.getText()));
                 inputSourceVal.setDate(String.valueOf(otherTransactionDate.getText()));
-                inputSourceVal.setGeneralId(finalCommonId);
+                inputSourceVal.setGeneralId(commonId);
                 inputSourceVal.setRepeat(0);
                 long id = databaseClass.addScopeValue(inputSourceVal);
                 Toast.makeText(getContext(), "Added Source values with ID "+id, Toast.LENGTH_SHORT).show();

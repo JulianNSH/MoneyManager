@@ -80,16 +80,17 @@ public class ScopeFragment extends Fragment {
         startScopeTime.setInputType(InputType.TYPE_NULL);
         startScopeTime.setOnClickListener(new View.OnClickListener() {
             @Override
+            @SuppressLint({"SetTextI18n", "DefaultLocale"})
             public void onClick(View v) {
                 Calendar time = Calendar.getInstance();
                 int hour = time.get(Calendar.HOUR_OF_DAY);
                 int minute = time.get(Calendar.MINUTE);
 
                 timePicker = new TimePickerDialog(addScopeDialog.getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @SuppressLint("SetTextI18n")
+
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-                        startScopeTime.setText(hourOfDay + ":" + minuteOfHour);
+                        startScopeTime.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour));
                     }
                 }, hour, minute, true);
                 timePicker.show();
@@ -99,16 +100,15 @@ public class ScopeFragment extends Fragment {
         endScopeTime.setInputType(InputType.TYPE_NULL);
         endScopeTime.setOnClickListener(new View.OnClickListener() {
             @Override
+            @SuppressLint({"SetTextI18n", "DefaultLocale"})
             public void onClick(View v) {
                 Calendar time = Calendar.getInstance();
                 int hour = time.get(Calendar.HOUR_OF_DAY);
                 int minute = time.get(Calendar.MINUTE);
-
                 timePicker = new TimePickerDialog(addScopeDialog.getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-                        endScopeTime.setText(hourOfDay + ":" + minuteOfHour);
+                        endScopeTime.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour));
                     }
                 }, hour, minute, true);
                 timePicker.show();
@@ -161,10 +161,6 @@ public class ScopeFragment extends Fragment {
                     }
                 }, year, month, day);
 
-                /*android.R.style.Theme_Holo_Dialog,
-                datePicker.getDatePicker().setSpinnersShown(true);
-                datePicker.getDatePicker().setCalendarViewShown(false);
-                */
                 datePicker.show();
             }
         });

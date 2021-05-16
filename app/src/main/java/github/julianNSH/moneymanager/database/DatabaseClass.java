@@ -348,7 +348,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
         db.delete(TABLE_OUTGOING, KEY_ID + " = ?", new String[]{String.valueOf(outgoing_id)});
     }
 
-    //TODO get data for savings
+
     /**********************************************************************************************
      SAVINGS QUERY METHODS
      **********************************************************************************************/
@@ -390,10 +390,11 @@ public class DatabaseClass extends SQLiteOpenHelper{
     //READ TABLE
     public float getTotalScopeById(int id){
         String query = "SELECT SUM("+KEY_AMOUNT+") AS "+ KEY_AMOUNT+" FROM "+TABLE_SCOPES+
-                " WHERE "+KEY_ID+" = "+ id;
+                " WHERE "+KEY_SCOPE_ID+" = "+ id;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
+        Log.e(LOG, query);
         return cursor.getFloat(cursor.getColumnIndex(KEY_AMOUNT));
     }
     //UPDATE TABLE
@@ -479,6 +480,32 @@ public class DatabaseClass extends SQLiteOpenHelper{
 
         return db.update(TABLE_SCOPES_LIST, val, KEY_ID + " = ?",
                 new String[]{String.valueOf(updScope.getId())});
+    }
+
+    public void convertScopesToOutgoings(int targetId){
+        ArrayList<StatisticsModelClass> scopesVal = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String queryScope = "SELECT * FROM "+TABLE_SCOPES+" WHERE "+KEY_SCOPE_ID+" = "+targetId;
+        Cursor c = db.rawQuery(queryScope, null);
+
+        if(c.moveToFirst()){
+            do{
+                StatisticsModelClass temp = new StatisticsModelClass();
+                temp.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+                temp.setTvType(c.getString(c.getColumnIndex(KEY_SCOPE_SOURCE)));
+                temp.setTvAmount(c.getFloat(c.getColumnIndex(KEY_AMOUNT)));
+                temp.setTime(c.getString(c.getColumnIndex(KEY_TIME)));
+                temp.setDate(c.getString(c.getColumnIndex(KEY_DATE)));
+                temp.setComment(c.getString(c.getColumnIndex(KEY_COMMENT)));
+                temp.setRepeat(0);
+                scopesVal.add(temp);
+            } while (c.moveToNext());
+        }
+        for (StatisticsModelClass element: scopesVal) {
+            addOutgoing(element);
+            db.delete(TABLE_SCOPES, KEY_ID + " = ?", new String[]{String.valueOf(element.getId())});
+        }
+
     }
     //DELETE ELEMENT
     public void deleteScope(int id){
