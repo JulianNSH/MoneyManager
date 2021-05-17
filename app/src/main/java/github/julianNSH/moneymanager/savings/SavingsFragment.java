@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import github.julianNSH.moneymanager.CustomDateParser;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
 
@@ -61,7 +62,7 @@ public class SavingsFragment extends Fragment {
             outgoing = databaseClass.getTotalOutgoing(distinctDates.get(i));
             if(income-outgoing>=max) max =income-outgoing;
             if(income-outgoing<=min) min =income-outgoing;
-            savingElement.setTvTitlePeriod(customDateParser(distinctDates.get(i)));
+            savingElement.setTvTitlePeriod(CustomDateParser.customDateParser(distinctDates.get(i)));
             savingElement.setTvIncome(income);
             savingElement.setTvOutgoings(outgoing);
             savingElement.setTvResult(income-outgoing);
@@ -105,18 +106,5 @@ public class SavingsFragment extends Fragment {
         return root;
     }
 
-    @SuppressLint("SimpleDateFormat")
-    public String customDateParser(String getDate){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMMM yyyy", new Locale("ro", "RO"));
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-        Date date = null;
-        try {
-            date = sdf.parse(getDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        String resultDate = simpleDateFormat.format(date);
 
-        return resultDate.substring(0,1).toUpperCase()+resultDate.substring(1);
-    }
 }

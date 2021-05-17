@@ -21,6 +21,8 @@ import java.util.List;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import github.julianNSH.moneymanager.CustomDateParser;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
 import github.julianNSH.moneymanager.overview.OutgoingHandler;
@@ -31,7 +33,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
     Context context;
     DatabaseClass databaseClass;
 
-    private List<StatisticsModelClass> list;
+    private final List<StatisticsModelClass> list;
     Dialog itemStatisticsDialog;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -42,11 +44,11 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
 
         public MyViewHolder(View view) {
             super(view);
-            rvItem = (LinearLayout) view.findViewById(R.id.list_element);
-            tvType = (TextView) view.findViewById(R.id.tvType);
-            tvPrice = (TextView) view.findViewById(R.id.tvPrice);
-            ivFigure = (ImageView) view.findViewById(R.id.ivFigure);
-            tvDateTime = (TextView) view.findViewById(R.id.date_time);
+            rvItem = view.findViewById(R.id.list_element);
+            tvType = view.findViewById(R.id.tvType);
+            tvPrice = view.findViewById(R.id.tvPrice);
+            ivFigure = view.findViewById(R.id.ivFigure);
+            tvDateTime = view.findViewById(R.id.date_time);
         }
         public String getCurrency(){return itemView.getResources().getString(R.string.currency);}
     }
@@ -72,10 +74,10 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
             @SuppressLint({"ResourceType", "SetTextI18n"})
             @Override
             public void onClick(View v) {
-                TextView tv_category = (TextView) itemStatisticsDialog.findViewById(R.id.tv_category);
-                TextView tv_date_time = (TextView) itemStatisticsDialog.findViewById(R.id.tv_date_time);
-                TextView tv_amount = (TextView) itemStatisticsDialog.findViewById(R.id.tv_amount);
-                TextView tv_comment = (TextView) itemStatisticsDialog.findViewById(R.id.tv_comment);
+                TextView tv_category = itemStatisticsDialog.findViewById(R.id.tv_category);
+                TextView tv_date_time = itemStatisticsDialog.findViewById(R.id.tv_date_time);
+                TextView tv_amount = itemStatisticsDialog.findViewById(R.id.tv_amount);
+                TextView tv_comment = itemStatisticsDialog.findViewById(R.id.tv_comment);
 
                 tv_category.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
                 tv_date_time.setText(list.get(viewHolder.getAdapterPosition()).getTime()+" "+
@@ -102,7 +104,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
         StatisticsModelClass element = list.get(position);
         holder.tvType.setText(element.getTvType());
         holder.tvPrice.setText(element.getTvAmount() + " " +holder.getCurrency());
-        holder.tvDateTime.setText(element.getTime()+" "+element.getDate());
+        holder.tvDateTime.setText(CustomDateParser.customDateParser(element.getDate(), "dd MMMM")+" "+element.getTime());
         holder.ivFigure.setImageResource(element.getIvIcon());
     }
     @Override
@@ -114,7 +116,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
      *  DELETE ELEMENT FROM LIST THROUGH DIALOG WINDOW
      */
     public void onDeleteButtonClick(View itemView, MyViewHolder viewHolder) {
-        Button btn_delete = (Button) itemStatisticsDialog.findViewById(R.id.btn_delete);
+        Button btn_delete = itemStatisticsDialog.findViewById(R.id.btn_delete);
 
         databaseClass = new DatabaseClass(itemView.getContext());
 
@@ -134,7 +136,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
      *  UPDATE ELEMENT FROM LIST THROUGH DIALOG WINDOW
      */
     public  void onUpdateButtonClick( View itemView, List<StatisticsModelClass> list, MyViewHolder viewHolder){
-        Button btn_edit = (Button) itemStatisticsDialog.findViewById(R.id.btn_edit);
+        Button btn_edit = itemStatisticsDialog.findViewById(R.id.btn_edit);
 
         btn_edit.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)

@@ -20,30 +20,33 @@ import java.util.List;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import github.julianNSH.moneymanager.CustomDateParser;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
 import github.julianNSH.moneymanager.statistics.StatisticsAdapter;
 
 
 public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyViewHolder> {
-    private Context context;
-    private List<OverviewModelClass> list;
+    private final Context context;
+    private final List<OverviewModelClass> list;
     Dialog itemOverviewDialog;
     DatabaseClass databaseClass;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private LinearLayout rvItem;
-        private TextView tvType, tvPrice, tvDateTime;
-        private ImageView ivFigure;
+        private final LinearLayout rvItem;
+        private final TextView tvType;
+        private final TextView tvPrice;
+        private final TextView tvDateTime;
+        private final ImageView ivFigure;
 
         public MyViewHolder(View view) {
             super(view);
-            rvItem = (LinearLayout) view.findViewById(R.id.list_element);
-            tvType = (TextView) view.findViewById(R.id.tvType);
-            tvPrice = (TextView) view.findViewById(R.id.tvPrice);
-            ivFigure = (ImageView) view.findViewById(R.id.ivFigure);
-            tvDateTime = (TextView) view.findViewById(R.id.date_time);
+            rvItem = view.findViewById(R.id.list_element);
+            tvType = view.findViewById(R.id.tvType);
+            tvPrice = view.findViewById(R.id.tvPrice);
+            ivFigure = view.findViewById(R.id.ivFigure);
+            tvDateTime = view.findViewById(R.id.date_time);
 
         }
     }
@@ -70,11 +73,11 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
             @Override
             public void onClick(View v) {
 
-                TextView tv_domain = (TextView) itemOverviewDialog.findViewById(R.id.tv_domain);
-                TextView tv_category = (TextView) itemOverviewDialog.findViewById(R.id.tv_category);
-                TextView tv_date_time = (TextView) itemOverviewDialog.findViewById(R.id.tv_date_time);
-                TextView tv_amount = (TextView) itemOverviewDialog.findViewById(R.id.tv_amount);
-                TextView tv_comment = (TextView) itemOverviewDialog.findViewById(R.id.tv_comment);
+                TextView tv_domain = itemOverviewDialog.findViewById(R.id.tv_domain);
+                TextView tv_category = itemOverviewDialog.findViewById(R.id.tv_category);
+                TextView tv_date_time = itemOverviewDialog.findViewById(R.id.tv_date_time);
+                TextView tv_amount = itemOverviewDialog.findViewById(R.id.tv_amount);
+                TextView tv_comment = itemOverviewDialog.findViewById(R.id.tv_comment);
 
                 onDeleteButtonClick(itemView, viewHolder);
                 onUpdateButtonClick(itemView, list, viewHolder);
@@ -103,7 +106,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
         holder.tvType.setText(element.getTvType());
         holder.tvPrice.setText(element.getTvAmount() + " MDL");
         holder.ivFigure.setImageResource(element.getIvFigure());
-        holder.tvDateTime.setText(element.getTime() + " " + element.getDate());
+        holder.tvDateTime.setText(CustomDateParser.customDateParser(element.getDate(), "dd MMMM")+" "+element.getTime());
     }
 
     @Override
@@ -114,7 +117,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
      *  DELETE ELEMENT FROM LIST THROUGH DIALOG WINDOW
      */
     public void onDeleteButtonClick(View itemView, OverviewAdapter.MyViewHolder viewHolder) {
-        Button btn_delete = (Button) itemOverviewDialog.findViewById(R.id.btn_delete);
+        Button btn_delete = itemOverviewDialog.findViewById(R.id.btn_delete);
 
         databaseClass = new DatabaseClass(itemView.getContext());
 
@@ -134,7 +137,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
      *  UPDATE ELEMENT FROM LIST THROUGH DIALOG WINDOW
      */
     public void onUpdateButtonClick(View itemView, List<OverviewModelClass> list, OverviewAdapter.MyViewHolder viewHolder) {
-        Button btn_update = (Button) itemOverviewDialog.findViewById(R.id.btn_edit);
+        Button btn_update = itemOverviewDialog.findViewById(R.id.btn_edit);
 
         databaseClass = new DatabaseClass(itemView.getContext());
 

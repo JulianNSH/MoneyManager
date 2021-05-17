@@ -124,8 +124,6 @@ public class AddOtherFragment extends Fragment {
         ScopeModelClass inputSourceVal = new ScopeModelClass();
 
 
-        //TODO SAVINGS PAGE!!!//new date field yyyy-mm-dd for
-        //SELECT DISTINCT strftime('%m/%Y', date) as "date" FROM scopes ORDER BY date DESC
         //TODO Reload
         //TODO update from overview
         databaseClass = new DatabaseClass(getContext());

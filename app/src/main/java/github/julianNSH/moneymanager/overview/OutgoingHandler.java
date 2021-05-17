@@ -62,7 +62,7 @@ public class OutgoingHandler {
                 R.drawable.cat_fit,R.drawable.cat_pet,R.drawable.cat_movie,R.drawable.cat_gift,
                 R.drawable.cat_transport,R.drawable.cat_game,R.drawable.cat_bank,R.drawable.cat_other,};
 
-        Spinner outgoingIconSpinner = (Spinner) updateDialog.findViewById(R.id.icon_spinner);
+        Spinner outgoingIconSpinner = updateDialog.findViewById(R.id.icon_spinner);
 
         ArrayAdapter<Integer> arrayIconAdapter = new ArrayAdapter<Integer>(root.getContext(),
                 android.R.layout.simple_spinner_dropdown_item, icons);
@@ -113,7 +113,7 @@ public class OutgoingHandler {
             }
         });
         //////////////////////////////////PICK TIME FROM CLOCK
-        outgoingTime = (EditText) updateDialog.findViewById(R.id.add_income_time);
+        outgoingTime = updateDialog.findViewById(R.id.add_income_time);
         outgoingTime.setInputType(InputType.TYPE_NULL);
         outgoingTime.setText(list.get(viewHolder.getAdapterPosition()).getTime());
         outgoingTime.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +135,7 @@ public class OutgoingHandler {
         });
 
         //////////////////////////////////PICK A DATE FROM CALENDAR
-        outgoingDate = (EditText) updateDialog.findViewById(R.id.add_income_date);
+        outgoingDate = updateDialog.findViewById(R.id.add_income_date);
         outgoingDate.setInputType(InputType.TYPE_NULL);
         outgoingDate.setText(list.get(viewHolder.getAdapterPosition()).getDate());
         outgoingDate.setOnClickListener(new View.OnClickListener() {
@@ -165,10 +165,10 @@ public class OutgoingHandler {
          */
 
 
-        addOutgoing = (Button) updateDialog.findViewById(R.id.btn_edit);
-        amount = (EditText) updateDialog.findViewById(R.id.outgoingAmount);
+        addOutgoing = updateDialog.findViewById(R.id.btn_edit);
+        amount = updateDialog.findViewById(R.id.outgoingAmount);
         amount.setText(String.valueOf(list.get(viewHolder.getAdapterPosition()).getTvAmount()));
-        comment = (EditText) updateDialog.findViewById(R.id.commentOutgoing);
+        comment = updateDialog.findViewById(R.id.commentOutgoing);
         if(list.get(viewHolder.getAdapterPosition()).getComment()!=null)
             comment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
 

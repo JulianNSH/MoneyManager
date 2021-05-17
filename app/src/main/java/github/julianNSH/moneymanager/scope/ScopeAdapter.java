@@ -24,6 +24,7 @@ import com.app.infideap.stylishwidget.view.AProgressBar;
 
 import java.util.List;
 
+import github.julianNSH.moneymanager.CustomDateParser;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
 
@@ -138,9 +139,9 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         ScopeModelClass element = list.get(position);
         holder.scopeTitle.setText(element.getTvTitle());
-        holder.scope_start_DT.setText("De la:  "+element.getStartTime()+" "+element.getStartDate());
-        holder.scope_end_DT.setText("Până la: "+element.getEndTime()+" "+element.getEndDate());
-        holder.value_of_progress.setText(element.getCurrentAmount()+" / "+element.getTvFinalAmount() + " MDL");
+        holder.scope_start_DT.setText("De la:  "+element.getStartTime()+" "+CustomDateParser.customDateParser(element.getStartDate(), "dd MMMM yyyy"));
+        holder.scope_end_DT.setText("Până la: "+element.getEndTime()+" "+ CustomDateParser.customDateParser(element.getEndDate(), "dd MMMM yyyy"));
+        holder.value_of_progress.setText(element.getCurrentAmount()+" / "+element.getTvFinalAmount() + " "+ context.getResources().getString(R.string.currency));
         holder.progressBar.setProgressValue(element.getCurrentAmount()*100/element.getTvFinalAmount());
         if(element.getIsCompleted()==1) holder.isCompleted.setVisibility(LinearLayout.VISIBLE);
     }
