@@ -74,7 +74,6 @@ public class SavingsFragment extends Fragment {
             savingElement.setTvIncome(income);
             savingElement.setTvOutgoings(outgoing);
             savingElement.setTvResult(income-outgoing);
-            savingElement.setDate(CustomDateParser.customDateParser(distinctDates.get(i)+"-00", "MMM"));
 
             savingsModelClasses.add(savingElement);
 
@@ -106,7 +105,7 @@ public class SavingsFragment extends Fragment {
         int n = 0;
         for (int i=savingsModelClasses.size()-1; i>=0; i--){
             chartData.add(new Entry(n++, savingsModelClasses.get(i).tvResult));
-            months.add(savingsModelClasses.get(i).getDate());
+            months.add(savingsModelClasses.get(i).tvTitlePeriod.substring(0,3));
         }
 
         chart = root.findViewById(R.id.savings_linechart);

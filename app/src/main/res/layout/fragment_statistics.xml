@@ -35,7 +35,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btn_date_back"
+                        android:id="@+id/btn_stat_back"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
@@ -52,7 +52,7 @@
                         android:layout_weight="1"/>
 
                     <Button
-                        android:id="@+id/btn_date_next"
+                        android:id="@+id/btn_stat_next"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="7"

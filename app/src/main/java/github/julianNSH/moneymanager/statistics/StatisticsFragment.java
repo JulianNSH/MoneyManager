@@ -29,6 +29,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import github.julianNSH.moneymanager.CustomDateParser;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
 
@@ -42,9 +44,10 @@ public class StatisticsFragment extends Fragment {
 
     private float totalSpending;
     private DatePickerDialog datePicker;
-    private Button statisticsDateButton;
+    private Button statisticsDateButton, nextMonth, prevMonth;
     private TextView spendingAmount;
-
+    Calendar date;
+    int currentMonth, currentYear;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"ResourceType", "SetTextI18n", "DefaultLocale"})
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -52,16 +55,47 @@ public class StatisticsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_statistics, container, false);
         tempProgressBar = (AProgressBar) root.findViewById(R.id.progressBar_statistics);
 
+        date = Calendar.getInstance();
+
+        currentMonth = date.get(Calendar.MONTH)+1;
+        currentYear = date.get(Calendar.YEAR);
+        statisticsDateButton = (Button) root.findViewById(R.id.btn_date);
+        nextMonth = root.findViewById(R.id.btn_stat_next);
+        prevMonth = root.findViewById(R.id.btn_stat_back);
+
+        showStatisticsData(root, currentMonth, currentYear);
+        //move to next month
+        nextMonth.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (currentMonth==12){
+                    currentMonth = 1;
+                    currentYear++;
+                } else {currentMonth++;}
+                statisticsDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d",currentYear,currentMonth)));
+                showStatisticsData(root, currentMonth, currentYear);
+            }
+        });
+        //move to previous month
+        prevMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentMonth==1){
+                    currentMonth = 12;
+                    currentYear--;
+                } else {currentMonth--;}
+                statisticsDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
+                showStatisticsData(root, currentMonth,currentYear);
+            }
+        });
+
         //DATE BUTTON
         final Calendar date = Calendar.getInstance();
-        final String[] monthsOfYear = {"Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie",
-                "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"};
-        statisticsDateButton = (Button) root.findViewById(R.id.btn_date);
 
-        showStatisticsData(root, String.format("%04d-%02d", date.get(Calendar.YEAR),date.get(Calendar.MONTH)+1));
 
         if(statisticsDateButton.getText() =="")
-            statisticsDateButton.setText(monthsOfYear[date.get(Calendar.MONTH)]+ " " + date.get(Calendar.YEAR));
+            statisticsDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
 
         statisticsDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,8 +109,10 @@ public class StatisticsFragment extends Fragment {
                     @SuppressLint({"SetTextI18n", "DefaultLocale"})
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        statisticsDateButton.setText(monthsOfYear[month] + " " + year);
-                        showStatisticsData(root, String.format("%04d-%02d", year, month+1));
+                        currentMonth =month+1;
+                        currentYear = year;
+                        statisticsDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
+                        showStatisticsData(root, currentMonth,currentYear);
                     }
                 }, year, month, day);
 
@@ -91,14 +127,13 @@ public class StatisticsFragment extends Fragment {
 
 
         //Update checker
-
-            showStatisticsData(root, String.format("%04d-%02d", date.get(Calendar.YEAR),date.get(Calendar.MONTH)+1));
-
         return root;
     }
 
     @SuppressLint({"ResourceType", "SetTextI18n"})
-    public void showStatisticsData(View view, String date){
+    public void showStatisticsData(View view, int month,int year){
+
+        @SuppressLint("DefaultLocale") String date = String.format("%04d-%02d", year, month);
         iconProgressBar =  tempProgressBar;
         ///////////////////////List of elements
         databaseClass = new DatabaseClass(getContext());
