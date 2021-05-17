@@ -125,7 +125,7 @@ public class AddOtherFragment extends Fragment {
 
 
         //TODO Reload
-        //TODO update from overview
+
         databaseClass = new DatabaseClass(getContext());
 
         addAtSource.setOnClickListener(new View.OnClickListener() {

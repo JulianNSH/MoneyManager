@@ -2,6 +2,7 @@ package github.julianNSH.moneymanager.statistics;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ public class StatisticsFragment extends Fragment {
     private DatabaseClass databaseClass;
     private ArrayList<StatisticsModelClass> statisticsModelClasses, sortedClass;
     private LinearLayout ll1,ll2,ll3,ll4,ll5,ll6;
-    AProgressBar iconProgressBar, tempProgressBar;
+
 
     private float totalSpending;
     private DatePickerDialog datePicker;
@@ -48,12 +49,12 @@ public class StatisticsFragment extends Fragment {
     private TextView spendingAmount;
     Calendar date;
     int currentMonth, currentYear;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"ResourceType", "SetTextI18n", "DefaultLocale"})
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_statistics, container, false);
-        tempProgressBar = (AProgressBar) root.findViewById(R.id.progressBar_statistics);
 
         date = Calendar.getInstance();
 
@@ -86,7 +87,7 @@ public class StatisticsFragment extends Fragment {
                     currentYear--;
                 } else {currentMonth--;}
                 statisticsDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
-                showStatisticsData(root, currentMonth,currentYear);
+                showStatisticsData(root, currentMonth, currentYear);
             }
         });
 
@@ -125,16 +126,14 @@ public class StatisticsFragment extends Fragment {
             }
         });
 
-
         //Update checker
         return root;
     }
 
     @SuppressLint({"ResourceType", "SetTextI18n"})
     public void showStatisticsData(View view, int month,int year){
-
+//        getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
         @SuppressLint("DefaultLocale") String date = String.format("%04d-%02d", year, month);
-        iconProgressBar =  tempProgressBar;
         ///////////////////////List of elements
         databaseClass = new DatabaseClass(getContext());
 
@@ -229,35 +228,23 @@ public class StatisticsFragment extends Fragment {
             catval6 = (TextView) view.findViewById(R.id.catval6);
             ll6.setVisibility(LinearLayout.VISIBLE);
             catval6.setText(biggestCateg[5] + " "+getResources().getString(R.string.currency));
-//            iconProgressBar.setProgressValues(pbValues[0], pbValues[1], pbValues[2], pbValues[3],
-//                    pbValues[4],pbValues[5]);
         }
-        ///////////////////////SETTING PROGRESS BAR TODO Fix progressbar
-//        if(sortedClass.size() == 1)iconProgressBar.setProgressValue(pbValues[0]);
-//        if(sortedClass.size() == 2)iconProgressBar.setProgressValues(pbValues[0],pbValues[1]);
-//        if(sortedClass.size() == 3)iconProgressBar.setProgressValues(pbValues[0],pbValues[1],pbValues[2]);
-//        if(sortedClass.size() == 4)iconProgressBar.setProgressValues(pbValues[0],pbValues[1],pbValues[2],pbValues[3]);
-//        if(sortedClass.size() == 5)iconProgressBar.setProgressValues(pbValues[0],pbValues[1],pbValues[2],pbValues[3],pbValues[4]);
-//        if(sortedClass.size() >= 6)iconProgressBar.setProgressValues(pbValues[0],pbValues[1],pbValues[2],pbValues[3],pbValues[4],pbValues[5]);
-//
-//        iconProgressBar.setProgressColors(
-//                Color.parseColor(getResources().getString(R.color.stat_elem1)),
-//                Color.parseColor(getResources().getString(R.color.stat_elem2)),
-//                Color.parseColor(getResources().getString(R.color.stat_elem3)),
-//                Color.parseColor(getResources().getString(R.color.stat_elem4)),
-//                Color.parseColor(getResources().getString(R.color.stat_elem5)),
-//                Color.parseColor(getResources().getString(R.color.stat_elem6))
-//        );
+        /////////////////////SETTING PROGRESS BAR
+        AProgressBar iconProgressBar = view.findViewById(R.id.progressBar_statistics);
+
+          for (int i = 0; i<sortedClass.size();i++){
+              iconProgressBar.setProgressValue(i, pbValues[i]);
+          }
+
+        iconProgressBar.setProgressColors(
+                Color.parseColor(getResources().getString(R.color.stat_elem1)),
+                Color.parseColor(getResources().getString(R.color.stat_elem2)),
+                Color.parseColor(getResources().getString(R.color.stat_elem3)),
+                Color.parseColor(getResources().getString(R.color.stat_elem4)),
+                Color.parseColor(getResources().getString(R.color.stat_elem5)),
+                Color.parseColor(getResources().getString(R.color.stat_elem6))
+        );
+
     }
 
-//
-//    public void refreshFragment(){
-//        if (getFragmentManager() != null) {
-//            getFragmentManager()
-//                    .beginTransaction()
-//                    .detach(StatisticsFragment.this)
-//                    .attach(StatisticsFragment.this)
-//                    .commit();
-//        }
-//    }
 }
