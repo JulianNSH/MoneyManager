@@ -109,7 +109,7 @@
                         android:textColor="@color/black"/>
 
                     <EditText
-                        android:id="@+id/outgoingAmount"
+                        android:id="@+id/amount"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:paddingLeft="5dp"
@@ -220,7 +220,7 @@
                         android:layout_margin="5dp"/>
 
                     <EditText
-                        android:id="@+id/commentOutgoing"
+                        android:id="@+id/comment"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:paddingLeft="5dp"

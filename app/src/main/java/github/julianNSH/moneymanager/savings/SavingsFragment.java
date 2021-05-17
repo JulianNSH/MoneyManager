@@ -1,5 +1,6 @@
 package github.julianNSH.moneymanager.savings;
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.text.ParseException;
@@ -66,9 +74,9 @@ public class SavingsFragment extends Fragment {
             savingElement.setTvIncome(income);
             savingElement.setTvOutgoings(outgoing);
             savingElement.setTvResult(income-outgoing);
+            savingElement.setDate(CustomDateParser.customDateParser(distinctDates.get(i)+"-00", "MMM"));
 
             savingsModelClasses.add(savingElement);
-            chartData.add(new Entry(i,income-outgoing));
 
             total+= income-outgoing;
             if(i==0) current = income-outgoing;
@@ -93,10 +101,41 @@ public class SavingsFragment extends Fragment {
         recyclerView.setAdapter(savingsAdapter);
 
         /////////////////////////
+
+        ArrayList<String> months = new ArrayList<>();
+        int n = 0;
+        for (int i=savingsModelClasses.size()-1; i>=0; i--){
+            chartData.add(new Entry(n++, savingsModelClasses.get(i).tvResult));
+            months.add(savingsModelClasses.get(i).getDate());
+        }
+
         chart = root.findViewById(R.id.savings_linechart);
-        LineDataSet lineDataSet = new LineDataSet(chartData, "Progresul");
+        LineDataSet lineDataSet = new LineDataSet(chartData,null);
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet);
+
+        lineDataSet.setColor(getResources().getColor(R.color.blue1));
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(){
+            @Override
+            public String getFormattedValue(float value) {
+                return months.get(((int) value));
+            }
+        });
+
+        xAxis.setGranularity(1);
+        xAxis.setLabelCount(months.size());
+
+        chart.getAxisRight().setEnabled(false);
+        chart.setDescription(null);
+        chart.setDrawBorders(true);
+        chart.setDrawGridBackground(true);
+        chart.setGridBackgroundColor(Color.WHITE);
+
+        chart.setBorderColor(Color.GRAY);
+        chart.getLegend().setEnabled(false);
+
 
         LineData data = new LineData(dataSets);
         chart.setData(data);

@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+
 @SuppressLint("SimpleDateFormat")
 public class CustomDateParser {
 
@@ -34,6 +35,10 @@ public class CustomDateParser {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return simpleDateFormat.format(date);
+        String resultDate=simpleDateFormat.format(date);
+        if (pattern=="MMM")
+            resultDate=simpleDateFormat.format(date).replaceAll("\\.","");
+
+        return resultDate;
     }
 }

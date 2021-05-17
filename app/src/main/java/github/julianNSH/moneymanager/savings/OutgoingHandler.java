@@ -1,10 +1,9 @@
-package github.julianNSH.moneymanager.overview;
+package github.julianNSH.moneymanager.savings;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -166,9 +165,9 @@ public class OutgoingHandler {
 
 
         addOutgoing = updateDialog.findViewById(R.id.btn_edit);
-        amount = updateDialog.findViewById(R.id.outgoingAmount);
+        amount = updateDialog.findViewById(R.id.amount);
         amount.setText(String.valueOf(list.get(viewHolder.getAdapterPosition()).getTvAmount()));
-        comment = updateDialog.findViewById(R.id.commentOutgoing);
+        comment = updateDialog.findViewById(R.id.comment);
         if(list.get(viewHolder.getAdapterPosition()).getComment()!=null)
             comment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
 

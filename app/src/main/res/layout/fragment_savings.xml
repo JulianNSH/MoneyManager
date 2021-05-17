@@ -60,12 +60,15 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/fg_rect"
                         android:layout_marginTop="15dp">
-
-                        <com.github.mikephil.charting.charts.LineChart
-                            android:id="@+id/savings_linechart"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:padding="2dp"
-                            android:layout_height="250dp" />
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp">
+                            <com.github.mikephil.charting.charts.LineChart
+                                android:id="@+id/savings_linechart"
+                                android:layout_width="match_parent"
+                                android:layout_height="300dp" />
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout

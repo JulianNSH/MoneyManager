@@ -2,7 +2,9 @@ package github.julianNSH.moneymanager.overview;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.graphics.PorterDuff;
+import android.icu.text.CompactDecimalFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -34,6 +37,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import github.julianNSH.moneymanager.CustomDateParser;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
 
@@ -56,23 +61,57 @@ public class OverviewFragment extends Fragment {
     private DatabaseClass databaseClass;
     private TextView incomeOverview, outgoingOverview, inOutView;
     private DatePickerDialog datePicker;
-    private Button overviewDateButton;
+    private Button overviewDateButton, nextMonth, prevMonth;
     private Calendar date;
+
+    private int  currentMonth, currentYear;
     @RequiresApi(api = Build.VERSION_CODES.O)
-    @SuppressLint({"SetTextI18n", "NonConstantResourceId"})
+    @SuppressLint({"SetTextI18n", "NonConstantResourceId", "DefaultLocale"})
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_overview, container, false);
 
+
         //////////////DATE PICKER
         date = Calendar.getInstance();
-        final String[] monthsOfYear = {"Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie",
-                "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"};
+
+        currentMonth = date.get(Calendar.MONTH)+1;
+        currentYear = date.get(Calendar.YEAR);
+
+        showOverviewData(root, currentMonth, currentYear); //on first run
+
         overviewDateButton = root.findViewById(R.id.btn_date);
-        showOverviewData(root, date.get(Calendar.MONTH), date.get(Calendar.YEAR));
+        nextMonth = root.findViewById(R.id.btn_date_next);
+        prevMonth = root.findViewById(R.id.btn_date_prev);
+
+        //move to next month
+        nextMonth.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (currentMonth==12){
+                    currentMonth = 1;
+                    currentYear++;
+                } else {currentMonth++;}
+                overviewDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d",currentYear,currentMonth)));
+                showOverviewData(root, currentMonth, currentYear);
+            }
+        });
+        //move to previous month
+        prevMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentMonth==1){
+                    currentMonth = 12;
+                    currentYear--;
+                } else {currentMonth--;}
+                overviewDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
+                showOverviewData(root, currentMonth,currentYear);
+            }
+        });
 
         if(overviewDateButton.getText() =="")
-            overviewDateButton.setText(monthsOfYear[date.get(Calendar.MONTH)]+ " " + date.get(Calendar.YEAR));
+            overviewDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
         overviewDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,8 +123,10 @@ public class OverviewFragment extends Fragment {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        overviewDateButton.setText(monthsOfYear[month] + " " + year);
-                        showOverviewData(root, month, year);
+                        currentMonth = month+1;
+                        currentYear = year;
+                        overviewDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
+                        showOverviewData(root, currentMonth, currentYear);
                     }
                 }, year, month, day);
 
@@ -105,7 +146,7 @@ public class OverviewFragment extends Fragment {
 
     @SuppressLint({"ResourceType", "SetTextI18n", "DefaultLocale"})
     public void showOverviewData(View view, int month, int year){
-        String date = String.format("%04d-%02d", year, month+1);
+        String date = String.format("%04d-%02d", year, month);
         databaseClass = new DatabaseClass(getContext());
         overviewModelClasses = databaseClass.getOverviewData(date);
         float totalIncome=databaseClass.getTotalIncome(date);
@@ -179,6 +220,7 @@ public class OverviewFragment extends Fragment {
         prepareChartData(data);
     }
 
+    @SuppressLint("DefaultLocale")
     void configureChartAppearance(int month) {
         chart.setPinchZoom(false);
         chart.setDrawBarShadow(false);
@@ -186,30 +228,25 @@ public class OverviewFragment extends Fragment {
         chart.setDoubleTapToZoomEnabled(false);
         chart.getDescription().setEnabled(false);
 
-        //TODO fix chart xAxis
-        final HashMap<Integer, String> months = new HashMap<>();
-        months.put(1, "Ian");
-        months.put(2, "Feb");
-        months.put(3, "Mar");
-        months.put(4, "Apr");
-        months.put(5, "Mai");
-        months.put(6, "Iun");
-        months.put(7, "Iul");
-        months.put(8, "Aug");
-        months.put(9, "Sep");
-        months.put(10, "Oct");
-        months.put(11, "Noi");
-        months.put(12, "Dec");
 
+
+        //TODO fix chart xAxis
         XAxis xAxis = chart.getXAxis();
         xAxis.setGranularity(1f);
         xAxis.setCenterAxisLabels(true);
-        xAxis.setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return months.get((int)value);
-            }
 
+//        String[]months=new String[7];
+//
+//        for(int i=0; i<7; i++){
+//            if(month==13) month=1;
+//            months[i]=CustomDateParser.customDateParser(String.format("1111-%02d-11", month),"MMM");
+//            month++;
+//        }
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(){
+            @Override
+            public String getFormattedValue(float value) {
+                return month+" "+value;
+            }
         });
 
         YAxis leftAxis = chart.getAxisLeft();
@@ -220,18 +257,22 @@ public class OverviewFragment extends Fragment {
         chart.getAxisRight().setEnabled(false);
         chart.getXAxis().setAxisMinimum(0);
         chart.getXAxis().setAxisMaximum(MAX_X_VALUE);
+        chart.setDrawBorders(true);
+        chart.setDrawGridBackground(true);
     }
 
     @SuppressLint("DefaultLocale")
     BarData createChartData(int month, int year) {
         ArrayList<BarEntry> values1 = new ArrayList<>();
         ArrayList<BarEntry> values2 = new ArrayList<>();
+        int dYear, dMonth;
 
+        //TODO fix bar chart
         date = Calendar.getInstance();
         for (int i = 0; i < MAX_X_VALUE; i++) {
 
-            values1.add(new BarEntry(i, databaseClass.getTotalIncome(String.format("%04d-%02d", year, month+i-2))));
-            values2.add(new BarEntry(i, databaseClass.getTotalOutgoing(String.format("%04d-%02d", year, month+i-2))));
+            values1.add(new BarEntry(i, databaseClass.getTotalIncome(String.format("%04d-%02d", year, month+i-3))));
+            values2.add(new BarEntry(i, databaseClass.getTotalOutgoing(String.format("%04d-%02d", year, month+i-3))));
         }
         GROUP_1_LABEL = getResources().getString(R.string.income);
         GROUP_2_LABEL = getResources().getString(R.string.outgoings);

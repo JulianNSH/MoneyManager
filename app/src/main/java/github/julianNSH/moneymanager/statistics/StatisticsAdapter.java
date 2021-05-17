@@ -3,7 +3,6 @@ package github.julianNSH.moneymanager.statistics;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -19,14 +18,12 @@ import android.widget.Toast;
 import java.util.List;
 
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import github.julianNSH.moneymanager.CustomDateParser;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
-import github.julianNSH.moneymanager.overview.OutgoingHandler;
-import github.julianNSH.moneymanager.scope.ScopeHandler;
+import github.julianNSH.moneymanager.savings.OutgoingHandler;
 
 
 public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.MyViewHolder>{

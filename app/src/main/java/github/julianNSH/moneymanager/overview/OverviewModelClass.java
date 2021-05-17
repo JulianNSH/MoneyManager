@@ -9,6 +9,7 @@ public class OverviewModelClass implements Comparable<OverviewModelClass>{
     String date;  //date of transaction
     String time;  //time of transaction
     String comment; //user comment of transaction
+    int repeat;
     public OverviewModelClass(){}
 
     public OverviewModelClass(int id, String tvDomain, Integer ivFigure, String tvType, float tvAmount, String time, String date, String comment){
@@ -73,8 +74,17 @@ public class OverviewModelClass implements Comparable<OverviewModelClass>{
     public String getComment() { return comment; }
     public void setComment(String comment) { this.comment = comment; }
 
+    public int getRepeat() {
+        return repeat;
+    }
+
+    public void setRepeat(int repeat) {
+        this.repeat = repeat;
+    }
+
     @Override
     public int compareTo(OverviewModelClass o) {
         return -time.compareTo(o.time);
     }
+
 }

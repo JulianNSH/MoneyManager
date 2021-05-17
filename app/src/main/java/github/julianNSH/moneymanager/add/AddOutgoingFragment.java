@@ -151,8 +151,8 @@ public class AddOutgoingFragment extends Fragment {
         ADD OUTGOING
     */
         addOutgoing = (Button) root.findViewById(R.id.add_outgoing_btn);
-        amount = (EditText) root.findViewById(R.id.outgoingAmount);
-        comment = (EditText) root.findViewById(R.id.commentOutgoing);
+        amount = (EditText) root.findViewById(R.id.amount);
+        comment = (EditText) root.findViewById(R.id.comment);
 
         StatisticsModelClass inputOutgoing = new StatisticsModelClass();
 

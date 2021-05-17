@@ -164,6 +164,47 @@ public class DatabaseClass extends SQLiteOpenHelper{
             db.delete(TABLE_SCOPES, KEY_ID + " = ?", new String[]{String.valueOf(id)});
         }
     }
+    //Update
+
+//    ContentValues val = new ContentValues();
+//        val.put(KEY_OUTGOING_ICON, upd.getIvIcon());
+//        val.put(KEY_OUTGOING_SOURCE, upd.getTvType());
+//        val.put(KEY_AMOUNT, upd.getTvAmount());
+//        val.put(KEY_TIME, upd.getTime());
+//        val.put(KEY_DATE, upd.getDate());
+//        val.put(KEY_COMMENT, upd.getComment());
+//        val.put(KEY_REPEAT, upd.getRepeat());
+//
+//        return db.update(TABLE_OUTGOING, val, KEY_ID + " = ?",
+//            new String[]{String.valueOf(upd.getId())});
+    public long updateFromOverview(OverviewModelClass element) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues val = new ContentValues();
+        val.put(KEY_AMOUNT, element.getTvAmount());
+        val.put(KEY_TIME, element.getTime());
+        val.put(KEY_DATE, element.getDate());
+        val.put(KEY_COMMENT, element.getComment());
+        val.put(KEY_REPEAT, element.getRepeat());
+        String table = null;
+
+        if(element.getTvDomain().equals("Venit")) {
+            val.put(KEY_INCOME_SOURCE, element.getTvType());
+            table = TABLE_INCOME;
+        }
+        if(element.getTvDomain().equals("Cheltuieli")) {
+            val.put(KEY_OUTGOING_SOURCE, element.getTvType());
+            table = TABLE_OUTGOING;
+        }
+
+        if(element.getTvDomain().equals("Scop")) {
+            val.put(KEY_SCOPE_SOURCE, element.getTvType());
+            table = TABLE_SCOPES;
+        }
+
+        return db.update(table, val, KEY_ID + " = ?",
+            new String[]{String.valueOf(element.getId())});
+    }
     /**********************************************************************************************
         INCOME METHODS
      **********************************************************************************************/
@@ -194,7 +235,6 @@ public class DatabaseClass extends SQLiteOpenHelper{
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
         return cursor.getFloat(cursor.getColumnIndex(KEY_AMOUNT));
-
 
 
     }

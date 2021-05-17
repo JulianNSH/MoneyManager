@@ -24,9 +24,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingLeft="34dp"
-                android:paddingRight="34dp"
-                android:paddingBottom="50dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp"
                 android:background="@drawable/bottom_rect">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -34,31 +34,44 @@
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
-                    <Space
-                        android:layout_width="wrap_content"
+                    <Button
+                        android:id="@+id/btn_date_back"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_weight="7"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:foreground="@drawable/ic_back"
+                        android:foregroundTint="@color/white"
+                        android:foregroundGravity="center"/>
 
                     <Button
                         android:id="@+id/btn_date"
                         android:layout_width="200dp"
-                        android:layout_height="wrap_content"/>
-
-                    <Space
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/btn_date_next"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:foreground="@drawable/ic_next"
+                        android:foregroundTint="@color/white"
+                        android:foregroundGravity="center"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="5dp"
-                    android:paddingTop="34dp"
-                    android:paddingLeft="28dp"
-                    android:paddingRight="28dp"
-                    android:paddingBottom="34dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingTop="30dp"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    android:paddingBottom="30dp"
                     android:background="@drawable/white_rect">
 
                     <TextView

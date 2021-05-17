@@ -3,6 +3,7 @@ package github.julianNSH.moneymanager.overview;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -23,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import github.julianNSH.moneymanager.CustomDateParser;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
-import github.julianNSH.moneymanager.statistics.StatisticsAdapter;
+import github.julianNSH.moneymanager.savings.OutgoingHandler;
 
 
 public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyViewHolder> {
@@ -94,6 +95,12 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
             }
         });
 
+        itemOverviewDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+
+            }
+        });
         return viewHolder;
 
     }
@@ -145,13 +152,11 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                if(list.get(viewHolder.getAdapterPosition()).getTvDomain() ==
-                        itemView.getResources().getString(R.string.outgoings)){
                     Toast.makeText(context, "Button EDIT Clicked", Toast.LENGTH_SHORT).show();
                     itemOverviewDialog.dismiss();
-                    OutgoingHandler handler = new OutgoingHandler();
-                   // handler.callOutgoingHandler(itemView, list, viewHolder);
-                }
+                    UpdateFromOverviewHandler handler = new UpdateFromOverviewHandler();
+                    handler.updateHandler(itemView, list, viewHolder);
+
             }
         });
     }
