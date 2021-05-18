@@ -106,7 +106,7 @@
                             android:backgroundTint="@color/white"
                             android:textSize="15sp"
                             android:textColor="@color/black"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:hint="Valoarea numerarului"/>
                     </LinearLayout>
 
@@ -176,7 +176,7 @@
                                 android:textColor="@color/black"
                                 android:inputType="date"
                                 android:ems="10"
-                                android:hint="zz / LL / aaaa"
+                                android:hint="aaaa-LL-zz"
                                 android:gravity="center"/>
                         </LinearLayout>
                     </LinearLayout>

@@ -2,8 +2,6 @@ package github.julianNSH.moneymanager.statistics;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,20 +11,20 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.app.infideap.stylishwidget.view.AProgressBar;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,9 +44,13 @@ public class StatisticsFragment extends Fragment {
     private float totalSpending;
     private DatePickerDialog datePicker;
     private Button statisticsDateButton, nextMonth, prevMonth;
-    private TextView spendingAmount;
+    private TextView infoText;
     Calendar date;
     int currentMonth, currentYear;
+    //////////////////////////////////
+    private PieChart pieChart;
+    private ArrayList<Integer> pieColors;
+    private ArrayList<PieEntry> pieEntries;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"ResourceType", "SetTextI18n", "DefaultLocale"})
@@ -130,21 +132,30 @@ public class StatisticsFragment extends Fragment {
         return root;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint({"ResourceType", "SetTextI18n"})
     public void showStatisticsData(View view, int month,int year){
 //        getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
         @SuppressLint("DefaultLocale") String date = String.format("%04d-%02d", year, month);
         ///////////////////////List of elements
         databaseClass = new DatabaseClass(getContext());
-
+        infoText = (TextView) view.findViewById(R.id.infoText);
+        pieChart = view.findViewById(R.id.pieChart);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_statistics_list);
 
         statisticsModelClasses = databaseClass.getOutgoingDataByMonthYear(date);
 
+        if(statisticsModelClasses.size()==0){
+            infoText.setVisibility(LinearLayout.VISIBLE);
+            pieChart.setVisibility(LinearLayout.GONE);
+        } else {
+            pieChart.setVisibility(LinearLayout.VISIBLE);
+            infoText.setVisibility(LinearLayout.GONE);
+        }
         // Total spending
         totalSpending = 0;
         float[] biggestCateg = new float[6];
-        int[] pbValues = new int[6];
+        float[] pbValues = new float[6];
         biggestCateg[5]=0;
         sortedClass = statisticsModelClasses;
 
@@ -163,14 +174,16 @@ public class StatisticsFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(statisticsAdapter);
+
+
         //SETTING PROGRESS VALUES(percents) for existing categories
-        pbValues[0] = (int) ((int) (biggestCateg[0]*100)/totalSpending)+1;
-        for (int i = 1 ;i<6; i++) {
-            pbValues[i] += (int) pbValues[i - 1] + (biggestCateg[i]*100) / totalSpending;
+        pieEntries = new ArrayList<>();
+        pieColors = new ArrayList<>();
+        for (int i = 0 ;i<6; i++) {
+            pbValues[i] =(biggestCateg[i]*100) / totalSpending;
             if (i==sortedClass.size()) break;
         }
-        spendingAmount = (TextView) view.findViewById(R.id.spendingAmount);
-        spendingAmount.setText(totalSpending + " "+getResources().getString(R.string.currency));
+
         TextView cat1,cat2,cat3,cat4,cat5, catval1,catval2,catval3,catval4,catval5,catval6;
         ll1 = (LinearLayout) view.findViewById(R.id.ll1);
         ll1.setVisibility(LinearLayout.INVISIBLE);
@@ -184,13 +197,21 @@ public class StatisticsFragment extends Fragment {
         ll5.setVisibility(LinearLayout.INVISIBLE);
         ll6 = (LinearLayout) view.findViewById(R.id.ll6);
         ll6.setVisibility(LinearLayout.INVISIBLE);
+        LinearLayout l1 = view.findViewById(R.id.row1_layout);
+        l1.setVisibility(LinearLayout.GONE);
+        LinearLayout l2 = view.findViewById(R.id.row2_layout);
+        l2.setVisibility(LinearLayout.GONE);
 
         if(sortedClass.size()>=1) {
+            l1.setVisibility(LinearLayout.VISIBLE);
             ll1.setVisibility(LinearLayout.VISIBLE);
+            ll2.setVisibility(LinearLayout.GONE);
             cat1 = (TextView) view.findViewById(R.id.cat1);
             cat1.setText(sortedClass.get(0).getTvType());
             catval1 = (TextView) view.findViewById(R.id.catval1);
             catval1.setText(biggestCateg[0] +" "+getResources().getString(R.string.currency));
+            pieEntries.add(new PieEntry(pbValues[0],sortedClass.get(0).getTvType()));
+            pieColors.add(view.getContext().getColor(R.color.stat_elem1));
         }
 
         if(sortedClass.size()>=2) {
@@ -199,6 +220,8 @@ public class StatisticsFragment extends Fragment {
             cat2.setText(sortedClass.get(1).getTvType());
             catval2 = (TextView) view.findViewById(R.id.catval2);
             catval2.setText(biggestCateg[1] + " "+getResources().getString(R.string.currency));
+            pieEntries.add(new PieEntry(pbValues[1],sortedClass.get(1).getTvType()));
+            pieColors.add(view.getContext().getColor(R.color.stat_elem2));
         }
 
         if(sortedClass.size()>=3) {
@@ -207,14 +230,19 @@ public class StatisticsFragment extends Fragment {
             cat3.setText(sortedClass.get(2).getTvType());
             catval3 = (TextView) view.findViewById(R.id.catval3);
             catval3.setText(biggestCateg[2] + " "+getResources().getString(R.string.currency));
+            pieEntries.add(new PieEntry(pbValues[2],sortedClass.get(2).getTvType()));
+            pieColors.add(view.getContext().getColor(R.color.stat_elem3));
         }
 
         if(sortedClass.size()>=4) {
+            l2.setVisibility(LinearLayout.VISIBLE);
             ll4.setVisibility(LinearLayout.VISIBLE);
             cat4 = (TextView) view.findViewById(R.id.cat4);
             cat4.setText(sortedClass.get(3).getTvType());
             catval4 = (TextView) view.findViewById(R.id.catval4);
             catval4.setText(biggestCateg[3] + " "+getResources().getString(R.string.currency));
+            pieEntries.add(new PieEntry(pbValues[3],sortedClass.get(3).getTvType()));
+            pieColors.add(view.getContext().getColor(R.color.stat_elem4));
         }
 
         if(sortedClass.size()>=5) {
@@ -223,27 +251,35 @@ public class StatisticsFragment extends Fragment {
             cat5.setText(sortedClass.get(4).getTvType());
             catval5 = (TextView) view.findViewById(R.id.catval5);
             catval5.setText(biggestCateg[4]+ " "+getResources().getString(R.string.currency));
+            pieEntries.add(new PieEntry(pbValues[4],sortedClass.get(4).getTvType()));
+            pieColors.add(view.getContext().getColor(R.color.stat_elem5));
         }
         if(sortedClass.size()>=6){
             catval6 = (TextView) view.findViewById(R.id.catval6);
             ll6.setVisibility(LinearLayout.VISIBLE);
             catval6.setText(biggestCateg[5] + " "+getResources().getString(R.string.currency));
+            pieEntries.add(new PieEntry(pbValues[5],sortedClass.get(5).getTvType()));
+            pieColors.add(view.getContext().getColor(R.color.stat_elem6));
         }
-        /////////////////////SETTING PROGRESS BAR
-        AProgressBar iconProgressBar = view.findViewById(R.id.progressBar_statistics);
+        /////////////////////SETTING PIE CHART
 
-          for (int i = 0; i<sortedClass.size();i++){
-              iconProgressBar.setProgressValue(i, pbValues[i]);
-          }
+        pieChart = view.findViewById(R.id.pieChart);
+        PieDataSet pieDataSet = new PieDataSet(pieEntries, "");
+        pieDataSet.setColors(pieColors);
+        PieData pieData = new PieData(pieDataSet);
 
-        iconProgressBar.setProgressColors(
-                Color.parseColor(getResources().getString(R.color.stat_elem1)),
-                Color.parseColor(getResources().getString(R.color.stat_elem2)),
-                Color.parseColor(getResources().getString(R.color.stat_elem3)),
-                Color.parseColor(getResources().getString(R.color.stat_elem4)),
-                Color.parseColor(getResources().getString(R.color.stat_elem5)),
-                Color.parseColor(getResources().getString(R.color.stat_elem6))
-        );
+        pieChart.setDrawEntryLabels(false);
+        pieChart.setUsePercentValues(true);
+        pieChart.setDescription(null);
+        pieChart.getLegend().setEnabled(false);
+
+        pieChart.setCenterTextSize(18);
+        pieChart.setEntryLabelColor(view.getResources().getColor(R.color.white));
+        pieChart.setCenterText("Cheltuieli Totale\n"+totalSpending + " "+getResources().getString(R.string.currency));
+        pieChart.setHoleRadius(60);
+        pieChart.setTransparentCircleRadius(70);
+        pieChart.setData(pieData);
+        pieChart.invalidate();
 
     }
 

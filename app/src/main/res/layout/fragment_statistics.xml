@@ -68,56 +68,45 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginTop="10dp"
-                    android:paddingTop="30dp"
+                    android:paddingTop="15dp"
                     android:paddingLeft="25dp"
                     android:paddingRight="25dp"
-                    android:paddingBottom="30dp"
+                    android:paddingBottom="15dp"
                     android:background="@drawable/white_rect">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/infoText"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:textColor="@color/black"
-                        android:lineSpacingExtra="2sp"
-                        android:text="Cheltuieli Totale" />
-
-                    <TextView
-                        android:id="@+id/spendingAmount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="22sp"
+                        android:textSize="15sp"
                         android:textColor="@color/black"
                         android:lineSpacingExtra="4sp"
-                        android:text="--.-- MDL"
+                        android:gravity="center"
+                        android:text="Lipsesc datele despre cheltuielile dvs. în această perioadă\nAccesati pagina 'Adaugare'"
                         />
 
                     <LinearLayout
                         android:id="@+id/pb_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                    <com.app.infideap.stylishwidget.view.AProgressBar
-                        android:id="@+id/progressBar_statistics"
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/pieChart"
                         android:layout_width="match_parent"
-                        android:layout_height="10dp"
-                        app:sw_maxValue="100"
-                        android:layout_marginTop="25dp"
-                        app:sw_progressBackground="#ccc"
-                        app:sw_progressColor="@color/stat_elem3"
-                        app:sw_radius="1dp"
-                        app:sw_withAnimation="true" />
+                        android:layout_height="300dp"
+                        />
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/row1_layout"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="36dp"
+                        android:layout_marginTop="5dp"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal">
 
 
                         <LinearLayout
-                            android:visibility="gone"
                             android:id="@+id/ll1"
                             android:layout_width="80dp"
                             android:layout_marginLeft="5dp"
@@ -252,6 +241,8 @@
 
 
                     <LinearLayout
+                        android:id="@+id/row2_layout"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="22dp"

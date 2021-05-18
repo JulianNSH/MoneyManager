@@ -17,11 +17,13 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
@@ -126,6 +128,9 @@ public class SavingsFragment extends Fragment {
         xAxis.setGranularity(1);
         xAxis.setLabelCount(months.size());
 
+        YAxis yAxis = chart.getAxisLeft();
+        yAxis.setValueFormatter(new LargeValueFormatter());
+
         chart.getAxisRight().setEnabled(false);
         chart.setDescription(null);
         chart.setDrawBorders(true);
@@ -137,6 +142,7 @@ public class SavingsFragment extends Fragment {
 
 
         LineData data = new LineData(dataSets);
+        data.setValueFormatter(new LargeValueFormatter());
         chart.setData(data);
         chart.invalidate();
 

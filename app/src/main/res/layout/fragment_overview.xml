@@ -59,8 +59,19 @@
             android:background="@drawable/white_rect"
             android:orientation="horizontal"
             android:padding="22dp">
-
+            <TextView
+                android:id="@+id/infoText"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="4sp"
+                android:gravity="center"
+                android:text="Lipsesc datele despre finanțele dvs. în această perioadă\nAccesați pagina 'Adaugare'"
+                />
             <LinearLayout
+                android:id="@+id/overviewLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -146,6 +157,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/barChartLayout"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

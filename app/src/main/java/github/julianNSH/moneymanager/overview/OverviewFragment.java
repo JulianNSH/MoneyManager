@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -22,6 +23,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -152,6 +155,20 @@ public class OverviewFragment extends Fragment {
         float totalIncome=databaseClass.getTotalIncome(date);
         float totalOutgoing=databaseClass.getTotalOutgoing(date);
         float inOutRatio;
+
+        TextView infoText = view.findViewById(R.id.infoText);
+        LinearLayout linearLayoutChart = view.findViewById(R.id.barChartLayout);
+        LinearLayout linearLayoutOverview = view.findViewById(R.id.overviewLayout);
+        if(overviewModelClasses.size()==0){
+            infoText.setVisibility(LinearLayout.VISIBLE);
+            linearLayoutChart.setVisibility(LinearLayout.GONE);
+            linearLayoutOverview.setVisibility(LinearLayout.GONE);
+        } else {
+            linearLayoutChart.setVisibility(LinearLayout.VISIBLE);
+            infoText.setVisibility(LinearLayout.GONE);
+            linearLayoutOverview.setVisibility(LinearLayout.VISIBLE);
+        }
+
         //TOP LAYOUT 
         if(overviewModelClasses!=null) {
             incomeOverview = view.findViewById(R.id.incomeOverview);
@@ -216,43 +233,28 @@ public class OverviewFragment extends Fragment {
         /////CHART
         chart = view.findViewById(R.id.fragment_groupedbarchart_chart);
         BarData data = createChartData(month, year);
-        configureChartAppearance(month);
+        configureChartAppearance();
         prepareChartData(data);
     }
 
     @SuppressLint("DefaultLocale")
-    void configureChartAppearance(int month) {
+    void configureChartAppearance() {
         chart.setPinchZoom(false);
         chart.setDrawBarShadow(false);
         chart.setDrawGridBackground(false);
         chart.setDoubleTapToZoomEnabled(false);
         chart.getDescription().setEnabled(false);
 
-
-
         //TODO fix chart xAxis
         XAxis xAxis = chart.getXAxis();
         xAxis.setGranularity(1f);
         xAxis.setCenterAxisLabels(true);
 
-//        String[]months=new String[7];
-//
-//        for(int i=0; i<7; i++){
-//            if(month==13) month=1;
-//            months[i]=CustomDateParser.customDateParser(String.format("1111-%02d-11", month),"MMM");
-//            month++;
-//        }
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(){
-            @Override
-            public String getFormattedValue(float value) {
-                return month+" "+value;
-            }
-        });
-
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
         leftAxis.setSpaceTop(35f);
         leftAxis.setAxisMinimum(0f);
+        leftAxis.setValueFormatter(new LargeValueFormatter());
 
         chart.getAxisRight().setEnabled(false);
         chart.getXAxis().setAxisMinimum(0);
@@ -286,7 +288,14 @@ public class OverviewFragment extends Fragment {
         dataSets.add(set2);
 
         BarData data = new BarData(dataSets);
+        data.setValueFormatter(new LargeValueFormatter());
 
+        ArrayList<String> months = new ArrayList<>();
+        for (int i=1; i<=MAX_X_VALUE; i++){
+            months.add(CustomDateParser.customDateParser(String.format("%04d-%02d-00",year,month+i-3),"MMM"));
+        }
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setValueFormatter(new MyAxysValueFormatter(months));
         return data;
     }
 
@@ -299,5 +308,21 @@ public class OverviewFragment extends Fragment {
         chart.groupBars(0, groupSpace, BAR_SPACE);
 
         chart.invalidate();
+    }
+    public static class MyAxysValueFormatter extends IndexAxisValueFormatter {
+        private List labels;
+
+        public MyAxysValueFormatter(List<String> labels){
+            this.labels=labels;
+        }
+        @Override
+        public String getFormattedValue(float value) {
+            try {
+                int index = (int) value;
+                return String.valueOf(labels.get(index));
+            } catch (Exception e) {
+                return "";
+            }
+        }
     }
 }
