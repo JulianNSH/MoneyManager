@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -62,6 +63,13 @@ public class SavingsFragment extends Fragment {
 
 
         ArrayList<String> distinctDates = databaseClass.getDistinctDates();
+        LinearLayout layoutContent = root.findViewById(R.id.contentLayout);
+        TextView infoText = root.findViewById(R.id.infoText);
+        if(distinctDates.size()==0){
+            infoText.setVisibility(LinearLayout.VISIBLE);
+            layoutContent.setVisibility(LinearLayout.GONE);
+            return root;
+        }
         total=0;
         max = databaseClass.getIncomeByDate(distinctDates.get(0))-databaseClass.getOutgoingByDate(distinctDates.get(0));
         min = databaseClass.getIncomeByDate(distinctDates.get(0))-databaseClass.getOutgoingByDate(distinctDates.get(0));

@@ -166,6 +166,7 @@ public class StatisticsFragment extends Fragment {
 
         //SORTING AND ORGANIZING CATEGORIES (DESC)
         Collections.sort(distinctMC);
+        Collections.sort(statisticsModelClasses);
         for (int i = 0; i<distinctMC.size(); i++){
             totalSpending+=distinctMC.get(i).getTvAmount();
             if(i>=5) biggestCateg[5]+= distinctMC.get(i).getTvAmount();

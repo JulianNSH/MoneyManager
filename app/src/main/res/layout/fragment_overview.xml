@@ -52,6 +52,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/parentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -68,7 +69,7 @@
                 android:textColor="@color/black"
                 android:lineSpacingExtra="4sp"
                 android:gravity="center"
-                android:text="Lipsesc datele despre finanțele dvs. în această perioadă\nAccesați pagina 'Adaugare'"
+                android:text="Lipsesc datele despre finanțele dvs. pentru această perioadă\nAccesați pagina 'Adaugare'"
                 />
             <LinearLayout
                 android:id="@+id/overviewLayout"

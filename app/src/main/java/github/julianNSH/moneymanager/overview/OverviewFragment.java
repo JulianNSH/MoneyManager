@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.icu.text.CompactDecimalFormat;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -159,7 +160,10 @@ public class OverviewFragment extends Fragment {
         TextView infoText = view.findViewById(R.id.infoText);
         LinearLayout linearLayoutChart = view.findViewById(R.id.barChartLayout);
         LinearLayout linearLayoutOverview = view.findViewById(R.id.overviewLayout);
+        LinearLayout parentLayout = view.findViewById(R.id.parentLayout);
+
         if(overviewModelClasses.size()==0){
+            parentLayout.setGravity(Gravity.CENTER_VERTICAL);
             infoText.setVisibility(LinearLayout.VISIBLE);
             linearLayoutChart.setVisibility(LinearLayout.GONE);
             linearLayoutOverview.setVisibility(LinearLayout.GONE);

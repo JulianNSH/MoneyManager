@@ -78,11 +78,12 @@
                         android:id="@+id/infoText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:textSize="15sp"
                         android:textColor="@color/black"
                         android:lineSpacingExtra="4sp"
                         android:gravity="center"
-                        android:text="Lipsesc datele despre cheltuielile dvs. în această perioadă\nAccesati pagina 'Adaugare'"
+                        android:text="Lipsesc datele despre cheltuielile dvs. pentru această perioadă\nAccesati pagina 'Adaugare'"
                         />
 
                     <LinearLayout
@@ -108,7 +109,7 @@
                         <LinearLayout
                             android:id="@+id/ll1"
                             android:layout_width="80dp"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:gravity="center_horizontal">
@@ -152,6 +153,8 @@
                         <LinearLayout
                             android:id="@+id/ll2"
                             android:layout_width="80dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
@@ -240,7 +243,6 @@
 
                     <LinearLayout
                         android:id="@+id/row2_layout"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="22dp"
@@ -249,12 +251,12 @@
 
 
                         <LinearLayout
-                            android:visibility="gone"
                             android:id="@+id/ll4"
                             android:layout_width="80dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:gravity="center_horizontal">
 
                             <ImageView
                                 android:layout_width="6dp"
@@ -294,9 +296,10 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:visibility="gone"
                             android:id="@+id/ll5"
                             android:layout_width="80dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
@@ -334,11 +337,10 @@
                                     android:text="0 MDL"
                                     />
                             </LinearLayout>
-layout
+
                         </LinearLayout>
 
                         <LinearLayout
-                            android:visibility="gone"
                             android:id="@+id/ll6"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"

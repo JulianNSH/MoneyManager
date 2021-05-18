@@ -36,6 +36,22 @@
                     android:paddingRight="20dp"
                     android:paddingBottom="10dp"
                     android:background="@drawable/white_rect">
+                    <TextView
+                        android:id="@+id/infoText"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:lineSpacingExtra="4sp"
+                        android:gravity="center"
+                        android:text="Lipsesc datele despre economiile dvs. pentru această perioadă\nAccesați pagina 'Adaugare'"
+                        />
+                <LinearLayout
+                    android:id="@+id/contentLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -201,7 +217,7 @@
                         </LinearLayout>
 
                     </LinearLayout>
-
+                </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
