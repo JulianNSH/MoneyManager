@@ -98,7 +98,6 @@
 
                     <LinearLayout
                         android:id="@+id/row1_layout"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -111,7 +110,8 @@
                             android:layout_width="80dp"
                             android:layout_marginLeft="5dp"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:gravity="center_horizontal">
 
                             <ImageView
                                 android:layout_width="6dp"
@@ -150,7 +150,6 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:visibility="gone"
                             android:id="@+id/ll2"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
@@ -194,7 +193,6 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:visibility="gone"
                             android:id="@+id/ll3"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"

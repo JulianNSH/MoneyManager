@@ -354,6 +354,30 @@ public class DatabaseClass extends SQLiteOpenHelper{
         }
         return outgoings;
     }
+    //SELECT outgoing, SUM(amount) AS amount FROM outgoing WHERE outgoing LIKE 'gg' AND date LIKE '2021-05%'
+    public ArrayList<StatisticsModelClass> getDistinctOutgoingsAmountByDate(String date){
+        ArrayList<String> distinctOutgoings = getDistinctOutgoings();
+        ArrayList<StatisticsModelClass> result =new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c;
+        String query;
+        for (int i=0; i<distinctOutgoings.size(); i++){
+            query = "SELECT " + KEY_OUTGOING_SOURCE + ", SUM(" + KEY_AMOUNT + ") AS " + KEY_AMOUNT + "  FROM " +
+                    TABLE_OUTGOING + " WHERE " + KEY_OUTGOING_SOURCE + " LIKE '" + distinctOutgoings.get(i) +
+                    "' AND " + KEY_DATE + " LIKE'"+date+"%'";
+            c = db.rawQuery(query, null);
+
+            if(c.moveToFirst()){
+                do{
+                    StatisticsModelClass temp = new StatisticsModelClass();
+                    temp.setTvType(c.getString(c.getColumnIndex(KEY_OUTGOING_SOURCE)));
+                    temp.setTvAmount(c.getFloat(c.getColumnIndex(KEY_AMOUNT)));
+                    result.add(temp);
+                } while (c.moveToNext());
+            }
+        }
+        return result;
+    }
     public ArrayList<String> getDistinctOutgoings(){
         ArrayList<String> titles = new ArrayList<>();
         String query = "SELECT DISTINCT "+KEY_OUTGOING_SOURCE+" FROM "+TABLE_OUTGOING;

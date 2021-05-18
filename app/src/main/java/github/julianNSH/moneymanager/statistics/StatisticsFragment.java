@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,7 @@ public class StatisticsFragment extends Fragment {
     private RecyclerView recyclerView;
     private StatisticsAdapter statisticsAdapter;
     private DatabaseClass databaseClass;
-    private ArrayList<StatisticsModelClass> statisticsModelClasses, sortedClass;
+    private ArrayList<StatisticsModelClass> statisticsModelClasses, distinctMC,sortedClass;
     private LinearLayout ll1,ll2,ll3,ll4,ll5,ll6;
 
 
@@ -143,7 +144,9 @@ public class StatisticsFragment extends Fragment {
         pieChart = view.findViewById(R.id.pieChart);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_statistics_list);
 
+        distinctMC = databaseClass.getDistinctOutgoingsAmountByDate(date);
         statisticsModelClasses = databaseClass.getOutgoingDataByMonthYear(date);
+
 
         if(statisticsModelClasses.size()==0){
             infoText.setVisibility(LinearLayout.VISIBLE);
@@ -157,12 +160,12 @@ public class StatisticsFragment extends Fragment {
         float[] biggestCateg = new float[6];
         float[] pbValues = new float[6];
         biggestCateg[5]=0;
-        sortedClass = statisticsModelClasses;
+
 
         //SORTING AND ORGANIZING CATEGORIES (DESC)
         Collections.sort(sortedClass);
-        for (int i = 0; i<statisticsModelClasses.size(); i++){
-            totalSpending+=statisticsModelClasses.get(i).getTvAmount();
+        for (int i = 0; i<distinctMC.size(); i++){
+            totalSpending+=distinctMC.get(i).getTvAmount();
             if(i>=5) biggestCateg[5]+= sortedClass.get(i).getTvAmount();
             if(i<=4) biggestCateg[i] = sortedClass.get(i).getTvAmount();
         }
@@ -204,6 +207,7 @@ public class StatisticsFragment extends Fragment {
 
         if(sortedClass.size()>=1) {
             l1.setVisibility(LinearLayout.VISIBLE);
+            ll1.setGravity(Gravity.CENTER_HORIZONTAL);
             ll1.setVisibility(LinearLayout.VISIBLE);
             ll2.setVisibility(LinearLayout.GONE);
             cat1 = (TextView) view.findViewById(R.id.cat1);
@@ -216,6 +220,7 @@ public class StatisticsFragment extends Fragment {
 
         if(sortedClass.size()>=2) {
             ll2.setVisibility(LinearLayout.VISIBLE);
+            ll2.setGravity(Gravity.CENTER_HORIZONTAL);
             cat2 = (TextView) view.findViewById(R.id.cat2);
             cat2.setText(sortedClass.get(1).getTvType());
             catval2 = (TextView) view.findViewById(R.id.catval2);
@@ -226,39 +231,43 @@ public class StatisticsFragment extends Fragment {
 
         if(sortedClass.size()>=3) {
             ll3.setVisibility(LinearLayout.VISIBLE);
+            ll3.setGravity(Gravity.CENTER_HORIZONTAL);
             cat3 = (TextView) view.findViewById(R.id.cat3);
             cat3.setText(sortedClass.get(2).getTvType());
             catval3 = (TextView) view.findViewById(R.id.catval3);
             catval3.setText(biggestCateg[2] + " "+getResources().getString(R.string.currency));
-            pieEntries.add(new PieEntry(pbValues[2],sortedClass.get(2).getTvType()));
+            pieEntries.add(new PieEntry(pbValues[2],distinctMC.get(2).getTvType()));
             pieColors.add(view.getContext().getColor(R.color.stat_elem3));
         }
 
-        if(sortedClass.size()>=4) {
+        if(distinctMC.size()>=4) {
             l2.setVisibility(LinearLayout.VISIBLE);
             ll4.setVisibility(LinearLayout.VISIBLE);
+            ll5.setGravity(Gravity.CENTER_HORIZONTAL);
             cat4 = (TextView) view.findViewById(R.id.cat4);
-            cat4.setText(sortedClass.get(3).getTvType());
+            cat4.setText(distinctMC.get(3).getTvType());
             catval4 = (TextView) view.findViewById(R.id.catval4);
             catval4.setText(biggestCateg[3] + " "+getResources().getString(R.string.currency));
-            pieEntries.add(new PieEntry(pbValues[3],sortedClass.get(3).getTvType()));
+            pieEntries.add(new PieEntry(pbValues[3],distinctMC.get(3).getTvType()));
             pieColors.add(view.getContext().getColor(R.color.stat_elem4));
         }
 
-        if(sortedClass.size()>=5) {
+        if(distinctMC.size()>=5) {
             ll5.setVisibility(LinearLayout.VISIBLE);
+            ll5.setGravity(Gravity.CENTER_HORIZONTAL);
             cat5 = (TextView) view.findViewById(R.id.cat5);
-            cat5.setText(sortedClass.get(4).getTvType());
+            cat5.setText(distinctMC.get(4).getTvType());
             catval5 = (TextView) view.findViewById(R.id.catval5);
             catval5.setText(biggestCateg[4]+ " "+getResources().getString(R.string.currency));
-            pieEntries.add(new PieEntry(pbValues[4],sortedClass.get(4).getTvType()));
+            pieEntries.add(new PieEntry(pbValues[4],distinctMC.get(4).getTvType()));
             pieColors.add(view.getContext().getColor(R.color.stat_elem5));
         }
-        if(sortedClass.size()>=6){
+        if(distinctMC.size()>=6){
             catval6 = (TextView) view.findViewById(R.id.catval6);
             ll6.setVisibility(LinearLayout.VISIBLE);
+            ll6.setGravity(Gravity.CENTER_HORIZONTAL);
             catval6.setText(biggestCateg[5] + " "+getResources().getString(R.string.currency));
-            pieEntries.add(new PieEntry(pbValues[5],sortedClass.get(5).getTvType()));
+            pieEntries.add(new PieEntry(pbValues[5],distinctMC.get(5).getTvType()));
             pieColors.add(view.getContext().getColor(R.color.stat_elem6));
         }
         /////////////////////SETTING PIE CHART
