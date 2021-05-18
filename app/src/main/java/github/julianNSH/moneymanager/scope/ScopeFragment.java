@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -50,6 +51,14 @@ public class ScopeFragment extends Fragment {
         scopeModelClasses = new ArrayList<>();
         databaseClass = new DatabaseClass(getContext());
         scopeModelClasses = databaseClass.getAllScopes();
+
+        LinearLayout linearLayoutText = root.findViewById(R.id.infoLayout);
+        if(scopeModelClasses.size()==0){
+            linearLayoutText.setVisibility(LinearLayout.VISIBLE);
+        } else {
+            linearLayoutText.setVisibility(LinearLayout.GONE);
+        }
+
         scopeAdapter = new ScopeAdapter(root.getContext(), scopeModelClasses);
         RecyclerView.LayoutManager sLayoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(sLayoutManager);

@@ -269,12 +269,19 @@ public class OverviewFragment extends Fragment {
         ArrayList<BarEntry> values2 = new ArrayList<>();
         int dYear, dMonth;
 
-        //TODO fix bar chart
+
         date = Calendar.getInstance();
         for (int i = 0; i < MAX_X_VALUE; i++) {
+            dYear=year; dMonth=month;
+            if(month==3){ if (i==0){ dYear--; dMonth = 15; } }
+            if(month==2){ if (i<=1){ dYear--; dMonth = 14;} }
+            if(month==1){ if (i<=2){ dYear--; dMonth = 13; } }
+            if(month==12){ if (i>=4){ dYear++; dMonth = 0; } }
+            if(month==11){ if (i>=5){ dYear++; dMonth = -1;} }
+            if(month==10){ if (i==6){ dYear++; dMonth = -2; } }
 
-            values1.add(new BarEntry(i, databaseClass.getTotalIncome(String.format("%04d-%02d", year, month+i-3))));
-            values2.add(new BarEntry(i, databaseClass.getTotalOutgoing(String.format("%04d-%02d", year, month+i-3))));
+            values1.add(new BarEntry(i, databaseClass.getTotalIncome(String.format("%04d-%02d", dYear, dMonth+i-3))));
+            values2.add(new BarEntry(i, databaseClass.getTotalOutgoing(String.format("%04d-%02d", dYear, dMonth+i-3))));
         }
         GROUP_1_LABEL = getResources().getString(R.string.income);
         GROUP_2_LABEL = getResources().getString(R.string.outgoings);

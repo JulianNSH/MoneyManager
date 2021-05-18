@@ -65,12 +65,10 @@ public class ScopeAdapter extends RecyclerView.Adapter<ScopeAdapter.MyViewHolder
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.scope_element, parent, false);
         MyViewHolder viewHolder = new MyViewHolder(itemView);
-
         //Popup dialog window for elements
         itemScopeDialog = new Dialog(context);
         itemScopeDialog.setContentView(R.layout.scope_dialog);
         itemScopeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         databaseClass = new DatabaseClass(context);
 
         for (int i =0; i<list.size(); i++){

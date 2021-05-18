@@ -69,13 +69,15 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp">
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical" >
 
                         <TextView
                             android:id="@+id/textView"
@@ -88,7 +90,7 @@
 
                         <EditText
                             android:id="@+id/current_amount"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="35dp"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
@@ -103,17 +105,15 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" >
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -126,7 +126,7 @@
 
                         <EditText
                             android:id="@+id/total_amount"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="35dp"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
@@ -164,6 +164,8 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
@@ -175,7 +177,7 @@
                             android:layout_margin="5dp"/>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
                             <EditText
@@ -196,7 +198,7 @@
                                 android:gravity="center"/>
                             <EditText
                                 android:id="@+id/add_start_date"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="35dp"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
@@ -206,18 +208,16 @@
                                 android:textSize="12sp"
                                 android:textColor="@color/black"
                                 android:inputType="date"
-                                android:hint="zz/LL/aaaa"
+                                android:hint="aaaa-LL-zz"
                                 android:gravity="center"/>
                         </LinearLayout>
                     </LinearLayout>
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -228,8 +228,9 @@
                             android:layout_margin="5dp"/>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
                             android:orientation="horizontal">
                             <EditText
                                 android:id="@+id/add_end_time"
@@ -249,7 +250,7 @@
                                 android:gravity="center"/>
                             <EditText
                                 android:id="@+id/add_end_date"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="35dp"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
@@ -259,7 +260,7 @@
                                 android:textSize="12sp"
                                 android:textColor="@color/black"
                                 android:inputType="date"
-                                android:hint="zz/LL/aaaa"
+                                android:hint="aaaa-LL-zz"
                                 android:gravity="center"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -291,7 +292,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
                         android:textColor="@color/black"
-                        android:text="Comentariu"
+                        android:text="Comentariul"
                         android:layout_margin="5dp"/>
 
                     <EditText
