@@ -38,7 +38,7 @@ public class StatisticsFragment extends Fragment {
     private RecyclerView recyclerView;
     private StatisticsAdapter statisticsAdapter;
     private DatabaseClass databaseClass;
-    private ArrayList<StatisticsModelClass> statisticsModelClasses, distinctMC,sortedClass;
+    private ArrayList<StatisticsModelClass> statisticsModelClasses;
     private LinearLayout ll1,ll2,ll3,ll4,ll5,ll6;
 
 
@@ -144,13 +144,15 @@ public class StatisticsFragment extends Fragment {
         pieChart = view.findViewById(R.id.pieChart);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_statistics_list);
 
-        distinctMC = databaseClass.getDistinctOutgoingsAmountByDate(date);
+        ArrayList<StatisticsModelClass> distinctMC = databaseClass.getDistinctOutgoingsAmountByDate(date);
         statisticsModelClasses = databaseClass.getOutgoingDataByMonthYear(date);
+        statisticsAdapter = new StatisticsAdapter(view.getContext() ,statisticsModelClasses);
 
 
         if(statisticsModelClasses.size()==0){
             infoText.setVisibility(LinearLayout.VISIBLE);
             pieChart.setVisibility(LinearLayout.GONE);
+
         } else {
             pieChart.setVisibility(LinearLayout.VISIBLE);
             infoText.setVisibility(LinearLayout.GONE);
@@ -163,15 +165,12 @@ public class StatisticsFragment extends Fragment {
 
 
         //SORTING AND ORGANIZING CATEGORIES (DESC)
-        Collections.sort(sortedClass);
+        Collections.sort(distinctMC);
         for (int i = 0; i<distinctMC.size(); i++){
             totalSpending+=distinctMC.get(i).getTvAmount();
-            if(i>=5) biggestCateg[5]+= sortedClass.get(i).getTvAmount();
-            if(i<=4) biggestCateg[i] = sortedClass.get(i).getTvAmount();
+            if(i>=5) biggestCateg[5]+= distinctMC.get(i).getTvAmount();
+            if(i<=4) biggestCateg[i] = distinctMC.get(i).getTvAmount();
         }
-
-        statisticsModelClasses = databaseClass.getOutgoingDataByMonthYear(date);
-        statisticsAdapter = new StatisticsAdapter(view.getContext() ,statisticsModelClasses);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -184,7 +183,7 @@ public class StatisticsFragment extends Fragment {
         pieColors = new ArrayList<>();
         for (int i = 0 ;i<6; i++) {
             pbValues[i] =(biggestCateg[i]*100) / totalSpending;
-            if (i==sortedClass.size()) break;
+            if (i==distinctMC.size()) break;
         }
 
         TextView cat1,cat2,cat3,cat4,cat5, catval1,catval2,catval3,catval4,catval5,catval6;
@@ -205,35 +204,35 @@ public class StatisticsFragment extends Fragment {
         LinearLayout l2 = view.findViewById(R.id.row2_layout);
         l2.setVisibility(LinearLayout.GONE);
 
-        if(sortedClass.size()>=1) {
+        if(distinctMC.size()>=1) {
             l1.setVisibility(LinearLayout.VISIBLE);
             ll1.setGravity(Gravity.CENTER_HORIZONTAL);
             ll1.setVisibility(LinearLayout.VISIBLE);
             ll2.setVisibility(LinearLayout.GONE);
             cat1 = (TextView) view.findViewById(R.id.cat1);
-            cat1.setText(sortedClass.get(0).getTvType());
+            cat1.setText(distinctMC.get(0).getTvType());
             catval1 = (TextView) view.findViewById(R.id.catval1);
             catval1.setText(biggestCateg[0] +" "+getResources().getString(R.string.currency));
-            pieEntries.add(new PieEntry(pbValues[0],sortedClass.get(0).getTvType()));
+            pieEntries.add(new PieEntry(pbValues[0],distinctMC.get(0).getTvType()));
             pieColors.add(view.getContext().getColor(R.color.stat_elem1));
         }
 
-        if(sortedClass.size()>=2) {
+        if(distinctMC.size()>=2) {
             ll2.setVisibility(LinearLayout.VISIBLE);
             ll2.setGravity(Gravity.CENTER_HORIZONTAL);
             cat2 = (TextView) view.findViewById(R.id.cat2);
-            cat2.setText(sortedClass.get(1).getTvType());
+            cat2.setText(distinctMC.get(1).getTvType());
             catval2 = (TextView) view.findViewById(R.id.catval2);
             catval2.setText(biggestCateg[1] + " "+getResources().getString(R.string.currency));
-            pieEntries.add(new PieEntry(pbValues[1],sortedClass.get(1).getTvType()));
+            pieEntries.add(new PieEntry(pbValues[1],distinctMC.get(1).getTvType()));
             pieColors.add(view.getContext().getColor(R.color.stat_elem2));
         }
 
-        if(sortedClass.size()>=3) {
+        if(distinctMC.size()>=3) {
             ll3.setVisibility(LinearLayout.VISIBLE);
             ll3.setGravity(Gravity.CENTER_HORIZONTAL);
             cat3 = (TextView) view.findViewById(R.id.cat3);
-            cat3.setText(sortedClass.get(2).getTvType());
+            cat3.setText(distinctMC.get(2).getTvType());
             catval3 = (TextView) view.findViewById(R.id.catval3);
             catval3.setText(biggestCateg[2] + " "+getResources().getString(R.string.currency));
             pieEntries.add(new PieEntry(pbValues[2],distinctMC.get(2).getTvType()));

@@ -356,7 +356,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
     }
     //SELECT outgoing, SUM(amount) AS amount FROM outgoing WHERE outgoing LIKE 'gg' AND date LIKE '2021-05%'
     public ArrayList<StatisticsModelClass> getDistinctOutgoingsAmountByDate(String date){
-        ArrayList<String> distinctOutgoings = getDistinctOutgoings();
+        ArrayList<String> distinctOutgoings = getDistinctOutgoings(date);
         ArrayList<StatisticsModelClass> result =new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c;
@@ -381,6 +381,19 @@ public class DatabaseClass extends SQLiteOpenHelper{
     public ArrayList<String> getDistinctOutgoings(){
         ArrayList<String> titles = new ArrayList<>();
         String query = "SELECT DISTINCT "+KEY_OUTGOING_SOURCE+" FROM "+TABLE_OUTGOING;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        if(c.moveToFirst()){
+            do{
+                titles.add(c.getString(c.getColumnIndex(KEY_OUTGOING_SOURCE)));
+            } while (c.moveToNext());
+        }
+        return titles;
+    }    public ArrayList<String> getDistinctOutgoings(String date){
+        ArrayList<String> titles = new ArrayList<>();
+        String query = "SELECT DISTINCT "+KEY_OUTGOING_SOURCE+" FROM "+TABLE_OUTGOING+" WHERE "+
+                KEY_DATE+" LIKE '"+date+"%'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(query, null);
 
