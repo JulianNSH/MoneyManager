@@ -11,9 +11,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -67,8 +70,11 @@ public class OverviewFragment extends Fragment {
     private DatePickerDialog datePicker;
     private Button overviewDateButton, nextMonth, prevMonth;
     private Calendar date;
-
     private int  currentMonth, currentYear;
+
+    ///////////////////////////////////
+    private String[] sortParameters = {"Perioada Desc.", "Perioada Asc." , "Suma Desc.", "Suma Asc.","A-Z","Z-A"};
+    private String sortParamKey;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"SetTextI18n", "NonConstantResourceId", "DefaultLocale"})
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -82,7 +88,8 @@ public class OverviewFragment extends Fragment {
         currentMonth = date.get(Calendar.MONTH)+1;
         currentYear = date.get(Calendar.YEAR);
 
-        showOverviewData(root, currentMonth, currentYear); //on first run
+        sortParamKey = "Perioada Asc.";
+        showOverviewData(root, currentMonth, currentYear,sortParamKey); //on first run
 
         overviewDateButton = root.findViewById(R.id.btn_date);
         nextMonth = root.findViewById(R.id.btn_date_next);
@@ -98,7 +105,7 @@ public class OverviewFragment extends Fragment {
                     currentYear++;
                 } else {currentMonth++;}
                 overviewDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d",currentYear,currentMonth)));
-                showOverviewData(root, currentMonth, currentYear);
+                showOverviewData(root, currentMonth, currentYear,sortParamKey);
             }
         });
         //move to previous month
@@ -110,7 +117,7 @@ public class OverviewFragment extends Fragment {
                     currentYear--;
                 } else {currentMonth--;}
                 overviewDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
-                showOverviewData(root, currentMonth,currentYear);
+                showOverviewData(root, currentMonth,currentYear,sortParamKey);
             }
         });
 
@@ -130,7 +137,7 @@ public class OverviewFragment extends Fragment {
                         currentMonth = month+1;
                         currentYear = year;
                         overviewDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
-                        showOverviewData(root, currentMonth, currentYear);
+                        showOverviewData(root, currentMonth, currentYear,sortParamKey);
                     }
                 }, year, month, day);
 
@@ -143,12 +150,27 @@ public class OverviewFragment extends Fragment {
             }
         });
 
+        ////On sort spinner clic0k
+        Spinner spinner = root.findViewById(R.id.spinnerSort);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(root.getContext(), android.R.layout.simple_spinner_dropdown_item, sortParameters);
+        spinner.setAdapter(arrayAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sortParamKey = sortParameters[position];
+                showOverviewData(root,currentMonth,currentYear,sortParamKey);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         return root;
     }
 
     @SuppressLint({"ResourceType", "SetTextI18n", "DefaultLocale"})
-    public void showOverviewData(View view, int month, int year){
+    public void showOverviewData(View view, int month, int year, String sortParam){
         String date = String.format("%04d-%02d", year, month);
         databaseClass = new DatabaseClass(getContext());
         overviewModelClasses = databaseClass.getOverviewData(date);
@@ -208,7 +230,14 @@ public class OverviewFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rvTransaction);
 
         if(overviewModelClasses!=null) {
-            Collections.sort(overviewModelClasses);
+
+            if(sortParam.equals("Perioada Asc.")) Collections.sort(overviewModelClasses, new SortByDateTimeAsc());
+            if(sortParam.equals("Perioada Desc.")) Collections.sort(overviewModelClasses, new SortByDateTimeDesc());
+            if(sortParam.equals("Suma Asc.")) Collections.sort(overviewModelClasses, new SortByAmountAsc());
+            if(sortParam.equals("Suma Desc.")) Collections.sort(overviewModelClasses, new SortByAmountDesc());
+            if(sortParam.equals("A-Z")) Collections.sort(overviewModelClasses, new SortByTitleAsc());
+            if(sortParam.equals("Z-A")) Collections.sort(overviewModelClasses, new SortByTitleDesc());
+
             for (int i = 0; i <overviewModelClasses.size(); i++) {
                 switch (overviewModelClasses.get(i).getTvDomain()){
                     case "income":

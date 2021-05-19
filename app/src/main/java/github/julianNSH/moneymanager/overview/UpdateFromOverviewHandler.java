@@ -114,10 +114,10 @@ public class UpdateFromOverviewHandler {
                 int year = date.get(Calendar.YEAR);
 
                 datePicker = new DatePickerDialog(root.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @SuppressLint("SetTextI18n")
+                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        UpdateFromOverviewHandler.this.date.setText(year + "-" + (month + 1) + "-"+dayOfMonth);
+                        UpdateFromOverviewHandler.this.date.setText(String.format("%04d-%02d-%02d", year, month+1, dayOfMonth));
                     }
                 }, year, month, day);
 
@@ -154,7 +154,7 @@ public class UpdateFromOverviewHandler {
                 element.setDate(String.valueOf(date.getText()));
                 element.setRepeat(0);
                 long id = databaseClass.updateFromOverview(element);
-                Toast.makeText(root.getContext(), "UPDATED ID "+id, Toast.LENGTH_SHORT).show();
+                Toast.makeText(root.getContext(), source.getText()+" SALVAT", Toast.LENGTH_SHORT).show();
                 updateDialog.dismiss();
             }
 

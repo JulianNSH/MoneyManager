@@ -10,6 +10,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,7 +24,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
     //Logcat
     private static final String LOG = "DatabaseLog";
     //Database Version
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
     //Database Name
     private static final String DATABASE_NAME = "moneyManagerDatabase";
     //Table Names
@@ -90,7 +91,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
     public ArrayList<OverviewModelClass> getOverviewData(String date){
         ArrayList<OverviewModelClass> overview = new ArrayList<OverviewModelClass>();
         String queryIncome = "SELECT * FROM "+TABLE_INCOME+" WHERE "+KEY_DATE+" LIKE '"
-                +date+"%' ORDER BY "+KEY_TIME+" ASC";
+                +date+"%'";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(queryIncome, null);
@@ -110,7 +111,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
         }
         
         String queryOutgoing = "SELECT * FROM "+TABLE_OUTGOING+" WHERE "+KEY_DATE+" LIKE '"
-                +date+"%' ORDER BY "+KEY_TIME+" ASC";
+                +date+"%'";
 
         db = this.getReadableDatabase();
         c = db.rawQuery(queryOutgoing, null);
@@ -129,7 +130,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
             } while (c.moveToNext());
         }
         String queryScope = "SELECT * FROM "+TABLE_SCOPES+" WHERE "+KEY_DATE+" LIKE '"
-                +date+"%' ORDER BY "+KEY_TIME+" ASC";
+                +date+"%'";
 
         db = this.getReadableDatabase();
         c = db.rawQuery(queryScope, null);
@@ -147,6 +148,8 @@ public class DatabaseClass extends SQLiteOpenHelper{
                 overview.add(temp);
             } while (c.moveToNext());
         }
+        Log.e(LOG, queryOutgoing);
+
         return overview;
     }
     //Delete data

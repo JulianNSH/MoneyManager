@@ -1,6 +1,8 @@
 package github.julianNSH.moneymanager.overview;
 
-public class OverviewModelClass implements Comparable<OverviewModelClass>{
+import github.julianNSH.moneymanager.statistics.StatisticsModelClass;
+
+public class OverviewModelClass{
     int id;
     String tvDomain;
     Integer ivFigure; //figure int id
@@ -82,9 +84,6 @@ public class OverviewModelClass implements Comparable<OverviewModelClass>{
         this.repeat = repeat;
     }
 
-    @Override
-    public int compareTo(OverviewModelClass o) {
-        return -time.compareTo(o.time);
-    }
+
 
 }
