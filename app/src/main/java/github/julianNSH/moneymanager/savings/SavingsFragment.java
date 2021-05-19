@@ -124,6 +124,9 @@ public class SavingsFragment extends Fragment {
         dataSets.add(lineDataSet);
 
         lineDataSet.setColor(getResources().getColor(R.color.blue1));
+        lineDataSet.setLineWidth(2);
+        lineDataSet.setValueTextSize(10);
+
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(){

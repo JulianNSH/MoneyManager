@@ -17,7 +17,7 @@
         android:title="@string/title_add" />
 
     <item
-        android:id="@+id/navigation_invest"
+        android:id="@+id/navigation_savings"
         android:icon="@drawable/ic_savings_24"
         android:title="@string/title_savings"/>
 

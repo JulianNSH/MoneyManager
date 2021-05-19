@@ -147,7 +147,6 @@ public class OverviewFragment extends Fragment {
         return root;
     }
 
-
     @SuppressLint({"ResourceType", "SetTextI18n", "DefaultLocale"})
     public void showOverviewData(View view, int month, int year){
         String date = String.format("%04d-%02d", year, month);

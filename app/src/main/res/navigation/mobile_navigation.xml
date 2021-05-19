@@ -31,7 +31,7 @@
         android:label="@string/title_scope"
         tools:layout="@layout/fragment_scope"/>
     <fragment
-        android:id="@+id/navigation_invest"
+        android:id="@+id/navigation_savings"
         android:name="github.julianNSH.moneymanager.savings.SavingsFragment"
         android:label="@string/title_savings"
         tools:layout="@layout/fragment_savings"/>

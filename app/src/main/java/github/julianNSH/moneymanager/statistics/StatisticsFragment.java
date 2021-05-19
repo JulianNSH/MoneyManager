@@ -134,7 +134,7 @@ public class StatisticsFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    @SuppressLint({"ResourceType", "SetTextI18n"})
+    @SuppressLint({"ResourceType", "SetTextI18n", "DefaultLocale"})
     public void showStatisticsData(View view, int month,int year){
 //        getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
         @SuppressLint("DefaultLocale") String date = String.format("%04d-%02d", year, month);
@@ -214,7 +214,7 @@ public class StatisticsFragment extends Fragment {
             cat1.setText(distinctMC.get(0).getTvType());
             catval1 = (TextView) view.findViewById(R.id.catval1);
             catval1.setText(biggestCateg[0] +" "+getResources().getString(R.string.currency));
-            pieEntries.add(new PieEntry(pbValues[0],distinctMC.get(0).getTvType()));
+            pieEntries.add(new PieEntry(pbValues[0],String.format("%3.1f",pbValues[0])+"%"));
             pieColors.add(view.getContext().getColor(R.color.stat_elem1));
         }
 
@@ -225,7 +225,7 @@ public class StatisticsFragment extends Fragment {
             cat2.setText(distinctMC.get(1).getTvType());
             catval2 = (TextView) view.findViewById(R.id.catval2);
             catval2.setText(biggestCateg[1] + " "+getResources().getString(R.string.currency));
-            pieEntries.add(new PieEntry(pbValues[1],distinctMC.get(1).getTvType()));
+            pieEntries.add(new PieEntry(pbValues[1],String.format("%3.1f",pbValues[1])+"%"));
             pieColors.add(view.getContext().getColor(R.color.stat_elem2));
         }
 
@@ -236,7 +236,7 @@ public class StatisticsFragment extends Fragment {
             cat3.setText(distinctMC.get(2).getTvType());
             catval3 = (TextView) view.findViewById(R.id.catval3);
             catval3.setText(biggestCateg[2] + " "+getResources().getString(R.string.currency));
-            pieEntries.add(new PieEntry(pbValues[2],distinctMC.get(2).getTvType()));
+            pieEntries.add(new PieEntry(pbValues[2], String.format("%3.1f",pbValues[2])+"%"));
             pieColors.add(view.getContext().getColor(R.color.stat_elem3));
         }
 
@@ -248,7 +248,7 @@ public class StatisticsFragment extends Fragment {
             cat4.setText(distinctMC.get(3).getTvType());
             catval4 = (TextView) view.findViewById(R.id.catval4);
             catval4.setText(biggestCateg[3] + " "+getResources().getString(R.string.currency));
-            pieEntries.add(new PieEntry(pbValues[3],distinctMC.get(3).getTvType()));
+            pieEntries.add(new PieEntry(pbValues[3],String.format("%3.1f",pbValues[3])+"%"));
             pieColors.add(view.getContext().getColor(R.color.stat_elem4));
         }
 
@@ -259,7 +259,7 @@ public class StatisticsFragment extends Fragment {
             cat5.setText(distinctMC.get(4).getTvType());
             catval5 = (TextView) view.findViewById(R.id.catval5);
             catval5.setText(biggestCateg[4]+ " "+getResources().getString(R.string.currency));
-            pieEntries.add(new PieEntry(pbValues[4],distinctMC.get(4).getTvType()));
+            pieEntries.add(new PieEntry(pbValues[4],String.format("%3.1f",pbValues[4])+"%"));
             pieColors.add(view.getContext().getColor(R.color.stat_elem5));
         }
         if(distinctMC.size()>=6){
@@ -267,7 +267,7 @@ public class StatisticsFragment extends Fragment {
             ll6.setVisibility(LinearLayout.VISIBLE);
             ll6.setGravity(Gravity.CENTER_HORIZONTAL);
             catval6.setText(biggestCateg[5] + " "+getResources().getString(R.string.currency));
-            pieEntries.add(new PieEntry(pbValues[5],distinctMC.get(5).getTvType()));
+            pieEntries.add(new PieEntry(pbValues[5],String.format("%3.1f",pbValues[5])+"%"));
             pieColors.add(view.getContext().getColor(R.color.stat_elem6));
         }
         /////////////////////SETTING PIE CHART
@@ -277,7 +277,8 @@ public class StatisticsFragment extends Fragment {
         pieDataSet.setColors(pieColors);
         PieData pieData = new PieData(pieDataSet);
 
-        pieChart.setDrawEntryLabels(false);
+        pieDataSet.setDrawValues(false);
+
         pieChart.setUsePercentValues(true);
         pieChart.setDescription(null);
         pieChart.getLegend().setEnabled(false);
@@ -286,7 +287,7 @@ public class StatisticsFragment extends Fragment {
         pieChart.setEntryLabelColor(view.getResources().getColor(R.color.white));
         pieChart.setCenterText("Cheltuieli Totale\n"+totalSpending + " "+getResources().getString(R.string.currency));
         pieChart.setHoleRadius(60);
-        pieChart.setTransparentCircleRadius(70);
+        pieChart.setTransparentCircleRadius(65);
         pieChart.setData(pieData);
         pieChart.invalidate();
 

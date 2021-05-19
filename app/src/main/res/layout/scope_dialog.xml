@@ -253,7 +253,11 @@
                 android:backgroundTint="@color/green2"
                 android:foreground="@drawable/ic_check"
                 android:foregroundGravity="center_vertical|center_horizontal"
-                android:foregroundTint="@color/white"/>
+                android:foregroundTint="@color/white"
+                android:text="       "
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="8sp"
+                android:autoSizeMaxTextSize="14sp"/>
             <Button
                 android:id="@+id/btn_edit"
                 android:layout_width="0px"
