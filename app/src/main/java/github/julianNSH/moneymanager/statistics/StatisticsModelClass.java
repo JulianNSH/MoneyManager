@@ -2,14 +2,14 @@ package github.julianNSH.moneymanager.statistics;
 
 import github.julianNSH.moneymanager.R;
 
-public class StatisticsModelClass implements Comparable<StatisticsModelClass>{
-    int id, repeat;
-    Integer ivIcon = R.drawable.ic_flat;
-    String tvType;
-    float tvAmount;
-    String date;
-    String time;
-    String comment;
+public class StatisticsModelClass {
+    public int id, repeat;
+    public Integer ivIcon = R.drawable.ic_flat;
+    public String tvType;
+    public float tvAmount;
+    public String date;
+    public String time;
+    public String comment;
 
     public StatisticsModelClass(){}
 
@@ -103,9 +103,5 @@ public class StatisticsModelClass implements Comparable<StatisticsModelClass>{
         this.time = time;
     }
 
-    @Override
-    public int compareTo(StatisticsModelClass o) {
-        float comp = ((StatisticsModelClass)o).getTvAmount();
-        return (int) (comp-this.tvAmount);
-    }
+
 }

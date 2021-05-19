@@ -22,7 +22,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -389,26 +389,65 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:lineSpacingExtra="3sp"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="30dp"
-                android:text="Lista Cheltuielilor"/>
+                android:layout_margin="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center_vertical"
+                    android:lineSpacingExtra="3sp"
+                    android:text="Lista Tranzacțiilor"/>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorBlueGrey_300"
+                        android:lineSpacingExtra="3sp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="Sortare:"/>
+
+                    <LinearLayout
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/fg_rect"
+                        android:backgroundTint="@color/colorBlueGrey_50">
+                        <Spinner
+                            android:id="@+id/spinnerSort"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="15"
+                            android:textSize="12sp"
+                            android:textColor="@color/black"
+
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:paddingBottom="10dp"
-                android:paddingTop="30dp"
                 android:overScrollMode="never"
                 android:nestedScrollingEnabled="false"
                 android:id="@+id/rv_statistics_list" />
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

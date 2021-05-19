@@ -4,13 +4,13 @@ import github.julianNSH.moneymanager.statistics.StatisticsModelClass;
 
 public class OverviewModelClass{
     int id;
-    String tvDomain;
-    Integer ivFigure; //figure int id
-    String tvType; //Title of transaction
-    float tvAmount; //amount of transatction
-    String date;  //date of transaction
-    String time;  //time of transaction
-    String comment; //user comment of transaction
+    public String tvDomain;
+    public Integer ivFigure; //figure int id
+    public String tvType; //Title of transaction
+    public float tvAmount; //amount of transatction
+    public String date;  //date of transaction
+    public String time;  //time of transaction
+    public String comment; //user comment of transaction
     int repeat;
     public OverviewModelClass(){}
 

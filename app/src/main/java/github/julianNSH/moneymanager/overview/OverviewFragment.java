@@ -2,9 +2,7 @@ package github.julianNSH.moneymanager.overview;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.graphics.PorterDuff;
-import android.icu.text.CompactDecimalFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -20,7 +18,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -28,14 +25,12 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -48,6 +43,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import github.julianNSH.moneymanager.CustomDateParser;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
+import github.julianNSH.moneymanager.overview.SortData.SortByAmountAsc;
+import github.julianNSH.moneymanager.overview.SortData.SortByAmountDesc;
+import github.julianNSH.moneymanager.overview.SortData.SortByDateTimeAsc;
+import github.julianNSH.moneymanager.overview.SortData.SortByDateTimeDesc;
+import github.julianNSH.moneymanager.overview.SortData.SortByTitleAsc;
+import github.julianNSH.moneymanager.overview.SortData.SortByTitleDesc;
 
 public class OverviewFragment extends Fragment {
     ////////////////////////////////////////////////////////////////Chart Elements
@@ -88,7 +89,7 @@ public class OverviewFragment extends Fragment {
         currentMonth = date.get(Calendar.MONTH)+1;
         currentYear = date.get(Calendar.YEAR);
 
-        sortParamKey = "Perioada Asc.";
+        sortParamKey = "Perioada Desc.";
         showOverviewData(root, currentMonth, currentYear,sortParamKey); //on first run
 
         overviewDateButton = root.findViewById(R.id.btn_date);
@@ -150,7 +151,7 @@ public class OverviewFragment extends Fragment {
             }
         });
 
-        ////On sort spinner clic0k
+        ////On sort spinner click
         Spinner spinner = root.findViewById(R.id.spinnerSort);
         ArrayAdapter arrayAdapter = new ArrayAdapter(root.getContext(), android.R.layout.simple_spinner_dropdown_item, sortParameters);
         spinner.setAdapter(arrayAdapter);

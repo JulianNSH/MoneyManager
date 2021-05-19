@@ -1,6 +1,8 @@
-package github.julianNSH.moneymanager.overview;
+package github.julianNSH.moneymanager.overview.SortData;
 
 import java.util.Comparator;
+
+import github.julianNSH.moneymanager.overview.OverviewModelClass;
 
 public class SortByDateTimeDesc implements Comparator<OverviewModelClass> {
 

@@ -8,9 +8,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -33,6 +36,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import github.julianNSH.moneymanager.CustomDateParser;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
+import github.julianNSH.moneymanager.statistics.SortData.SortByAmountAsc;
+import github.julianNSH.moneymanager.statistics.SortData.SortByAmountDesc;
+import github.julianNSH.moneymanager.statistics.SortData.SortByDateTimeAsc;
+import github.julianNSH.moneymanager.statistics.SortData.SortByDateTimeDesc;
+import github.julianNSH.moneymanager.statistics.SortData.SortByTitleAsc;
+import github.julianNSH.moneymanager.statistics.SortData.SortByTitleDesc;
 
 public class StatisticsFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -52,6 +61,10 @@ public class StatisticsFragment extends Fragment {
     private PieChart pieChart;
     private ArrayList<Integer> pieColors;
     private ArrayList<PieEntry> pieEntries;
+    ///
+
+    private String[] sortParameters = {"Perioada Desc.", "Perioada Asc." , "Suma Desc.", "Suma Asc.","A-Z","Z-A"};
+    private String sortParamKey;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"ResourceType", "SetTextI18n", "DefaultLocale"})
@@ -60,6 +73,7 @@ public class StatisticsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_statistics, container, false);
 
         date = Calendar.getInstance();
+        sortParamKey = "Perioada Desc.";
 
         currentMonth = date.get(Calendar.MONTH)+1;
         currentYear = date.get(Calendar.YEAR);
@@ -67,7 +81,8 @@ public class StatisticsFragment extends Fragment {
         nextMonth = root.findViewById(R.id.btn_stat_next);
         prevMonth = root.findViewById(R.id.btn_stat_back);
 
-        showStatisticsData(root, currentMonth, currentYear);
+        sortParamKey = "Perioada Asc.";
+        showStatisticsData(root, currentMonth, currentYear,sortParamKey);
         //move to next month
         nextMonth.setOnClickListener(new View.OnClickListener() {
 
@@ -78,7 +93,7 @@ public class StatisticsFragment extends Fragment {
                     currentYear++;
                 } else {currentMonth++;}
                 statisticsDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d",currentYear,currentMonth)));
-                showStatisticsData(root, currentMonth, currentYear);
+                showStatisticsData(root, currentMonth, currentYear,sortParamKey);
             }
         });
         //move to previous month
@@ -90,7 +105,7 @@ public class StatisticsFragment extends Fragment {
                     currentYear--;
                 } else {currentMonth--;}
                 statisticsDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
-                showStatisticsData(root, currentMonth, currentYear);
+                showStatisticsData(root, currentMonth, currentYear,sortParamKey);
             }
         });
 
@@ -116,7 +131,7 @@ public class StatisticsFragment extends Fragment {
                         currentMonth =month+1;
                         currentYear = year;
                         statisticsDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
-                        showStatisticsData(root, currentMonth,currentYear);
+                        showStatisticsData(root, currentMonth,currentYear,sortParamKey);
                     }
                 }, year, month, day);
 
@@ -129,13 +144,28 @@ public class StatisticsFragment extends Fragment {
             }
         });
 
-        //Update checker
+        ////On sort spinner click
+        Spinner spinner = root.findViewById(R.id.spinnerSort);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(root.getContext(), android.R.layout.simple_spinner_dropdown_item, sortParameters);
+        spinner.setAdapter(arrayAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sortParamKey = sortParameters[position];
+                showStatisticsData(root,currentMonth,currentYear,sortParamKey);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         return root;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint({"ResourceType", "SetTextI18n", "DefaultLocale"})
-    public void showStatisticsData(View view, int month,int year){
+    public void showStatisticsData(View view, int month,int year, String sortParam){
 //        getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
         @SuppressLint("DefaultLocale") String date = String.format("%04d-%02d", year, month);
         ///////////////////////List of elements
@@ -165,8 +195,13 @@ public class StatisticsFragment extends Fragment {
 
 
         //SORTING AND ORGANIZING CATEGORIES (DESC)
-        Collections.sort(distinctMC);
-        Collections.sort(statisticsModelClasses);
+        Collections.sort(distinctMC, new SortByAmountAsc());
+        if(sortParam.equals("Perioada Asc."))Collections.sort(statisticsModelClasses, new SortByDateTimeAsc());
+        if(sortParam.equals("Perioada Desc."))Collections.sort(statisticsModelClasses, new SortByDateTimeDesc());
+        if(sortParam.equals("Suma Desc."))Collections.sort(statisticsModelClasses, new SortByAmountAsc());
+        if(sortParam.equals("Suma Asc."))Collections.sort(statisticsModelClasses, new SortByAmountDesc());
+        if(sortParam.equals("A-Z"))Collections.sort(statisticsModelClasses, new SortByTitleAsc());
+        if(sortParam.equals("Z-A"))Collections.sort(statisticsModelClasses, new SortByTitleDesc());
         for (int i = 0; i<distinctMC.size(); i++){
             totalSpending+=distinctMC.get(i).getTvAmount();
             if(i>=5) biggestCateg[5]+= distinctMC.get(i).getTvAmount();
