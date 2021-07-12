@@ -66,12 +66,12 @@
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:backgroundTint="@color/green2"
+            android:elevation="10dp"
             android:foreground="@drawable/ic_add"
             android:foregroundGravity="center_vertical|center_horizontal"
-            app:cornerRadius="20dp"
-            android:elevation="10dp" />
+            app:cornerRadius="20dp" />
 
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

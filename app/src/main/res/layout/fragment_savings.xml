@@ -14,6 +14,7 @@
         android:scrollbars="none">
 
         <LinearLayout
+            android:background="?android:attr/colorBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusableInTouchMode="true"
@@ -235,6 +236,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="?android:attr/colorBackground"
                 android:clipToPadding="false"
                 android:paddingBottom="10dp"
                 android:overScrollMode="never"

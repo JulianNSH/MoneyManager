@@ -10,9 +10,6 @@
         android:name="github.julianNSH.moneymanager.overview.OverviewFragment"
         android:label="@string/title_overview"
         tools:layout="@layout/fragment_overview">
-        <action
-            android:id="@+id/action_navigation_overview_to_navigation_statistics"
-            app:destination="@id/navigation_statistics" />
     </fragment>
 
     <fragment
