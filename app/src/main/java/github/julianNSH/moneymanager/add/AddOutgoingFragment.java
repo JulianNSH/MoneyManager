@@ -162,14 +162,34 @@ public class AddOutgoingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 inputOutgoing.setIvIcon(icon);
-                inputOutgoing.setTvType(String.valueOf(outgoingSource.getText()));
-                inputOutgoing.setTvAmount(Float.parseFloat(String.valueOf(amount.getText())));
+                if (outgoingSource.getText().toString().isEmpty()){
+                    outgoingSource.setError("Introduceți sursa");
+                }else {
+                    inputOutgoing.setTvType(String.valueOf(outgoingSource.getText()));
+                }
+                if(amount.getText().toString().isEmpty()){
+                    amount.setError("Introduceți suma");
+                }else {
+                    inputOutgoing.setTvAmount(Float.parseFloat(String.valueOf(amount.getText())));
+                }
+                if(outgoingTime.getText().toString().isEmpty()){
+                    outgoingTime.setError("Introduceți ora");
+                }else {
+                    inputOutgoing.setTime(String.valueOf(outgoingTime.getText()));
+                }
+                if(outgoingDate.getText().toString().isEmpty()){
+                    outgoingDate.setError("Introduceți data");
+                }else{
+                    inputOutgoing.setDate(String.valueOf(outgoingDate.getText()));
+                }
+
                 inputOutgoing.setComment(String.valueOf(comment.getText()));
-                inputOutgoing.setTime(String.valueOf(outgoingTime.getText()));
-                inputOutgoing.setDate(String.valueOf(outgoingDate.getText()));
                 inputOutgoing.setRepeat(0);
-               long id = databaseClass.addOutgoing(inputOutgoing);
-               Toast.makeText(getContext(), "Added Outgoing with ID "+id, Toast.LENGTH_SHORT).show();
+                if(!(outgoingSource.getText().toString().isEmpty() || amount.getText().toString().isEmpty() ||
+                outgoingTime.getText().toString().isEmpty() || outgoingDate.getText().toString().isEmpty())) {
+                    databaseClass.addOutgoing(inputOutgoing);
+                    Toast.makeText(getContext(), inputOutgoing.getTvType() + "a fost adăugat", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return root;

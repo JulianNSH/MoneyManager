@@ -138,15 +138,35 @@ public class AddOtherFragment extends Fragment {
                         break;
                     }
                 }
-                inputSourceVal.setTvTitle(selection[0]);
-                inputSourceVal.setTvInitialAmount(Float.parseFloat(String.valueOf(amount.getText())));
-                inputSourceVal.setComment(String.valueOf(comment.getText()));
-                inputSourceVal.setTime(String.valueOf(otherTransactionTime.getText()));
-                inputSourceVal.setDate(String.valueOf(otherTransactionDate.getText()));
+
+                AutoCompleteTextView otherSource = root.findViewById(R.id.other_source);
+                if(otherSource.getText().toString().isEmpty()){
+                    otherSource.setError("Indicați scopul");
+                } else {
+                    inputSourceVal.setTvTitle(selection[0]);
+                }
+                if (amount.getText().toString().isEmpty()){
+                    amount.setError("Indicați suma");
+                }else{
+                    inputSourceVal.setTvInitialAmount(Float.parseFloat(String.valueOf(amount.getText())));
+                }
+                if(otherTransactionTime.getText().toString().isEmpty()){
+                    otherTransactionTime.setError("Introduceți ora");
+                }else{
+                    inputSourceVal.setTime(String.valueOf(otherTransactionTime.getText()));
+                }
+                if(otherTransactionDate.getText().toString().isEmpty()){
+                 otherTransactionDate.setError("Introduceți data");
+                } else {
+                    inputSourceVal.setDate(String.valueOf(otherTransactionDate.getText()));
+                }
                 inputSourceVal.setGeneralId(commonId);
                 inputSourceVal.setRepeat(0);
-                long id = databaseClass.addScopeValue(inputSourceVal);
-                Toast.makeText(getContext(), "Added Source values with ID "+id, Toast.LENGTH_SHORT).show();
+                if(!(otherSource.getText().toString().isEmpty() || amount.getText().toString().isEmpty()||
+                        otherTransactionTime.getText().toString().isEmpty()||otherTransactionDate.getText().toString().isEmpty())) {
+                    databaseClass.addScopeValue(inputSourceVal);
+                    Toast.makeText(getContext(), selection[0] + "a fost adăugat", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return root;

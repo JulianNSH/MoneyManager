@@ -3,19 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/add_view"
-    tools:context=".add.AddFragment">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/add_view">
+
+
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/add_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        android:background="@color/background"
-        app:tabTextColor="@color/black"
+        android:background="@drawable/top_corner_white_rect"
+        android:backgroundTint="@color/background"
+        app:tabIndicatorColor="@color/blue2"
         app:tabSelectedTextColor="@color/blue2"
-        app:tabIndicatorColor="@color/background">
+        app:tabTextColor="@color/black"
+        app:layout_constraintTop_toTopOf="@+id/add_view">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -33,7 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="Scopuri" />
+            android:text="Scopuri"
+            android:focusable="true" />
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager

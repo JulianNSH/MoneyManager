@@ -42,7 +42,6 @@ public class AddIncomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View root =  inflater.inflate(R.layout.fragment_add_income, container, false);
-
         //////////////////////////////////INPUT SOURCE OF INCOME
         databaseClass = new DatabaseClass(getContext());
         ArrayList<String> titles = databaseClass.getDistinctIncome();
@@ -126,17 +125,40 @@ public class AddIncomeFragment extends Fragment {
 
         databaseClass = new DatabaseClass(getContext());
 
-        addIncome.setOnClickListener(new View.OnClickListener() {
+    addIncome.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick(View v) {
-                inputOutgoing.setTvType(String.valueOf(incomeSource.getText()));
-                inputOutgoing.setTvAmount(Float.parseFloat(String.valueOf(amount.getText())));
+                if (incomeSource.getText().toString().isEmpty()) {
+                    incomeSource.setError("Indicați sursa");
+                } else {
+                    inputOutgoing.setTvType(String.valueOf(incomeSource.getText()));
+                }
+                if (amount.getText().toString().isEmpty()) {
+                    amount.setError("Indicați suma");
+                } else {
+                    inputOutgoing.setTvAmount(Float.parseFloat(String.valueOf(amount.getText())));
+                }
+                if (incomeTime.getText().toString().isEmpty()) {
+                    incomeTime.setError("Indicați ora");
+                } else {
+                    inputOutgoing.setTime(String.valueOf(incomeTime.getText()));
+                }
+                if(incomeDate.getText().toString().isEmpty()){
+                    incomeDate.setError("Indicați data");
+                }else {
+                    inputOutgoing.setDate(String.valueOf(incomeDate.getText()));
+                }
                 inputOutgoing.setComment(String.valueOf(comment.getText()));
-                inputOutgoing.setTime(String.valueOf(incomeTime.getText()));
-                inputOutgoing.setDate(String.valueOf(incomeDate.getText()));
                 inputOutgoing.setRepeat(0);
-                long id = databaseClass.addIncome(inputOutgoing);
-                Toast.makeText(getContext(), "Added Income with ID "+id, Toast.LENGTH_SHORT).show();
+
+                //insert values into the database if fields arent empty
+                if(!(incomeSource.getText().toString().isEmpty() || incomeSource.getText().toString().isEmpty() ||
+                incomeSource.getText().toString().isEmpty() || incomeSource.getText().toString().isEmpty())) {
+                    databaseClass.addIncome(inputOutgoing);
+                    Toast.makeText(getContext(), incomeSource.getText().toString() + " a fost adăugat", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         return root;

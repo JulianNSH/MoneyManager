@@ -43,12 +43,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import github.julianNSH.moneymanager.CustomDateParser;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
-import github.julianNSH.moneymanager.overview.SortData.SortByAmountAsc;
-import github.julianNSH.moneymanager.overview.SortData.SortByAmountDesc;
-import github.julianNSH.moneymanager.overview.SortData.SortByDateTimeAsc;
-import github.julianNSH.moneymanager.overview.SortData.SortByDateTimeDesc;
-import github.julianNSH.moneymanager.overview.SortData.SortByTitleAsc;
-import github.julianNSH.moneymanager.overview.SortData.SortByTitleDesc;
+import github.julianNSH.moneymanager.overview.SortData.SortMode;
 
 public class OverviewFragment extends Fragment {
     ////////////////////////////////////////////////////////////////Chart Elements
@@ -232,12 +227,12 @@ public class OverviewFragment extends Fragment {
 
         if(overviewModelClasses!=null) {
 
-            if(sortParam.equals("Perioada Asc.")) Collections.sort(overviewModelClasses, new SortByDateTimeAsc());
-            if(sortParam.equals("Perioada Desc.")) Collections.sort(overviewModelClasses, new SortByDateTimeDesc());
-            if(sortParam.equals("Suma Asc.")) Collections.sort(overviewModelClasses, new SortByAmountAsc());
-            if(sortParam.equals("Suma Desc.")) Collections.sort(overviewModelClasses, new SortByAmountDesc());
-            if(sortParam.equals("A-Z")) Collections.sort(overviewModelClasses, new SortByTitleAsc());
-            if(sortParam.equals("Z-A")) Collections.sort(overviewModelClasses, new SortByTitleDesc());
+            if(sortParam.equals("Perioada Asc.")) Collections.sort(overviewModelClasses, new SortMode((byte) 2));
+            if(sortParam.equals("Perioada Desc.")) Collections.sort(overviewModelClasses, new SortMode((byte)3));
+            if(sortParam.equals("Suma Asc.")) Collections.sort(overviewModelClasses, new SortMode((byte) 0));
+            if(sortParam.equals("Suma Desc.")) Collections.sort(overviewModelClasses, new SortMode((byte) 1));
+            if(sortParam.equals("A-Z")) Collections.sort(overviewModelClasses, new SortMode((byte)4));
+            if(sortParam.equals("Z-A")) Collections.sort(overviewModelClasses, new SortMode((byte)5));
 
             for (int i = 0; i <overviewModelClasses.size(); i++) {
                 switch (overviewModelClasses.get(i).getTvDomain()){

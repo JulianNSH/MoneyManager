@@ -189,17 +189,52 @@ public class ScopeFragment extends Fragment {
         addScope.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //check if fields arent empty and add values into the object
+                if(scopeTitle.getText().toString().isEmpty()){
+                    scopeTitle.setError("Introduceți titlul");
+                } else {
+                    scopeData.setTvTitle(String.valueOf(scopeTitle.getText()));
+                }
+                if(currentAmount.getText().toString().isEmpty()){
+                    scopeData.setTvInitialAmount(0.0f);
+                } else {
+                    scopeData.setTvInitialAmount(Float.parseFloat(String.valueOf(currentAmount.getText())));
+                }
+                if(neededAmount.getText().toString().isEmpty()){
+                    neededAmount.setError("Introduceți suma");
+                } else {
+                    scopeData.setTvFinalAmount(Float.parseFloat(String.valueOf(neededAmount.getText())));
+                }
+                if(startScopeTime.getText().toString().isEmpty()){
+                    startScopeTime.setError("Introduceți ora");
+                } else {
+                    scopeData.setStartTime(String.valueOf(startScopeTime.getText()));
+                }
+                if(startScopeDate.getText().toString().isEmpty()){
+                    startScopeDate.setError("Introduceți data");
+                } else {
+                    scopeData.setStartDate(String.valueOf(startScopeDate.getText()));
+                }
+                if(endScopeTime.getText().toString().isEmpty()){
+                    endScopeTime.setError("Introduceți ora");
+                } else {
+                    scopeData.setEndTime(String.valueOf(endScopeTime.getText()));
+                }
+                if(endScopeDate.getText().toString().isEmpty()){
+                    endScopeDate.setError("Introduceți data");
+                } else {
+                    scopeData.setEndDate(String.valueOf(endScopeDate.getText()));
+                }
 
-                scopeData.setTvTitle(String.valueOf(scopeTitle.getText()));
-                scopeData.setTvInitialAmount(Float.parseFloat(String.valueOf(currentAmount.getText())));
-                scopeData.setTvFinalAmount(Float.parseFloat(String.valueOf(neededAmount.getText())));
-                scopeData.setStartTime(String.valueOf(startScopeTime.getText()));
-                scopeData.setStartDate(String.valueOf(startScopeDate.getText()));
-                scopeData.setEndTime(String.valueOf(endScopeTime.getText()));
-                scopeData.setEndDate(String.valueOf(endScopeDate.getText()));
                 scopeData.setComment(String.valueOf(comment.getText()));
-                long id = databaseClass.addScope(scopeData);
-                Toast.makeText(root.getContext(), "Item "+id+" added", Toast.LENGTH_SHORT).show();
+
+                //insert data into database by given object
+                if(!(scopeTitle.getText().toString().isEmpty() || neededAmount.getText().toString().isEmpty() ||
+                        startScopeTime.getText().toString().isEmpty() || startScopeDate.getText().toString().isEmpty()||
+                        endScopeTime.getText().toString().isEmpty() || endScopeDate.getText().toString().isEmpty())) {
+                    databaseClass.addScope(scopeData);
+                    Toast.makeText(root.getContext(), scopeData.getTvTitle() + "a fost adăugat", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         addScopeDialog.show();

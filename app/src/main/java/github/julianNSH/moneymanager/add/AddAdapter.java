@@ -8,10 +8,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 public class AddAdapter extends FragmentPagerAdapter {
-    private View context;
+    private final View context;
     int tabs;
     public AddAdapter(View context, FragmentManager fm, int tabs){
-        super(fm);
+        super(fm, tabs);
         this.context = context;
         this.tabs = tabs;
     }
@@ -21,14 +21,11 @@ public class AddAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                AddIncomeFragment incomeFragment = new AddIncomeFragment();
-                return incomeFragment;
+                return new AddIncomeFragment();
             case 1:
-                AddOutgoingFragment outgoingFragment = new AddOutgoingFragment();
-                return outgoingFragment;
+                return new AddOutgoingFragment();
             case 2:
-                AddOtherFragment otherFragment = new AddOtherFragment();
-                return otherFragment;
+                return new AddOtherFragment();
             default:
                 return null;
         }

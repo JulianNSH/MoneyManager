@@ -6,14 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.DialogFragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Objects;
+
 import github.julianNSH.moneymanager.R;
 
-public class AddFragment extends Fragment {
+public class AddFragment extends DialogFragment {
     TabLayout tabLayout;
     ViewPager viewPager;
 
@@ -25,9 +27,13 @@ public class AddFragment extends Fragment {
         viewPager = (ViewPager) root.findViewById(R.id.add_viewPager);
 
         final AddAdapter adapter = new AddAdapter(root, getChildFragmentManager(), tabLayout.getTabCount());
+
+
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        Objects.requireNonNull(getDialog()).getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -43,6 +49,7 @@ public class AddFragment extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
         return root;
     }
 }

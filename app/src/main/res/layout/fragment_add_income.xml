@@ -1,34 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".add.AddIncomeFragment"
-    android:background="@color/blue2">
+    tools:context=".add.AddIncomeFragment">
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_rect"
+            android:backgroundTint="@color/background"
             android:orientation="vertical"
-            android:background="@drawable/fg_rect"
-            android:backgroundTint="@color/colorWhite"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="75dp">
+            android:padding="10dp">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,9 +64,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -121,9 +109,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -187,9 +173,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -231,21 +215,32 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <Button
+                    android:id="@+id/add_income_btn"
+                    android:layout_width="150sp"
+                    android:layout_height="50sp"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/green2"
+                    android:text="ADĂUGARE"
+                    android:textSize="15sp"
+                    android:foregroundGravity="center_vertical|center_horizontal"
+                    app:cornerRadius="10sp" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
         </LinearLayout>
 
-        <Button
-            android:id="@+id/add_income_btn"
-            android:layout_width="150sp"
-            android:layout_height="50sp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="85dp"
-            android:backgroundTint="@color/green2"
-            android:text="ADĂUGARE"
-            android:textSize="15sp"
-            android:foregroundGravity="center_vertical|center_horizontal"
-            app:cornerRadius="10sp" />
 
-
-    </RelativeLayout>
-</FrameLayout>
+</RelativeLayout>

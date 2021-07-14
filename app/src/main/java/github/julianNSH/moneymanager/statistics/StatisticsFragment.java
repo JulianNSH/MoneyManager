@@ -36,12 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import github.julianNSH.moneymanager.CustomDateParser;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
-import github.julianNSH.moneymanager.statistics.SortData.SortByAmountAsc;
-import github.julianNSH.moneymanager.statistics.SortData.SortByAmountDesc;
-import github.julianNSH.moneymanager.statistics.SortData.SortByDateTimeAsc;
-import github.julianNSH.moneymanager.statistics.SortData.SortByDateTimeDesc;
-import github.julianNSH.moneymanager.statistics.SortData.SortByTitleAsc;
-import github.julianNSH.moneymanager.statistics.SortData.SortByTitleDesc;
+import github.julianNSH.moneymanager.statistics.SortData.SortMode;
 
 public class StatisticsFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -195,13 +190,13 @@ public class StatisticsFragment extends Fragment {
 
 
         //SORTING AND ORGANIZING CATEGORIES (DESC)
-        Collections.sort(distinctMC, new SortByAmountAsc());
-        if(sortParam.equals("Perioada Asc."))Collections.sort(statisticsModelClasses, new SortByDateTimeAsc());
-        if(sortParam.equals("Perioada Desc."))Collections.sort(statisticsModelClasses, new SortByDateTimeDesc());
-        if(sortParam.equals("Suma Desc."))Collections.sort(statisticsModelClasses, new SortByAmountAsc());
-        if(sortParam.equals("Suma Asc."))Collections.sort(statisticsModelClasses, new SortByAmountDesc());
-        if(sortParam.equals("A-Z"))Collections.sort(statisticsModelClasses, new SortByTitleAsc());
-        if(sortParam.equals("Z-A"))Collections.sort(statisticsModelClasses, new SortByTitleDesc());
+        Collections.sort(distinctMC, new SortMode((byte)0));
+        if(sortParam.equals("Perioada Asc."))Collections.sort(statisticsModelClasses, new SortMode((byte)2));
+        if(sortParam.equals("Perioada Desc."))Collections.sort(statisticsModelClasses, new SortMode((byte)3));
+        if(sortParam.equals("Suma Desc."))Collections.sort(statisticsModelClasses, new SortMode((byte)0));
+        if(sortParam.equals("Suma Asc."))Collections.sort(statisticsModelClasses, new SortMode((byte)1));
+        if(sortParam.equals("A-Z"))Collections.sort(statisticsModelClasses, new SortMode((byte)4));
+        if(sortParam.equals("Z-A"))Collections.sort(statisticsModelClasses, new SortMode((byte)5));
         for (int i = 0; i<distinctMC.size(); i++){
             totalSpending+=distinctMC.get(i).getTvAmount();
             if(i>=5) biggestCateg[5]+= distinctMC.get(i).getTvAmount();

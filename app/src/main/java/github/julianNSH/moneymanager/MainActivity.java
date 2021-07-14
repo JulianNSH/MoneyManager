@@ -1,6 +1,6 @@
 package github.julianNSH.moneymanager;
 
-import android.app.FragmentTransaction;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 
@@ -8,10 +8,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import java.util.Objects;
 
 import github.julianNSH.moneymanager.add.AddFragment;
 
@@ -23,11 +26,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floating_add);
+
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new AddFragment()).commit();
+                DialogFragment addDialog = new AddFragment();
+                addDialog.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogTheme);
+                addDialog.show(getSupportFragmentManager(), "dialog");
             }
         });
 
