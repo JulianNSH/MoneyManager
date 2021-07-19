@@ -1,7 +1,5 @@
 package github.julianNSH.moneymanager.overview;
 
-import github.julianNSH.moneymanager.statistics.StatisticsModelClass;
-
 public class OverviewModelClass{
     int id;
     public String tvDomain;
@@ -14,26 +12,6 @@ public class OverviewModelClass{
     int repeat;
     public OverviewModelClass(){}
 
-    public OverviewModelClass(int id, String tvDomain, Integer ivFigure, String tvType, float tvAmount, String time, String date, String comment){
-        this.id = id;
-        this.tvDomain = tvDomain;
-        this.ivFigure = ivFigure;
-        this.tvType = tvType;
-        this.tvAmount = tvAmount;
-        this.time = time;
-        this.date = date;
-        this.comment = comment;
-    }
-
-    public OverviewModelClass(String tvDomain, Integer ivFigure, String tvType, float tvAmount, String time, String date, String comment){
-        this.tvDomain = tvDomain;
-        this.ivFigure = ivFigure;
-        this.tvType = tvType;
-        this.tvAmount = tvAmount;
-        this.time = time;
-        this.date = date;
-        this.comment = comment;
-    }
     public int getId() {
         return id;
     }

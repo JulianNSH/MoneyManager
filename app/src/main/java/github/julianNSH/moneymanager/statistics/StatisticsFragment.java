@@ -4,23 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.view.*;
+import android.widget.*;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-
+import com.github.mikephil.charting.data.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,9 +17,7 @@ import java.util.Collections;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.*;
 
 import github.julianNSH.moneymanager.CustomDateParser;
 import github.julianNSH.moneymanager.R;
@@ -79,29 +65,22 @@ public class StatisticsFragment extends Fragment {
         sortParamKey = "Perioada Asc.";
         showStatisticsData(root, currentMonth, currentYear,sortParamKey);
         //move to next month
-        nextMonth.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
+        nextMonth.setOnClickListener(v->{
                 if (currentMonth==12){
                     currentMonth = 1;
                     currentYear++;
                 } else {currentMonth++;}
                 statisticsDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d",currentYear,currentMonth)));
                 showStatisticsData(root, currentMonth, currentYear,sortParamKey);
-            }
         });
         //move to previous month
-        prevMonth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentMonth==1){
-                    currentMonth = 12;
-                    currentYear--;
-                } else {currentMonth--;}
-                statisticsDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
-                showStatisticsData(root, currentMonth, currentYear,sortParamKey);
-            }
+        prevMonth.setOnClickListener(v -> {
+            if (currentMonth==1){
+                currentMonth = 12;
+                currentYear--;
+            } else {currentMonth--;}
+            statisticsDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
+            showStatisticsData(root, currentMonth, currentYear,sortParamKey);
         });
 
         //DATE BUTTON
@@ -111,32 +90,25 @@ public class StatisticsFragment extends Fragment {
         if(statisticsDateButton.getText() =="")
             statisticsDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
 
-        statisticsDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int day = date.get(Calendar.DAY_OF_MONTH);
-                int month = date.get(Calendar.MONTH);
-                int year = date.get(Calendar.YEAR);
+        statisticsDateButton.setOnClickListener(v -> {
+            int day = date.get(Calendar.DAY_OF_MONTH);
+            int month = date.get(Calendar.MONTH);
+            int year = date.get(Calendar.YEAR);
 
-                datePicker = new DatePickerDialog(root.getContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-                        new DatePickerDialog.OnDateSetListener() {
-                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        currentMonth =month+1;
-                        currentYear = year;
+            datePicker = new DatePickerDialog(root.getContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                    (view, year1, month1, dayOfMonth) -> {
+                        currentMonth = month1 +1;
+                        currentYear = year1;
                         statisticsDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
                         showStatisticsData(root, currentMonth,currentYear,sortParamKey);
-                    }
-                }, year, month, day);
+                    }, year, month, day);
 
-                //android.R.style.Theme_Holo_Dialog,
-                datePicker.getDatePicker().setSpinnersShown(true);
-                datePicker.getDatePicker().setCalendarViewShown(false);
+            //android.R.style.Theme_Holo_Dialog,
+            datePicker.getDatePicker().setSpinnersShown(true);
+            datePicker.getDatePicker().setCalendarViewShown(false);
 
-                datePicker.show();
+            datePicker.show();
 
-            }
         });
 
         ////On sort spinner click

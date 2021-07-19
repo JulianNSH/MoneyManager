@@ -11,7 +11,6 @@ import java.util.Locale;
 @SuppressLint("SimpleDateFormat")
 public class CustomDateParser {
 
-
     public static String customDateParser(String getDate){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMMM yyyy", new Locale("ro", "RO"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");

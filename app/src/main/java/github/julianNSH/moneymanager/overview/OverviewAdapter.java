@@ -21,6 +21,8 @@ import java.util.List;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 import github.julianNSH.moneymanager.CustomDateParser;
 import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.database.DatabaseClass;
@@ -33,7 +35,7 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
     Dialog itemOverviewDialog;
     DatabaseClass databaseClass;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         private final LinearLayout rvItem;
         private final TextView tvType;
@@ -57,6 +59,9 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
         this.context = context;
     }
 
+    @NotNull
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -69,38 +74,29 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
         itemOverviewDialog.setContentView(R.layout.overview_dialog);
         itemOverviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        viewHolder.rvItem.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(View v) {
+        viewHolder.rvItem.setOnClickListener(v -> {
 
-                TextView tv_domain = itemOverviewDialog.findViewById(R.id.tv_domain);
-                TextView tv_category = itemOverviewDialog.findViewById(R.id.tv_category);
-                TextView tv_date_time = itemOverviewDialog.findViewById(R.id.tv_date_time);
-                TextView tv_amount = itemOverviewDialog.findViewById(R.id.tv_amount);
-                TextView tv_comment = itemOverviewDialog.findViewById(R.id.tv_comment);
+            TextView tv_domain = itemOverviewDialog.findViewById(R.id.tv_domain);
+            TextView tv_category = itemOverviewDialog.findViewById(R.id.tv_category);
+            TextView tv_date_time = itemOverviewDialog.findViewById(R.id.tv_date_time);
+            TextView tv_amount = itemOverviewDialog.findViewById(R.id.tv_amount);
+            TextView tv_comment = itemOverviewDialog.findViewById(R.id.tv_comment);
 
-                onDeleteButtonClick(itemView, viewHolder);
-                onUpdateButtonClick(itemView, list, viewHolder);
+            onDeleteButtonClick(itemView, viewHolder);
+            onUpdateButtonClick(itemView, list, viewHolder);
 
-                tv_domain.setText(list.get(viewHolder.getAdapterPosition()).getTvDomain());
-                tv_category.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
-                tv_date_time.setText(list.get(viewHolder.getAdapterPosition()).getTime()+" " +
-                        list.get(viewHolder.getAdapterPosition()).getDate());
-                tv_comment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
-                tv_amount.setText(list.get(viewHolder.getAdapterPosition()).getTvAmount() + " "+itemView.getResources().getString(R.string.currency));
+            tv_domain.setText(list.get(viewHolder.getAdapterPosition()).getTvDomain());
+            tv_category.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
+            tv_date_time.setText(list.get(viewHolder.getAdapterPosition()).getTime()+" " +
+                    list.get(viewHolder.getAdapterPosition()).getDate());
+            tv_comment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
+            tv_amount.setText(list.get(viewHolder.getAdapterPosition()).getTvAmount() + " "+itemView.getResources().getString(R.string.currency));
 
-                //Toast.makeText(context, "Test Click" + String.valueOf(viewHolder.getAdapterPosition()),  Toast.LENGTH_SHORT).show();
-                itemOverviewDialog.show();
-            }
+            //Toast.makeText(context, "Test Click" + String.valueOf(viewHolder.getAdapterPosition()),  Toast.LENGTH_SHORT).show();
+            itemOverviewDialog.show();
         });
 
-        itemOverviewDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-
-            }
-        });
+        itemOverviewDialog.setOnDismissListener(dialog -> { });
         return viewHolder;
 
     }
@@ -128,36 +124,29 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.MyView
 
         databaseClass = new DatabaseClass(itemView.getContext());
 
-        btn_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btn_delete.setOnClickListener(v-> {
                 databaseClass.deleteFromOverview(list.get(viewHolder.getAdapterPosition()).getId(),
                         list.get(viewHolder.getAdapterPosition()).getTvDomain());
                 Toast.makeText(context, list.get(viewHolder.getAdapterPosition()).getTvType() +
-                        " was deleted", Toast.LENGTH_SHORT).show();
-
+                        " a fost șters", Toast.LENGTH_SHORT).show();
                 itemOverviewDialog.dismiss();
-            }
         });
     }
     /*********************************************************************************************
      *  UPDATE ELEMENT FROM LIST THROUGH DIALOG WINDOW
      */
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void onUpdateButtonClick(View itemView, List<OverviewModelClass> list, OverviewAdapter.MyViewHolder viewHolder) {
         Button btn_update = itemOverviewDialog.findViewById(R.id.btn_edit);
 
         databaseClass = new DatabaseClass(itemView.getContext());
 
-        btn_update.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                    Toast.makeText(context, "Button EDIT Clicked", Toast.LENGTH_SHORT).show();
+        btn_update.setOnClickListener(v->{
+//                    Toast.makeText(context, "Button EDIT Clicked", Toast.LENGTH_SHORT).show();
                     itemOverviewDialog.dismiss();
                     UpdateFromOverviewHandler handler = new UpdateFromOverviewHandler();
                     handler.updateHandler(itemView, list, viewHolder);
-
-            }
         });
     }
 }

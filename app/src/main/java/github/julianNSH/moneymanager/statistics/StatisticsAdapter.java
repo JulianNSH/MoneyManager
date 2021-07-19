@@ -6,15 +6,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.view.*;
+import android.widget.*;
 import java.util.List;
 
 import androidx.annotation.RequiresApi;
@@ -33,7 +26,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
     private final List<StatisticsModelClass> list;
     Dialog itemStatisticsDialog;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView tvType,tvPrice, tvDateTime;
         private final ImageView ivFigure;
@@ -55,6 +48,8 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
         this.context = context;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @SuppressLint({"ResourceType", "SetTextI18n"})
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -67,27 +62,22 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
         /*********************************************************************************************
          *  CREATES DIALOG WINDOW ON CLICK ON A ELEMENT OF LIST
          */
-        viewHolder.rvItem.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint({"ResourceType", "SetTextI18n"})
-            @Override
-            public void onClick(View v) {
-                TextView tv_category = itemStatisticsDialog.findViewById(R.id.tv_category);
-                TextView tv_date_time = itemStatisticsDialog.findViewById(R.id.tv_date_time);
-                TextView tv_amount = itemStatisticsDialog.findViewById(R.id.tv_amount);
-                TextView tv_comment = itemStatisticsDialog.findViewById(R.id.tv_comment);
+        viewHolder.rvItem.setOnClickListener(v -> {
+            TextView tv_category = itemStatisticsDialog.findViewById(R.id.tv_category);
+            TextView tv_date_time = itemStatisticsDialog.findViewById(R.id.tv_date_time);
+            TextView tv_amount = itemStatisticsDialog.findViewById(R.id.tv_amount);
+            TextView tv_comment = itemStatisticsDialog.findViewById(R.id.tv_comment);
 
-                tv_category.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
-                tv_date_time.setText(list.get(viewHolder.getAdapterPosition()).getTime()+" "+
-                        list.get(viewHolder.getAdapterPosition()).getDate());
-                tv_amount.setText(list.get(viewHolder.getAdapterPosition()).getTvAmount() + " "+
-                        v.getResources().getString(R.string.currency));
-                tv_comment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
+            tv_category.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
+            tv_date_time.setText(list.get(viewHolder.getAdapterPosition()).getTime()+" "+
+                    list.get(viewHolder.getAdapterPosition()).getDate());
+            tv_amount.setText(list.get(viewHolder.getAdapterPosition()).getTvAmount() + " "+
+                    v.getResources().getString(R.string.currency));
+            tv_comment.setText(list.get(viewHolder.getAdapterPosition()).getComment());
 
-                //CALL METHODS FOR BUTTON CLICKS
-                onDeleteButtonClick(itemView, viewHolder);
-
-                onUpdateButtonClick(itemView, list, viewHolder);
-            }
+            //CALL METHODS ON BUTTON CLICKS
+            onDeleteButtonClick(itemView, viewHolder);
+            onUpdateButtonClick(itemView, list, viewHolder);
         });
 
         return viewHolder;
@@ -117,33 +107,25 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.My
 
         databaseClass = new DatabaseClass(itemView.getContext());
 
-        btn_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btn_delete.setOnClickListener(v->{
                 databaseClass.deleteOutgoing(list.get(viewHolder.getAdapterPosition()).getId());
                 Toast.makeText(context, list.get(viewHolder.getAdapterPosition()).getTvType() +
-                        " was deleted", Toast.LENGTH_SHORT).show();
+                        " a fost șters", Toast.LENGTH_SHORT).show();
                 itemStatisticsDialog.dismiss();
-                
-
-            }
         });
     }
     /*********************************************************************************************
      *  UPDATE ELEMENT FROM LIST THROUGH DIALOG WINDOW
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public  void onUpdateButtonClick( View itemView, List<StatisticsModelClass> list, MyViewHolder viewHolder){
         Button btn_edit = itemStatisticsDialog.findViewById(R.id.btn_edit);
 
-        btn_edit.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Button EDIT Clicked",  Toast.LENGTH_SHORT).show();
+        btn_edit.setOnClickListener(v->{
+//                Toast.makeText(context, "Button EDIT Clicked",  Toast.LENGTH_SHORT).show();
                 itemStatisticsDialog.dismiss();
                 OutgoingHandler handler = new OutgoingHandler();
                 handler.callOutgoingHandler(itemView, list, viewHolder);
-            }
         });
         itemStatisticsDialog.show();
     }

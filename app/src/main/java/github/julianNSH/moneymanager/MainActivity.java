@@ -1,8 +1,7 @@
+
 package github.julianNSH.moneymanager;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,18 +21,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.Theme_MoneyManager);
+        setTheme(R.style.Theme_MoneyManager);//change theme after splash screen
         setContentView(R.layout.activity_main);
 
+        //Configure add button from bottom app bar
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floating_add);
-
-        fab.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                DialogFragment addDialog = new AddFragment();
-                addDialog.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogTheme);
-                addDialog.show(getSupportFragmentManager(), "dialog");
-            }
+        fab.setOnClickListener(view -> {
+            DialogFragment addDialog = new AddFragment();
+            addDialog.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogTheme);
+            addDialog.show(getSupportFragmentManager(), "dialog");
         });
 
         BottomNavigationView navView = findViewById(R.id.nav_view);

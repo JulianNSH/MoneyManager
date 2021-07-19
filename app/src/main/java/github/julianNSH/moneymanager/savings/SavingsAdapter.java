@@ -1,7 +1,6 @@
 package github.julianNSH.moneymanager.savings;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ public class SavingsAdapter extends RecyclerView.Adapter<SavingsAdapter.MyViewHo
     SavingsFragment context;
     private final List<SavingsModelClass> list;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class MyViewHolder extends RecyclerView.ViewHolder{
         TextView savingsTitlePeriod, savingsIncome, savingsOutcome, savingsResult;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

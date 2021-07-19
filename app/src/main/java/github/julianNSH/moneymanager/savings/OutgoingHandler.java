@@ -48,7 +48,7 @@ public class OutgoingHandler {
     private EditText outgoingTime;
     private String[] selection;
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n", "DefaultLocale"})
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void callOutgoingHandler(@NotNull View root, List<StatisticsModelClass> list, StatisticsAdapter.MyViewHolder viewHolder){
 
@@ -96,66 +96,44 @@ public class OutgoingHandler {
         outgoingSource.setAdapter(arrayAdapter);
         outgoingSource.setCursorVisible(true);
         outgoingSource.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
-        outgoingSource.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                outgoingSource.showDropDown();
-                selection[0] = (String) parent.getItemAtPosition(position);
-                Toast.makeText(root.getContext(), selection[0], Toast.LENGTH_SHORT).show();
-            }
+        outgoingSource.setOnItemClickListener((parent, view, position, id) -> {
+            outgoingSource.showDropDown();
+            selection[0] = (String) parent.getItemAtPosition(position);
+            Toast.makeText(root.getContext(), selection[0], Toast.LENGTH_SHORT).show();
         });
 
-        outgoingSource.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                outgoingSource.showDropDown();
-            }
-        });
+        outgoingSource.setOnClickListener(v-> outgoingSource.showDropDown());
+
         //////////////////////////////////PICK TIME FROM CLOCK
         outgoingTime = updateDialog.findViewById(R.id.add_income_time);
         outgoingTime.setInputType(InputType.TYPE_NULL);
         outgoingTime.setText(list.get(viewHolder.getAdapterPosition()).getTime());
-        outgoingTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar time = Calendar.getInstance();
-                int hour = time.get(Calendar.HOUR_OF_DAY);
-                int minute = time.get(Calendar.MINUTE);
+        outgoingTime.setOnClickListener(v -> {
+            Calendar time = Calendar.getInstance();
+            int hour = time.get(Calendar.HOUR_OF_DAY);
+            int minute = time.get(Calendar.MINUTE);
 
-                timePicker = new TimePickerDialog(root.getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-                        outgoingTime.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour));
-                    }
-                }, hour, minute, true);
-                timePicker.show();
-            }
+            timePicker = new TimePickerDialog(root.getContext(),
+                    (view, hourOfDay, minuteOfHour) ->
+                            outgoingTime.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour)), hour, minute, true);
+            timePicker.show();
         });
 
         //////////////////////////////////PICK A DATE FROM CALENDAR
         outgoingDate = updateDialog.findViewById(R.id.add_income_date);
         outgoingDate.setInputType(InputType.TYPE_NULL);
         outgoingDate.setText(list.get(viewHolder.getAdapterPosition()).getDate());
-        outgoingDate.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onClick(View v) {
-                final Calendar date = Calendar.getInstance();
-                int day = date.get(Calendar.DAY_OF_MONTH);
-                int month = date.get(Calendar.MONTH);
-                int year = date.get(Calendar.YEAR);
+        outgoingDate.setOnClickListener(v -> {
+            final Calendar date = Calendar.getInstance();
+            int day = date.get(Calendar.DAY_OF_MONTH);
+            int month = date.get(Calendar.MONTH);
+            int year = date.get(Calendar.YEAR);
 
-                datePicker = new DatePickerDialog(root.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        outgoingDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
-                    }
-                }, year, month, day);
+            datePicker = new DatePickerDialog(root.getContext(),
+                    (view, year1, month1, dayOfMonth) ->
+                            outgoingDate.setText(dayOfMonth + "/" + (month1 + 1) + "/" + year1), year, month, day);
 
-                datePicker.show();
-            }
+            datePicker.show();
         });
 
 
@@ -175,21 +153,18 @@ public class OutgoingHandler {
 
         databaseClass = new DatabaseClass(root.getContext());
 
-        addOutgoing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inputOutgoing.setId(list.get(viewHolder.getAdapterPosition()).getId());
-                inputOutgoing.setIvIcon(icon);
-                inputOutgoing.setTvType(String.valueOf(outgoingSource.getText()));
-                inputOutgoing.setTvAmount(Float.parseFloat(String.valueOf(amount.getText())));
-                inputOutgoing.setComment(String.valueOf(comment.getText()));
-                inputOutgoing.setTime(String.valueOf(outgoingTime.getText()));
-                inputOutgoing.setDate(String.valueOf(outgoingDate.getText()));
-                inputOutgoing.setRepeat(0);
-                long id = databaseClass.updateOutgoing(inputOutgoing);
-                Toast.makeText(root.getContext(), "UPDATED Outgoing with ID "+id, Toast.LENGTH_SHORT).show();
-                updateDialog.dismiss();
-            }
+        addOutgoing.setOnClickListener(v -> {
+            inputOutgoing.setId(list.get(viewHolder.getAdapterPosition()).getId());
+            inputOutgoing.setIvIcon(icon);
+            inputOutgoing.setTvType(String.valueOf(outgoingSource.getText()));
+            inputOutgoing.setTvAmount(Float.parseFloat(String.valueOf(amount.getText())));
+            inputOutgoing.setComment(String.valueOf(comment.getText()));
+            inputOutgoing.setTime(String.valueOf(outgoingTime.getText()));
+            inputOutgoing.setDate(String.valueOf(outgoingDate.getText()));
+            inputOutgoing.setRepeat(0);
+            databaseClass.updateOutgoing(inputOutgoing);
+            Toast.makeText(root.getContext(), inputOutgoing.getTvType()+" modificat cu succes", Toast.LENGTH_SHORT).show();
+            updateDialog.dismiss();
         });
 
         updateDialog.show();

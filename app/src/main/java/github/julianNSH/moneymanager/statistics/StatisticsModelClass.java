@@ -13,33 +13,6 @@ public class StatisticsModelClass {
 
     public StatisticsModelClass(){}
 
-    public StatisticsModelClass(int id, String tvType, float tvAmount, String time,String date, String comment) {
-        this.id = id;
-        this.tvType = tvType;
-        this.tvAmount = tvAmount;
-        this.time = time;
-        this.date = date;
-        this.comment = comment;
-    }
-    //Constructor fo Outgoings
-    public StatisticsModelClass(int id, Integer ivIcon, String tvType, float tvAmount, String time,String date, String comment) {
-        this.id = id;
-        this.ivIcon = ivIcon;
-        this.tvType = tvType;
-        this.tvAmount = tvAmount;
-        this.time = time;
-        this.date = date;
-        this.comment = comment;
-    }
-    public StatisticsModelClass(Integer ivIcon, String tvType, float tvAmount, String time,String date, String comment) {
-        this.ivIcon = ivIcon;
-        this.tvType = tvType;
-        this.tvAmount = tvAmount;
-        this.time = time;
-        this.date = date;
-        this.comment = comment;
-    }
-
     public int getRepeat() {
         return repeat;
     }

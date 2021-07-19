@@ -6,18 +6,8 @@ import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TimePicker;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -44,6 +34,7 @@ public class AddOutgoingFragment extends Fragment {
     private EditText outgoingTime;
     private String[] selection;
 
+    @SuppressLint("DefaultLocale")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View root = inflater.inflate(R.layout.fragment_add_outgoing, container, false);
@@ -87,64 +78,41 @@ public class AddOutgoingFragment extends Fragment {
         selection = new String[1];
         outgoingSource.setAdapter(arrayAdapter);
         outgoingSource.setCursorVisible(true);
-        outgoingSource.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                outgoingSource.showDropDown();
-                selection[0] = (String) parent.getItemAtPosition(position);
-                //Toast.makeText(getContext(), selection[0], Toast.LENGTH_SHORT).show();
-            }
+        outgoingSource.setOnItemClickListener((parent, view, position, id) -> {
+            outgoingSource.showDropDown();
+            selection[0] = (String) parent.getItemAtPosition(position);
+            //Toast.makeText(getContext(), selection[0], Toast.LENGTH_SHORT).show();
         });
 
-        outgoingSource.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                outgoingSource.showDropDown();
-            }
-        });
+        outgoingSource.setOnClickListener(v -> outgoingSource.showDropDown());
         //////////////////////////////////PICK TIME FROM CLOCK
         outgoingTime = (EditText) root.findViewById(R.id.add_income_time);
         outgoingTime.setInputType(InputType.TYPE_NULL);
-        outgoingTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar time = Calendar.getInstance();
-                int hour = time.get(Calendar.HOUR_OF_DAY);
-                int minute = time.get(Calendar.MINUTE);
+        outgoingTime.setOnClickListener(v -> {
+            Calendar time = Calendar.getInstance();
+            int hour = time.get(Calendar.HOUR_OF_DAY);
+            int minute = time.get(Calendar.MINUTE);
 
-                timePicker = new TimePickerDialog(root.getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-                        outgoingTime.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour));
-                    }
-                }, hour, minute, true);
-                timePicker.show();
-            }
+            timePicker = new TimePickerDialog(root.getContext(),
+                    (view, hourOfDay, minuteOfHour) ->
+                            outgoingTime.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour)), hour, minute, true);
+            timePicker.show();
         });
 
         //////////////////////////////////PICK A DATE FROM CALENDAR
         outgoingDate = (EditText) root.findViewById(R.id.add_income_date);
         outgoingDate.setInputType(InputType.TYPE_NULL);
-        outgoingDate.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onClick(View v) {
-                final Calendar date = Calendar.getInstance();
-                int day = date.get(Calendar.DAY_OF_MONTH);
-                int month = date.get(Calendar.MONTH);
-                int year = date.get(Calendar.YEAR);
+        outgoingDate.setOnClickListener(v -> {
+            final Calendar date = Calendar.getInstance();
+            int day = date.get(Calendar.DAY_OF_MONTH);
+            int month = date.get(Calendar.MONTH);
+            int year = date.get(Calendar.YEAR);
 
-                datePicker = new DatePickerDialog(root.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        outgoingDate.setText(String.format("%04d-%02d-%02d", year, month+1, dayOfMonth));
-                    }
-                }, year, month, day);
+            datePicker = new DatePickerDialog(root.getContext(),
+                    (view, year1, month1, dayOfMonth) ->
+                            outgoingDate.setText(String.format("%04d-%02d-%02d", year1, month1 +1, dayOfMonth)), year, month, day);
 
-                datePicker.show();
-            }
+            datePicker.show();
         });
 
     /**********************************************************************************************
@@ -158,38 +126,35 @@ public class AddOutgoingFragment extends Fragment {
 
         databaseClass = new DatabaseClass(getContext());
 
-        addOutgoing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inputOutgoing.setIvIcon(icon);
-                if (outgoingSource.getText().toString().isEmpty()){
-                    outgoingSource.setError("Introduceți sursa");
-                }else {
-                    inputOutgoing.setTvType(String.valueOf(outgoingSource.getText()));
-                }
-                if(amount.getText().toString().isEmpty()){
-                    amount.setError("Introduceți suma");
-                }else {
-                    inputOutgoing.setTvAmount(Float.parseFloat(String.valueOf(amount.getText())));
-                }
-                if(outgoingTime.getText().toString().isEmpty()){
-                    outgoingTime.setError("Introduceți ora");
-                }else {
-                    inputOutgoing.setTime(String.valueOf(outgoingTime.getText()));
-                }
-                if(outgoingDate.getText().toString().isEmpty()){
-                    outgoingDate.setError("Introduceți data");
-                }else{
-                    inputOutgoing.setDate(String.valueOf(outgoingDate.getText()));
-                }
+        addOutgoing.setOnClickListener(v -> {
+            inputOutgoing.setIvIcon(icon);
+            if (outgoingSource.getText().toString().isEmpty()){
+                outgoingSource.setError("Indicați sursa");
+            }else {
+                inputOutgoing.setTvType(String.valueOf(outgoingSource.getText()));
+            }
+            if(amount.getText().toString().isEmpty()){
+                amount.setError("Introduceți suma");
+            }else {
+                inputOutgoing.setTvAmount(Float.parseFloat(String.valueOf(amount.getText())));
+            }
+            if(outgoingTime.getText().toString().isEmpty()){
+                outgoingTime.setError("Introduceți ora");
+            }else {
+                inputOutgoing.setTime(String.valueOf(outgoingTime.getText()));
+            }
+            if(outgoingDate.getText().toString().isEmpty()){
+                outgoingDate.setError("Introduceți data");
+            }else{
+                inputOutgoing.setDate(String.valueOf(outgoingDate.getText()));
+            }
 
-                inputOutgoing.setComment(String.valueOf(comment.getText()));
-                inputOutgoing.setRepeat(0);
-                if(!(outgoingSource.getText().toString().isEmpty() || amount.getText().toString().isEmpty() ||
-                outgoingTime.getText().toString().isEmpty() || outgoingDate.getText().toString().isEmpty())) {
-                    databaseClass.addOutgoing(inputOutgoing);
-                    Toast.makeText(getContext(), inputOutgoing.getTvType() + "a fost adăugat", Toast.LENGTH_SHORT).show();
-                }
+            inputOutgoing.setComment(String.valueOf(comment.getText()));
+            inputOutgoing.setRepeat(0);
+            if(!(outgoingSource.getText().toString().isEmpty() || amount.getText().toString().isEmpty() ||
+            outgoingTime.getText().toString().isEmpty() || outgoingDate.getText().toString().isEmpty())) {
+                databaseClass.addOutgoing(inputOutgoing);
+                Toast.makeText(getContext(), inputOutgoing.getTvType() + " a fost adăugat", Toast.LENGTH_SHORT).show();
             }
         });
         return root;

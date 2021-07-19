@@ -32,7 +32,7 @@ public class AddFragment extends DialogFragment {
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
+        Objects.requireNonNull(getDialog()).setCanceledOnTouchOutside(true);
         Objects.requireNonNull(getDialog()).getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

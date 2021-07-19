@@ -45,7 +45,7 @@ public class UpdateFromOverviewHandler {
     private EditText time;
     private String[] selection;
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint({"UseCompatLoadingForDrawables", "DefaultLocale"})
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void updateHandler(@NotNull View root, List<OverviewModelClass> list, OverviewAdapter.MyViewHolder viewHolder){
 
@@ -63,66 +63,43 @@ public class UpdateFromOverviewHandler {
         source.setAdapter(arrayAdapter);
         source.setCursorVisible(true);
         source.setText(list.get(viewHolder.getAdapterPosition()).getTvType());
-        source.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                source.showDropDown();
-                selection[0] = (String) parent.getItemAtPosition(position);
-                Toast.makeText(root.getContext(), selection[0], Toast.LENGTH_SHORT).show();
-            }
+        source.setOnItemClickListener((parent, view, position, id) -> {
+            source.showDropDown();
+            selection[0] = (String) parent.getItemAtPosition(position);
+            Toast.makeText(root.getContext(), selection[0], Toast.LENGTH_SHORT).show();
         });
 
-        source.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                source.showDropDown();
-            }
-        });
+        source.setOnClickListener(v -> source.showDropDown());
         //////////////////////////////////PICK TIME FROM CLOCK
         time = updateDialog.findViewById(R.id.add_income_time);
         time.setInputType(InputType.TYPE_NULL);
         time.setText(list.get(viewHolder.getAdapterPosition()).getTime());
-        time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar time = Calendar.getInstance();
-                int hour = time.get(Calendar.HOUR_OF_DAY);
-                int minute = time.get(Calendar.MINUTE);
+        time.setOnClickListener(v -> {
+            Calendar time = Calendar.getInstance();
+            int hour = time.get(Calendar.HOUR_OF_DAY);
+            int minute = time.get(Calendar.MINUTE);
 
-                timePicker = new TimePickerDialog(root.getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-                        UpdateFromOverviewHandler.this.time.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour));
-                    }
-                }, hour, minute, true);
-                timePicker.show();
-            }
+            timePicker = new TimePickerDialog(root.getContext(),
+                    (view, hourOfDay, minuteOfHour) ->
+                            UpdateFromOverviewHandler.this.time.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour)), hour, minute, true);
+            timePicker.show();
         });
 
         //////////////////////////////////PICK A DATE FROM CALENDAR
         date = updateDialog.findViewById(R.id.add_income_date);
         date.setInputType(InputType.TYPE_NULL);
         date.setText(list.get(viewHolder.getAdapterPosition()).getDate());
-        date.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onClick(View v) {
-                final Calendar date = Calendar.getInstance();
-                int day = date.get(Calendar.DAY_OF_MONTH);
-                int month = date.get(Calendar.MONTH);
-                int year = date.get(Calendar.YEAR);
+        date.setOnClickListener(v -> {
+            final Calendar date = Calendar.getInstance();
+            int day = date.get(Calendar.DAY_OF_MONTH);
+            int month = date.get(Calendar.MONTH);
+            int year = date.get(Calendar.YEAR);
 
-                datePicker = new DatePickerDialog(root.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        UpdateFromOverviewHandler.this.date.setText(String.format("%04d-%02d-%02d", year, month+1, dayOfMonth));
-                    }
-                }, year, month, day);
+            datePicker = new DatePickerDialog(root.getContext(),
+                    (view, year1, month1, dayOfMonth) ->
+                            UpdateFromOverviewHandler.this.date.setText(String.format("%04d-%02d-%02d", year1, month1 +1, dayOfMonth)), year, month, day);
 
-                datePicker.show();
-            }
+            datePicker.show();
         });
 
 
@@ -154,7 +131,7 @@ public class UpdateFromOverviewHandler {
                 element.setDate(String.valueOf(date.getText()));
                 element.setRepeat(0);
                 long id = databaseClass.updateFromOverview(element);
-                Toast.makeText(root.getContext(), source.getText()+" SALVAT", Toast.LENGTH_SHORT).show();
+                Toast.makeText(root.getContext(), source.getText()+" salvat", Toast.LENGTH_SHORT).show();
                 updateDialog.dismiss();
             }
 

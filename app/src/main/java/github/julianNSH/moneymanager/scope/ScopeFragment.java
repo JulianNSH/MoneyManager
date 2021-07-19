@@ -1,30 +1,19 @@
 package github.julianNSH.moneymanager.scope;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.TimePickerDialog;
+import android.app.*;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TimePicker;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,16 +57,11 @@ public class ScopeFragment extends Fragment {
 
         //ADD SCOPE DIALOG
         Button addScopeButton = root.findViewById(R.id.btn_dialog);
-        addScopeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showScopeDialog(v);
-            }
-        });
+        addScopeButton.setOnClickListener(this::showScopeDialog);
         return root;
     }
 
-    @SuppressLint("CutPasteId")
+    @SuppressLint({"CutPasteId", "DefaultLocale"})
     public void showScopeDialog(View root){
         //INIT Dialog View
         addScopeDialog = new Dialog(root.getContext());
@@ -87,23 +71,15 @@ public class ScopeFragment extends Fragment {
         //////////////////////////////////PICK TIME FROM CLOCK
         startScopeTime = addScopeDialog.findViewById(R.id.add_start_time);
         startScopeTime.setInputType(InputType.TYPE_NULL);
-        startScopeTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            @SuppressLint({"SetTextI18n", "DefaultLocale"})
-            public void onClick(View v) {
-                Calendar time = Calendar.getInstance();
-                int hour = time.get(Calendar.HOUR_OF_DAY);
-                int minute = time.get(Calendar.MINUTE);
+        startScopeTime.setOnClickListener(v -> {
+            Calendar time = Calendar.getInstance();
+            int hour = time.get(Calendar.HOUR_OF_DAY);
+            int minute = time.get(Calendar.MINUTE);
 
-                timePicker = new TimePickerDialog(addScopeDialog.getContext(), new TimePickerDialog.OnTimeSetListener() {
-
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-                        startScopeTime.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour));
-                    }
-                }, hour, minute, true);
-                timePicker.show();
-            }
+            timePicker = new TimePickerDialog(addScopeDialog.getContext(),
+                    (view, hourOfDay, minuteOfHour) ->
+                            startScopeTime.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour)), hour, minute, true);
+            timePicker.show();
         });
         endScopeTime = addScopeDialog.findViewById(R.id.add_end_time);
         endScopeTime.setInputType(InputType.TYPE_NULL);
@@ -114,12 +90,9 @@ public class ScopeFragment extends Fragment {
                 Calendar time = Calendar.getInstance();
                 int hour = time.get(Calendar.HOUR_OF_DAY);
                 int minute = time.get(Calendar.MINUTE);
-                timePicker = new TimePickerDialog(addScopeDialog.getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-                        endScopeTime.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour));
-                    }
-                }, hour, minute, true);
+                timePicker = new TimePickerDialog(addScopeDialog.getContext(),
+                        (view, hourOfDay, minuteOfHour) ->
+                                endScopeTime.setText(String.format("%02d:%02d",hourOfDay, minuteOfHour)), hour, minute, true);
                 timePicker.show();
             }
         });
@@ -127,51 +100,31 @@ public class ScopeFragment extends Fragment {
         //////////////////////////////////PICK A DATE FROM CALENDAR
         startScopeDate = addScopeDialog.findViewById(R.id.add_start_date);
         startScopeDate.setInputType(InputType.TYPE_NULL);
-        startScopeDate.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onClick(View v) {
-                final Calendar date = Calendar.getInstance();
-                int day = date.get(Calendar.DAY_OF_MONTH);
-                int month = date.get(Calendar.MONTH);
-                int year = date.get(Calendar.YEAR);
+        startScopeDate.setOnClickListener(v -> {
+            final Calendar date = Calendar.getInstance();
+            int day = date.get(Calendar.DAY_OF_MONTH);
+            int month = date.get(Calendar.MONTH);
+            int year = date.get(Calendar.YEAR);
 
-                datePicker = new DatePickerDialog(addScopeDialog.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        startScopeDate.setText(String.format("%04d-%02d-%02d", year, month+1, dayOfMonth));
-                    }
-                }, year, month, day);
+            datePicker = new DatePickerDialog(addScopeDialog.getContext(),
+                    (view, year1, month1, dayOfMonth) ->
+                            startScopeDate.setText(String.format("%04d-%02d-%02d", year1, month1 +1, dayOfMonth)), year, month, day);
 
-                /*android.R.style.Theme_Holo_Dialog,
-                datePicker.getDatePicker().setSpinnersShown(true);
-                datePicker.getDatePicker().setCalendarViewShown(false);
-                */
-                datePicker.show();
-            }
+            datePicker.show();
         });
         endScopeDate = addScopeDialog.findViewById(R.id.add_end_date);
         endScopeDate.setInputType(InputType.TYPE_NULL);
-        endScopeDate.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onClick(View v) {
-                final Calendar date = Calendar.getInstance();
-                int day = date.get(Calendar.DAY_OF_MONTH);
-                int month = date.get(Calendar.MONTH);
-                int year = date.get(Calendar.YEAR);
+        endScopeDate.setOnClickListener(v -> {
+            final Calendar date = Calendar.getInstance();
+            int day = date.get(Calendar.DAY_OF_MONTH);
+            int month = date.get(Calendar.MONTH);
+            int year = date.get(Calendar.YEAR);
 
-                datePicker = new DatePickerDialog(addScopeDialog.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        endScopeDate.setText(String.format("%04d-%02d-%02d", year, month+1, dayOfMonth));
-                    }
-                }, year, month, day);
+            datePicker = new DatePickerDialog(addScopeDialog.getContext(),
+                    (view, year12, month12, dayOfMonth) ->
+                            endScopeDate.setText(String.format("%04d-%02d-%02d", year12, month12 +1, dayOfMonth)), year, month, day);
 
-                datePicker.show();
-            }
+            datePicker.show();
         });
 
         //Collect and send data to database
@@ -186,55 +139,52 @@ public class ScopeFragment extends Fragment {
         databaseClass = new DatabaseClass(getContext());
 
         Button addScope = addScopeDialog.findViewById(R.id.btn_add_scope);
-        addScope.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //check if fields arent empty and add values into the object
-                if(scopeTitle.getText().toString().isEmpty()){
-                    scopeTitle.setError("Introduceți titlul");
-                } else {
-                    scopeData.setTvTitle(String.valueOf(scopeTitle.getText()));
-                }
-                if(currentAmount.getText().toString().isEmpty()){
-                    scopeData.setTvInitialAmount(0.0f);
-                } else {
-                    scopeData.setTvInitialAmount(Float.parseFloat(String.valueOf(currentAmount.getText())));
-                }
-                if(neededAmount.getText().toString().isEmpty()){
-                    neededAmount.setError("Introduceți suma");
-                } else {
-                    scopeData.setTvFinalAmount(Float.parseFloat(String.valueOf(neededAmount.getText())));
-                }
-                if(startScopeTime.getText().toString().isEmpty()){
-                    startScopeTime.setError("Introduceți ora");
-                } else {
-                    scopeData.setStartTime(String.valueOf(startScopeTime.getText()));
-                }
-                if(startScopeDate.getText().toString().isEmpty()){
-                    startScopeDate.setError("Introduceți data");
-                } else {
-                    scopeData.setStartDate(String.valueOf(startScopeDate.getText()));
-                }
-                if(endScopeTime.getText().toString().isEmpty()){
-                    endScopeTime.setError("Introduceți ora");
-                } else {
-                    scopeData.setEndTime(String.valueOf(endScopeTime.getText()));
-                }
-                if(endScopeDate.getText().toString().isEmpty()){
-                    endScopeDate.setError("Introduceți data");
-                } else {
-                    scopeData.setEndDate(String.valueOf(endScopeDate.getText()));
-                }
+        addScope.setOnClickListener(v -> {
+            //check if fields arent empty and add values into the object
+            if(scopeTitle.getText().toString().isEmpty()){
+                scopeTitle.setError("Introduceți titlul");
+            } else {
+                scopeData.setTvTitle(String.valueOf(scopeTitle.getText()));
+            }
+            if(currentAmount.getText().toString().isEmpty()){
+                scopeData.setTvInitialAmount(0.0f);
+            } else {
+                scopeData.setTvInitialAmount(Float.parseFloat(String.valueOf(currentAmount.getText())));
+            }
+            if(neededAmount.getText().toString().isEmpty()){
+                neededAmount.setError("Introduceți suma");
+            } else {
+                scopeData.setTvFinalAmount(Float.parseFloat(String.valueOf(neededAmount.getText())));
+            }
+            if(startScopeTime.getText().toString().isEmpty()){
+                startScopeTime.setError("Introduceți ora");
+            } else {
+                scopeData.setStartTime(String.valueOf(startScopeTime.getText()));
+            }
+            if(startScopeDate.getText().toString().isEmpty()){
+                startScopeDate.setError("Introduceți data");
+            } else {
+                scopeData.setStartDate(String.valueOf(startScopeDate.getText()));
+            }
+            if(endScopeTime.getText().toString().isEmpty()){
+                endScopeTime.setError("Introduceți ora");
+            } else {
+                scopeData.setEndTime(String.valueOf(endScopeTime.getText()));
+            }
+            if(endScopeDate.getText().toString().isEmpty()){
+                endScopeDate.setError("Introduceți data");
+            } else {
+                scopeData.setEndDate(String.valueOf(endScopeDate.getText()));
+            }
 
-                scopeData.setComment(String.valueOf(comment.getText()));
+            scopeData.setComment(String.valueOf(comment.getText()));
 
-                //insert data into database by given object
-                if(!(scopeTitle.getText().toString().isEmpty() || neededAmount.getText().toString().isEmpty() ||
-                        startScopeTime.getText().toString().isEmpty() || startScopeDate.getText().toString().isEmpty()||
-                        endScopeTime.getText().toString().isEmpty() || endScopeDate.getText().toString().isEmpty())) {
-                    databaseClass.addScope(scopeData);
-                    Toast.makeText(root.getContext(), scopeData.getTvTitle() + "a fost adăugat", Toast.LENGTH_SHORT).show();
-                }
+            //insert data into database by given object
+            if(!(scopeTitle.getText().toString().isEmpty() || neededAmount.getText().toString().isEmpty() ||
+                    startScopeTime.getText().toString().isEmpty() || startScopeDate.getText().toString().isEmpty()||
+                    endScopeTime.getText().toString().isEmpty() || endScopeDate.getText().toString().isEmpty())) {
+                databaseClass.addScope(scopeData);
+                Toast.makeText(root.getContext(), scopeData.getTvTitle() + " a fost adăugat", Toast.LENGTH_SHORT).show();
             }
         });
         addScopeDialog.show();

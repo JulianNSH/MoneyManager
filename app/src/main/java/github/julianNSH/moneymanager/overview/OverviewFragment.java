@@ -5,33 +5,16 @@ import android.app.DatePickerDialog;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-
+import android.view.*;
+import android.widget.*;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.LargeValueFormatter;
+import com.github.mikephil.charting.components.*;
+import com.github.mikephil.charting.data.*;
+import com.github.mikephil.charting.formatter.*;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -92,58 +75,44 @@ public class OverviewFragment extends Fragment {
         prevMonth = root.findViewById(R.id.btn_date_prev);
 
         //move to next month
-        nextMonth.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (currentMonth==12){
-                    currentMonth = 1;
-                    currentYear++;
-                } else {currentMonth++;}
-                overviewDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d",currentYear,currentMonth)));
-                showOverviewData(root, currentMonth, currentYear,sortParamKey);
-            }
+        nextMonth.setOnClickListener(v -> {
+            if (currentMonth==12){
+                currentMonth = 1;
+                currentYear++;
+            } else {currentMonth++;}
+            overviewDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d",currentYear,currentMonth)));
+            showOverviewData(root, currentMonth, currentYear,sortParamKey);
         });
         //move to previous month
-        prevMonth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentMonth==1){
-                    currentMonth = 12;
-                    currentYear--;
-                } else {currentMonth--;}
-                overviewDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
-                showOverviewData(root, currentMonth,currentYear,sortParamKey);
-            }
+        prevMonth.setOnClickListener(v -> {
+            if (currentMonth==1){
+                currentMonth = 12;
+                currentYear--;
+            } else {currentMonth--;}
+            overviewDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
+            showOverviewData(root, currentMonth,currentYear,sortParamKey);
         });
 
         if(overviewDateButton.getText() =="")
             overviewDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
-        overviewDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int day = date.get(Calendar.DAY_OF_MONTH);
-                int month = date.get(Calendar.MONTH);
-                int year = date.get(Calendar.YEAR);
+        overviewDateButton.setOnClickListener(v -> {
+            int day = date.get(Calendar.DAY_OF_MONTH);
+            int month = date.get(Calendar.MONTH);
+            int year = date.get(Calendar.YEAR);
 
-                datePicker = new DatePickerDialog(root.getContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar,new DatePickerDialog.OnDateSetListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        currentMonth = month+1;
-                        currentYear = year;
-                        overviewDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
-                        showOverviewData(root, currentMonth, currentYear,sortParamKey);
-                    }
-                }, year, month, day);
+            datePicker = new DatePickerDialog(root.getContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, (view, year1, month1, dayOfMonth) -> {
+                currentMonth = month1 +1;
+                currentYear = year1;
+                overviewDateButton.setText(CustomDateParser.customDateParser(String.format("%04d-%02d", currentYear, currentMonth)));
+                showOverviewData(root, currentMonth, currentYear,sortParamKey);
+            }, year, month, day);
 
-                //android.R.style.Theme_Holo_Dialog,
-                datePicker.getDatePicker().setSpinnersShown(true);
-                datePicker.getDatePicker().setCalendarViewShown(false);
+            //android.R.style.Theme_Holo_Dialog,
+            datePicker.getDatePicker().setSpinnersShown(true);
+            datePicker.getDatePicker().setCalendarViewShown(false);
 
-                datePicker.show();
+            datePicker.show();
 
-            }
         });
 
         ////On sort spinner click
@@ -273,7 +242,6 @@ public class OverviewFragment extends Fragment {
         chart.setDoubleTapToZoomEnabled(false);
         chart.getDescription().setEnabled(false);
 
-        //TODO fix chart xAxis
         XAxis xAxis = chart.getXAxis();
         xAxis.setGranularity(1f);
         xAxis.setCenterAxisLabels(true);

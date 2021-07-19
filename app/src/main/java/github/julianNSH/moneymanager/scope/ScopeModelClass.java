@@ -8,32 +8,6 @@ public class ScopeModelClass {
     int generalId,repeat, isCompleted;
 
     public ScopeModelClass(){}
-    public ScopeModelClass(int id, String tvTitle, float tvFinalAmount, float tvInitialAmount, String startTime,
-                           String startDate, String endTime, String endDate, String comment, int generalId){
-        this.id = id;
-        this.tvTitle = tvTitle;
-        this.tvFinalAmount = tvFinalAmount;
-        this.tvInitialAmount = tvInitialAmount;
-        this.startTime = startTime;
-        this.startDate = startDate;
-        this.endTime = endTime;
-        this.endDate = endDate;
-        this.comment = comment;
-        this.generalId = generalId;
-    }
-
-    public ScopeModelClass(String tvTitle, float tvFinalAmount, float tvInitialAmount, String startTime,
-                           String startDate, String endTime, String endDate, String comment, int generalId){
-        this.tvTitle = tvTitle;
-        this.tvFinalAmount = tvFinalAmount;
-        this.tvInitialAmount = tvInitialAmount;
-        this.startTime = startTime;
-        this.startDate = startDate;
-        this.endTime = endTime;
-        this.endDate = endDate;
-        this.comment = comment;
-        this.generalId = generalId;
-    }
 
     public int getIsCompleted() {
         return isCompleted;

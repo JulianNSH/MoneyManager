@@ -10,11 +10,9 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import github.julianNSH.moneymanager.R;
 import github.julianNSH.moneymanager.overview.OverviewModelClass;
 import github.julianNSH.moneymanager.savings.SavingsModelClass;
 import github.julianNSH.moneymanager.scope.ScopeModelClass;
@@ -167,19 +165,7 @@ public class DatabaseClass extends SQLiteOpenHelper{
             db.delete(TABLE_SCOPES, KEY_ID + " = ?", new String[]{String.valueOf(id)});
         }
     }
-    //Update
 
-//    ContentValues val = new ContentValues();
-//        val.put(KEY_OUTGOING_ICON, upd.getIvIcon());
-//        val.put(KEY_OUTGOING_SOURCE, upd.getTvType());
-//        val.put(KEY_AMOUNT, upd.getTvAmount());
-//        val.put(KEY_TIME, upd.getTime());
-//        val.put(KEY_DATE, upd.getDate());
-//        val.put(KEY_COMMENT, upd.getComment());
-//        val.put(KEY_REPEAT, upd.getRepeat());
-//
-//        return db.update(TABLE_OUTGOING, val, KEY_ID + " = ?",
-//            new String[]{String.valueOf(upd.getId())});
     public long updateFromOverview(OverviewModelClass element) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -613,9 +599,6 @@ public class DatabaseClass extends SQLiteOpenHelper{
         }
         return queryResult;
     }
-//
-//    incomeQuery = "SELECT SUM("+KEY_AMOUNT+") AS "+ KEY_AMOUNT+" FROM "+TABLE_INCOME+" WHERE "+KEY_DATE+" LIKE '"+distinctDates.get(i)+"%'";
-//    outgoingQuery = "SELECT SUM("+KEY_AMOUNT+") AS "+ KEY_AMOUNT+" FROM "+TABLE_OUTGOING+" WHERE "+KEY_DATE+" LIKE '"+distinctDates.get(i)+"%'";
 
     public float getIncomeByDate(String date){
         String query = "SELECT SUM("+KEY_AMOUNT+") AS "+ KEY_AMOUNT+" FROM "+TABLE_INCOME+" WHERE "+KEY_DATE+" LIKE '"+date+"%'";
