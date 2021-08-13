@@ -29,7 +29,7 @@ Each page of the application will be created as fragments in its main view. The 
  - **_Comentariul_** - Textual field, same type _String_, for additional information if the user will need it.
 
 
-### Overview
+### Sinopsis
 &nbsp; &nbsp; &nbsp;&nbsp; Provides the main information about the status of the user's finances in the current time period, or the one selected by him individually, also helps user to realize the situation in other time periods highlighting the generalization of revenues and expenses, highlighted in bar chart, thus facilitating the activity of comparative analysis of the user in terms of the situation in different time segments. <br>
 
 ![alt text](https://github.com/JulianNSH/MoneyManager/blob/main/screenshots/overview_1.png "Overview")&nbsp;&nbsp;&nbsp;&nbsp;![alt text](https://github.com/JulianNSH/MoneyManager/blob/main/screenshots/overview_2.png "Card View")
@@ -40,7 +40,7 @@ Each page of the application will be created as fragments in its main view. The 
 It is important to note that this and other charts in this project were made using the [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) library provided as free access by [Philipp Jahoda](https://github.com/PhilJay) on his GitHub page. <br>
 &nbsp; &nbsp; &nbsp;&nbsp; Below that is a _CardView_, at a swipe-up the user can highlight the list of transactions made during selected period. In the header of this CardView the user has at his disposal several options for sorting the contents of this list, namely sorting by **_time_** **_period_** in ascending and descending order, sorting by cash **_value_**, both ascending and descending, sorting **_alphabetically_** and in the reverse order of the alphabet. Also, the user can interact directly with existing entities. When tap on the desired item, a dialog box will appear through which the user can _modify_ or _delete_ the entered data.
 
-### Statistics
+### Statistica
 &nbsp; &nbsp; &nbsp;&nbsp; It is meant to group the user's expenses and provide information about them through a useful and convenient graphical model for data collection.
 
 ![alt text](https://github.com/JulianNSH/MoneyManager/blob/main/screenshots/stat_1.png "Statistics")&nbsp;&nbsp;&nbsp;&nbsp;![alt text](https://github.com/JulianNSH/MoneyManager/blob/main/screenshots/stat_2.png "Recycler View")
@@ -51,7 +51,7 @@ It is important to note that this and other charts in this project were made usi
 This diagram was also made by using the [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) library.<br>
 
 
-### Savings
+### Economii
 &nbsp; &nbsp; &nbsp;&nbsp; Provides information on all data about expenses and income from all periods of time held. More specifically, it focuses on the total summary value of the difference between income and expenditure for different months but also the summary of these months as a whole. Thus the user will have the information about the volume of free finances he holds at the current stage.
 
 ![alt text](https://github.com/JulianNSH/MoneyManager/blob/main/screenshots/saving_1.png "Savings")&nbsp;&nbsp;&nbsp;&nbsp;![alt text](https://github.com/JulianNSH/MoneyManager/blob/main/screenshots/saving_2.png "Recycler View")
@@ -60,7 +60,7 @@ This diagram was also made by using the [MPAndroidChart](https://github.com/Phil
 Line chart was also made by using the [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) library.<br>
 
 
-### Scopes
+### Scopuri
 Here the user can add the material scopes that he wants to achieve but does not have the necessary savings at the moment, or has these savings but wants to record the fact of their use for specific purposes.
 
 ![alt text](https://github.com/JulianNSH/MoneyManager/blob/main/screenshots/scopes.png "Scopes")&nbsp;&nbsp;&nbsp;&nbsp;![alt text](https://github.com/JulianNSH/MoneyManager/blob/main/screenshots/scope_info.png "Info")
